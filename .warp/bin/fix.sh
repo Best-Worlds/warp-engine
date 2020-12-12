@@ -70,8 +70,22 @@ function fix_mysql()
 
     # add permission MySQL 999 (mysql inside the container)
     [ -d $PROJECTPATH/.warp/docker/volumes/mysql/ ] && sudo chown -R 999:999 $PROJECTPATH/.warp/docker/volumes/mysql/
+    [ -f $PROJECTPATH/.warp/docker/config/mysql/my.cnf ]  && sudo chmod 644 $PROJECTPATH/.warp/docker/config/mysql/my.cnf
+    [ -d $PROJECTPATH/.warp/docker/config/mysql/conf.d/ ] && sudo chmod 644 $PROJECTPATH/.warp/docker/config/mysql/conf.d/*
+    [ -d $PROJECTPATH/.warp/docker/config/mysql/conf.d/ ] && sudo chmod 755 $PROJECTPATH/.warp/docker/config/mysql/conf.d
 
     exit 1;
+}
+
+function fix_rabbitmq()
+{
+    warp_message "* Applying user (rabbitmq) and group (rabbitmq) to rabbitmq container $(warp_message_ok [ok])"
+
+    # add permission rabbitmq 999 (rabbitmq inside the container)
+    [ -d $PROJECTPATH/.warp/docker/volumes/rabbitmq/ ] && sudo chown -R 999:999 $PROJECTPATH/.warp/docker/volumes/rabbitmq/
+
+    exit 1;
+
 }
 
 function fix_composer()
@@ -91,6 +105,9 @@ function fix_composer()
     # add read/write and group www-data on hidden files
     docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "cd /var/www/html/ ; find . -maxdepth 1 -type f -exec chown $(id -u):33 {} \;"
     docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "cd /var/www/html/ ; find . -maxdepth 1 -type f -exec chmod ug+rw {} \;"
+
+    # fix chmod() magento cloud 
+    docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -f /var/www/html/vendor/composer/installed.json ] && awk '/chmod/,/]/' /var/www/html/vendor/composer/installed.json | grep path | cut -d ':' -f2 | uniq | sed 's/\"//g' | xargs chown www-data:www-data"
 
     warp_message "* Success $(warp_message_ok [ok])"
 
@@ -226,6 +243,9 @@ function fix_default()
     docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -d /var/www/html/.github ] && chown www-data:www-data /var/www/html/.github"
     docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -d /var/www/html/.github ] && chmod -R a+rw /var/www/html/.github"
 
+    # fix chmod() magento cloud 
+    docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -f /var/www/html/vendor/composer/installed.json ] && awk '/chmod/,/]/' /var/www/html/vendor/composer/installed.json | grep path | cut -d ':' -f2 | uniq | sed 's/\"//g' | xargs chown www-data:www-data 2> /dev/null"
+
     # add user & group www-data on /var/www/.composer
     docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -d /var/www/.composer ] && chown $(id -u):33 /var/www/.composer"
     docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -d /var/www/.composer ] && chmod ug+rwx /var/www/.composer"
@@ -276,6 +296,10 @@ function fix_permissions()
             fix_mysql
             exit 1
       ;;
+      "--rabbitmq"|"rabbit")
+            fix_rabbitmq
+            exit 1
+      ;;
       "--owner")
             fix_owner $@
             exit 1
@@ -291,6 +315,7 @@ function fix_permissions()
       "--all")
             fix_php
             fix_mysql
+            fix_rabbitmq
             fix_elasticsearch
             fix_grunt
             fix_add_user

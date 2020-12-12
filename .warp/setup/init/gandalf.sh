@@ -113,6 +113,12 @@ else
     cat $PROJECTPATH/.warp/setup/mac/tpl/docker-mapping-warp-mac.yml > $DOCKERCOMPOSEFILEMAC
 fi
 
+VOLUME_WARP_DEFAULT="warp-volume-sync"
+VOLUME_WARP="$(basename $(pwd))-volume-sync"
+
+cat $DOCKERCOMPOSEFILEMAC | sed -e "s/$VOLUME_WARP_DEFAULT/$VOLUME_WARP/" > "$DOCKERCOMPOSEFILEMAC.tmp"
+mv "$DOCKERCOMPOSEFILEMAC.tmp" $DOCKERCOMPOSEFILEMAC
+
 cp $DOCKERSYNCMACSAMPLE $DOCKERSYNCMAC
 
 echo "# Docker Sync" >> $ENVIRONMENTVARIABLESFILESAMPLE
@@ -205,39 +211,8 @@ then
     cp -R $PROJECTPATH/.warp/setup/php/config/crontab $PROJECTPATH/.warp/docker/config/crontab
     cp -R $PROJECTPATH/.warp/setup/php/config/supervisor $PROJECTPATH/.warp/docker/config/supervisor
 
-    echo "" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-    echo "" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-    echo "" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-    echo "" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-
-    echo "## CONFIG XDEBUG FOR $php_version ##" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-    echo "## CONFIG IONCUBE FOR $php_version ##" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-    
-     case $php_version in
-        '5.6-fpm')
-            echo "zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-            echo ";zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20131226/iocube.so" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-        ;;
-        '7.0-fpm')
-            echo "zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20151012/xdebug.so" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-            echo ";zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20151012/iocube.so" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-        ;;
-        '7.2-fpm')
-            echo "zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20170718/xdebug.so" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-            echo ";zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20170718/iocube.so" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-        ;;
-        '7.3-fpm')
-            echo "zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-            echo ";zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20180731/iocube.so" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-        ;;
-        *)
-            echo "zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20160303/xdebug.so" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample 
-            echo ";zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20160303/iocube.so" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample 
-        ;;
-    esac
-
-    echo "## PHP ###" >> $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini.sample
-    echo "## PHP ###" >> $PROJECTPATH/.warp/docker/config/php/ext-ioncube.ini.sample
+    # helper create .sample files
+    . "$WARPFOLDER/setup/php/php-helper.sh"
 fi
 
 ############### VOLUMES

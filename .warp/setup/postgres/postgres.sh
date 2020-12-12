@@ -32,6 +32,21 @@ then
 
     warp_message_info2 "Selected PostgreSQL Version: $psql_version"
 
+    psql_docker_image="postgres:${psql_version}"
+    psql_data_file="/var/lib/postgresql/data"
+
+    if [ "$private_registry_mode" = "Y" ] || [ "$private_registry_mode" = "y" ] ; then        
+        if [ ! -z "$docker_private_registry" ]
+        then
+            # Overwrite default psql image.
+            psql_docker_image="${namespace_name}-${project_name}-dbs"    
+            psql_use_project_specific=Y
+
+            psql_data_file=$( warp_question_ask_default "Set psql data file inside the container: $(warp_message_info [/data/pgdata]) " "/data/pgdata" )
+            warp_message_info2 "Selected data file: $psql_data_file"
+        fi    
+    fi
+
     while : ; do
         psql_name_database=$( warp_question_ask_default "Set the database name: $(warp_message_info [warp_db]) " "warp_db" )
 
@@ -76,8 +91,12 @@ then
             warp_message_warn "The port $psql_binded_port is busy, choose another one\n"
         fi;
     done
-    
-    cat $PROJECTPATH/.warp/setup/postgres/tpl/postgres.yml >> $DOCKERCOMPOSEFILESAMPLE
+
+    if [ "$psql_use_project_specific" = "Y" ] || [ "$psql_use_project_specific" = "y" ]; then
+        cat $PROJECTPATH/.warp/setup/postgres/tpl/postgres_custom.yml >> $DOCKERCOMPOSEFILESAMPLE
+    else
+        cat $PROJECTPATH/.warp/setup/postgres/tpl/postgres.yml >> $DOCKERCOMPOSEFILESAMPLE
+    fi    
 
     echo ""  >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "# PostgreSQL Configuration" >> $ENVIRONMENTVARIABLESFILESAMPLE
@@ -86,6 +105,7 @@ then
     echo "POSTGRES_DB=$psql_name_database" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "POSTGRES_USER=$psql_user_database" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "POSTGRES_PASSWORD=$psql_password_database" >> $ENVIRONMENTVARIABLESFILESAMPLE    
+    echo "POSTGRES_DATA=$psql_data_file" >> $ENVIRONMENTVARIABLESFILESAMPLE    
+    echo "POSTGRES_DOCKER_IMAGE=$psql_docker_image" >> $ENVIRONMENTVARIABLESFILESAMPLE    
 
 fi; 
-

@@ -69,6 +69,54 @@ function mysql_connect()
     docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "mysql -uroot -p$DATABASE_ROOT_PASSWORD"
 }
 
+function mysql_update_db() 
+{
+
+    DOCKER_PRIVATE_REGISTRY=$(warp_env_read_var DOCKER_PRIVATE_REGISTRY)
+
+    if [ -z "$DOCKER_PRIVATE_REGISTRY" ] ; then
+        warp_message_error "this command only work with private db registry"
+
+        exit 1;
+    fi
+
+    warp_message "This command will do:"
+    warp_message "* stop containers"
+    warp_message "* pull new images"
+    warp_message "* remove volume db"
+    warp_message "* start containers"
+    
+    respuesta_update_db=$( warp_question_ask_default "Do you want to continue? $(warp_message_info [Y/n]) " "Y" )
+
+    if [ "$respuesta_update_db" = "Y" ] || [ "$respuesta_update_db" = "y" ]
+    then
+
+        if [ $(warp_check_is_running) = true ]; then
+            warp stop --hard 
+        fi
+
+        #  CHECK IF GITIGNOREFILE CONTAINS FILES WARP TO IGNORE
+        [ -f "$HOME/.aws/credentials" ] && cat "$HOME/.aws/credentials" | grep --quiet -w "^[summa-docker]"
+
+        # Exit status 0 means string was found
+        # Exit status 1 means string was not found
+        if [ $? = 0 ] || [ -f "$HOME/.aws/credentials" ]
+        then
+            $(aws ecr get-login --region us-east-1 --no-include-email --profile summa-docker)
+
+            # check if login Succeeded 
+            if [ $? = 0 ]
+            then
+                warp docker pull
+                warp volume --rm mysql 2> /dev/null
+                warp start
+            fi
+        fi
+    else 
+        warp_message_warn "* aborting update database"    
+    fi
+}
+
 function mysql_connect_ssh() 
 {
 
@@ -86,6 +134,88 @@ function mysql_connect_ssh()
     fi
 
     docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+}
+
+function mysql_switch() 
+{
+
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ -z "$1" ]
+    then
+        mysql_switch_help 
+        exit 1
+    fi;
+
+    if [ $(warp_check_is_running) = true ]; then
+        warp_message_error "The containers are running"
+        warp_message_error "please, first run warp stop --hard"
+
+        exit 1;
+    fi
+
+    MYSQL_VERSION_CURRENT=$(warp_env_read_var MYSQL_VERSION)
+    warp_message_info2 "You current MySQL version is: $MYSQL_VERSION_CURRENT"    
+
+    if [ $MYSQL_VERSION_CURRENT = $1 ]
+    then
+        warp_message_info2 "the selected version is the same as the previous one, no changes will be made"
+        warp_message_warn "for help run: $(warp_message_bold './warp mysql switch --help')"
+    else
+        warp_message_warn "This command will destroy MySQL database"
+        warp_message "you can create a backup running: $(warp_message_bold './warp mysql dump --help')"
+        respuesta_switch_version_db=$( warp_question_ask_default "Do you want to continue? $(warp_message_info [Y/n]) " "Y" )
+
+        if [ "$respuesta_switch_version_db" = "Y" ] || [ "$respuesta_switch_version_db" = "y" ]
+        then
+            mysql_version=$1
+            warp_message_info2 "change version to: $mysql_version"
+
+            MYSQL_VERSION_OLD="MYSQL_VERSION=$MYSQL_VERSION_CURRENT"
+            MYSQL_VERSION_NEW="MYSQL_VERSION=$mysql_version"
+
+            cat $ENVIRONMENTVARIABLESFILE | sed -e "s/$MYSQL_VERSION_OLD/$MYSQL_VERSION_NEW/" > "$ENVIRONMENTVARIABLESFILE.warp_tmp"
+            mv "$ENVIRONMENTVARIABLESFILE.warp_tmp" $ENVIRONMENTVARIABLESFILE
+
+            cat $ENVIRONMENTVARIABLESFILESAMPLE | sed -e "s/$MYSQL_VERSION_OLD/$MYSQL_VERSION_NEW/" > "$ENVIRONMENTVARIABLESFILESAMPLE.warp_tmp"
+            mv "$ENVIRONMENTVARIABLESFILESAMPLE.warp_tmp" $ENVIRONMENTVARIABLESFILESAMPLE
+
+            # delete old files
+            rm  -rf $PROJECTPATH/.warp/docker/config/mysql/ 2> /dev/null
+            if [ -d $PROJECTPATH/.warp/docker/volumes/mysql ]
+            then
+                sudo rm -rf $PROJECTPATH/.warp/docker/volumes/mysql/* 2> /dev/null
+            fi
+            
+            # delete volume database
+            warp volume --rm mysql 2> /dev/null
+
+            DOCKER_PRIVATE_REGISTRY=$(warp_env_read_var DOCKER_PRIVATE_REGISTRY)
+
+            if [ ! -z "$DOCKER_PRIVATE_REGISTRY" ] ; then
+                NAMESPACE=$(warp_env_read_var NAMESPACE)
+                PROJECT=$(warp_env_read_var PROJECT)                
+                mysql_docker_image="${NAMESPACE}-${PROJECT}-dbs"
+
+                CREATE_MYSQL_IMAGE_FROM="mysql:${mysql_version} ${DOCKER_PRIVATE_REGISTRY}/${mysql_docker_image}:latest"
+
+                # clear custom image
+                docker pull "mysql:$mysql_version"
+                docker rmi "${DOCKER_PRIVATE_REGISTRY}/${mysql_docker_image}"
+                docker tag $CREATE_MYSQL_IMAGE_FROM 2> /dev/null
+            fi
+
+            # check files for mysql version
+            #warp_mysql_check_files_yaml
+
+            # copy base files
+            cp -R $PROJECTPATH/.warp/setup/mysql/config/ $PROJECTPATH/.warp/docker/config/mysql/    
+
+            warp_message_warn "* commit new changes"
+            warp_message_warn "* at each environment run: $(warp_message_bold './warp reset')"
+            warp_message_warn "* after that run: $(warp_message_bold './warp mysql --update')"
+        else 
+            warp_message_warn "* aborting switch database"
+        fi
+    fi    
 }
 
 function mysql_dump() 
@@ -164,6 +294,15 @@ function mysql_main()
         ssh)
             shift 1
             mysql_connect_ssh $*
+        ;;
+
+        switch)
+            shift 1
+            mysql_switch $*
+        ;;
+
+        --update)
+            mysql_update_db
         ;;
 
         -h | --help)

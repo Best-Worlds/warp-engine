@@ -12,9 +12,9 @@ done
 
 if [ "$private_registry_mode" = "Y" ] || [ "$private_registry_mode" = "y" ] ; then
     while : ; do
-        namespace_name=$( warp_question_ask "Namespace name, it should be in lowercase and letters or numbers, for example 'Starfleet' should be 'starfleet': " )
+        namespace_name=$( warp_question_ask "Namespace name, it should be only letters or numbers with a maximum of 12 characters separated by hyphens, for example 'Starfleet': " )
 
-        if [[ $namespace_name =~ ^[a-z0-9]{2,}$ ]] ; then
+        if [[ $namespace_name =~ ^[a-zA-Z0-9]{2,12}(-[a-zA-Z0-9]{2,12})?$ ]] ; then
             warp_message_info2 "The namespace name: $(warp_message_bold $namespace_name)"
             break
         else
@@ -23,9 +23,9 @@ if [ "$private_registry_mode" = "Y" ] || [ "$private_registry_mode" = "y" ] ; th
     done
 
     while : ; do
-        project_name=$( warp_question_ask "Project Name, it should be in lowercase and letters or numbers, for example 'WARP Engine' should be 'warp': " )
+        project_name=$( warp_question_ask "Project Name, it should be only letters or numbers with a maximum of 12 characters separated by hyphens, for example 'WARP Engine' should be 'warp-engine': " )
 
-        if [[ $project_name =~ ^[a-z0-9]{2,}$ ]] ; then
+        if [[ $project_name =~ ^[a-zA-Z0-9]{2,12}(-[a-zA-Z0-9]{2,12})?$ ]] ; then
             warp_message_info2 "The project name is: $(warp_message_bold $project_name)"
             break
         else

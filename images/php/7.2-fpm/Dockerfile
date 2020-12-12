@@ -105,7 +105,7 @@ RUN \
     docker-php-ext-install ldap
 
 # Install Node, NVM, NPM and Grunt, Gulp
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y nodejs build-essential \
     && curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh \
     && npm i -g grunt-cli yarn \
@@ -129,6 +129,12 @@ RUN rm -f /usr/local/etc/php/conf.d/*sodium.ini \
   && pecl install -o -f libsodium \
   && echo "extension=sodium.so" > /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
 
+# Install APCU
+RUN no | pecl install apcu && docker-php-ext-enable apcu
+
+# Install MongoDB
+RUN pecl install mongodb && docker-php-ext-enable mongodb.so
+
 # ssh2 module
 RUN apt-get install -y libssh2-1-dev \
   && pecl install ssh2-1.1.2 \
@@ -137,7 +143,7 @@ RUN apt-get install -y libssh2-1-dev \
 # Install fontforge https://github.com/sapegin/grunt-webfont#installation
 RUN apt-get install -y fontforge ttfautohint
 
-# Create .ssh file
+# Create .ssh folder
 RUN mkdir -p /var/www/.ssh
 
 # Set www-data as owner for /var/www
@@ -170,13 +176,13 @@ RUN curl -sS https://getcomposer.org/installer | \
 RUN no | pecl install -o -f redis && docker-php-ext-enable redis
 
 # Add users
-RUN groupadd -g 500  kirk &&  useradd -g 500  -u 500  -d /var/www/html -s /bin/bash kirk
+RUN groupadd -g 501  kirk &&  useradd -g 501  -u 501  -d /var/www/html -s /bin/bash kirk
 RUN groupadd -g 1000 warp &&  useradd -g 1000 -u 1000 -d /var/www/html -s /bin/bash warp
 RUN groupadd -g 1001 spock && useradd -g 1001 -u 1001 -d /var/www/html -s /bin/bash spock
 RUN groupadd -g 1002 scott && useradd -g 1002 -u 1002 -d /var/www/html -s /bin/bash scott
 
 # Add users to group www-data
-RUN usermod -aG 500  www-data
+RUN usermod -aG 501  www-data
 RUN usermod -aG 1000 www-data
 RUN usermod -aG 1001 www-data
 RUN usermod -aG 1002 www-data

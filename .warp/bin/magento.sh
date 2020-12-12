@@ -51,9 +51,15 @@ function magento_command()
         exit 0;
     fi;
 
-    if [ "$1" = "--developer-mode" ]
+    if [ "$1" = "--config-dev" ]
     then
         magento_config_developer_mode
+        exit 0;
+    fi;
+
+    if [ "$1" = "--generate-data" ]
+    then
+        magento_generate_fixtures
         exit 0;
     fi;
 
@@ -74,14 +80,45 @@ function magento_command()
     if [ "$1" = "--root" ]
     then
         shift 1
-        docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "$MAGENTOBIN $*"
+        docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "php -dmemory_limit=-1 $MAGENTOBIN $*"
     elif [ "$1" = "-T" ] ; then
         shift 1
-        docker-compose -f $DOCKERCOMPOSEFILE exec -T php bash -c "$MAGENTOBIN $*"
+        docker-compose -f $DOCKERCOMPOSEFILE exec -T php bash -c "php -dmemory_limit=-1 $MAGENTOBIN $*"
     else
 
-        docker-compose -f $DOCKERCOMPOSEFILE exec php bash -c "$MAGENTOBIN $*"
+        docker-compose -f $DOCKERCOMPOSEFILE exec php bash -c "php -dmemory_limit=-1 $MAGENTOBIN $*"
     fi
+}
+
+function magento_command_tools() 
+{
+
+    if [ "$2" = "-h" ] || [ "$2" = "--help" ]
+    then
+        magento_command_tools_help_usage 
+        exit 0;
+    fi;
+
+    if [ $(warp_check_is_running) = false ]; then
+        warp_message_error "The containers are not running"
+        warp_message_error "please, first run warp start"
+
+        exit 0;
+    fi
+
+    if [ "$1" = "ece-patches" ]
+    then
+        TOOLS_COMMAND='vendor/bin/ece-patches'
+    fi;
+    
+    if [ "$1" = "ece-tools" ]
+    then
+        TOOLS_COMMAND='vendor/bin/ece-tools'
+    fi;
+
+    shift 1;
+    
+    docker-compose -f $DOCKERCOMPOSEFILE exec php bash -c "[ -f $TOOLS_COMMAND ] && $TOOLS_COMMAND $* || echo \"not found binary $TOOLS_COMMAND\""
 }
 
 function magento_install()
@@ -334,6 +371,11 @@ function magento_config_smile()
     warp magento app:config:import
 }
 
+function magento_generate_fixtures()
+{   
+    warp magento setup:perf:generate-fixtures /var/www/html/setup/performance-toolkit/profiles/ce/small.xml
+}
+
 function magento_config_developer_mode()
 {    
     VIRTUAL_HOST=$(warp_env_read_var VIRTUAL_HOST)
@@ -362,6 +404,10 @@ function magento_main()
         magento)
             shift 1
             magento_command $*
+        ;;
+
+        ece-tools|ece-patches)
+            magento_command_tools $*
         ;;
 
         -h | --help)

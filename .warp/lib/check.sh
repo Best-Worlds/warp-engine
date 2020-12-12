@@ -254,3 +254,39 @@ warp_check_docker_version()
         warp_message  ""
     fi
 }
+
+warp_mysql_check_files_yaml()
+{
+    MYSQL_ENV_VERSION=$(warp_env_read_var MYSQL_VERSION)
+    MYSQL_VERSION_CHANGE="8.0"
+
+    if (( $(awk 'BEGIN {print ("'$MYSQL_ENV_VERSION'" >= "'$MYSQL_VERSION_CHANGE'")}') )); then
+        # /etc/mysql/conf.d           /etc/mysql/mysql.conf.d/
+        cat $DOCKERCOMPOSEFILESAMPLE | sed -e "s/\/etc\/mysql\/conf.d/\/etc\/mysql\/mysql.conf.d/" > "$DOCKERCOMPOSEFILESAMPLE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILESAMPLE.warp_tmp" $DOCKERCOMPOSEFILESAMPLE
+
+        cat $DOCKERCOMPOSEFILE | sed -e "s/\/etc\/mysql\/conf.d/\/etc\/mysql\/mysql.conf.d/" > "$DOCKERCOMPOSEFILE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILE.warp_tmp" $DOCKERCOMPOSEFILE
+
+        # /var/lib/mysql              /var/lib/mysql-files
+        cat $DOCKERCOMPOSEFILESAMPLE | sed -e "s/\/var\/lib\/mysql/\/var\/lib\/mysql-files/" > "$DOCKERCOMPOSEFILESAMPLE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILESAMPLE.warp_tmp" $DOCKERCOMPOSEFILESAMPLE
+
+        cat $DOCKERCOMPOSEFILE | sed -e "s/\/var\/lib\/mysql/\/var\/lib\/mysql-files/" > "$DOCKERCOMPOSEFILE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILE.warp_tmp" $DOCKERCOMPOSEFILE
+    else
+        # /etc/mysql/mysql.conf.d/    /etc/mysql/conf.d
+        cat $DOCKERCOMPOSEFILESAMPLE | sed -e "s/\/etc\/mysql\/mysql.conf.d/\/etc\/mysql\/conf.d/" > "$DOCKERCOMPOSEFILESAMPLE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILESAMPLE.warp_tmp" $DOCKERCOMPOSEFILESAMPLE
+
+        cat $DOCKERCOMPOSEFILE | sed -e "s/\/etc\/mysql\/mysql.conf.d/\/etc\/mysql\/conf.d/" > "$DOCKERCOMPOSEFILE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILE.warp_tmp" $DOCKERCOMPOSEFILE
+
+        # /var/lib/mysql-files        /var/lib/mysql
+        cat $DOCKERCOMPOSEFILESAMPLE | sed -e "s/mysql-files/mysql/" > "$DOCKERCOMPOSEFILESAMPLE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILESAMPLE.warp_tmp" $DOCKERCOMPOSEFILESAMPLE
+
+        cat $DOCKERCOMPOSEFILE | sed -e "s/mysql-files/mysql/" > "$DOCKERCOMPOSEFILE.warp_tmp"
+        mv "$DOCKERCOMPOSEFILE.warp_tmp" $DOCKERCOMPOSEFILE
+    fi
+}

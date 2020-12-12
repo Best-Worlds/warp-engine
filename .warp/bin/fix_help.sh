@@ -12,6 +12,7 @@ function fix_help_usage()
     warp_message_info   " -h, --help         $(warp_message 'display this help message')"
     warp_message_info   " --php              $(warp_message 'fix permissions with php')"
     warp_message_info   " --mysql            $(warp_message 'fix permissions with mysql')"
+    warp_message_info   " --rabbitmq         $(warp_message 'fix permissions with rabbitmq')"
     warp_message_info   " --grunt            $(warp_message 'fix permissions grunt')"
     warp_message_info   " --elasticsearch    $(warp_message 'fix permissions with elasticsearch')"
     warp_message_info   " --composer         $(warp_message 'fix permissions chmod() composer')"

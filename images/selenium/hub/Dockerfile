@@ -2,16 +2,22 @@ FROM selenium/hub
 
 USER root
 
-# Install PIP
-RUN wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
-RUN chmod +x get-pip.py
-RUN python get-pip.py
-RUN rm get-pip.py
+RUN apt-get update \ 
+    && apt-get install -y \
+    python3 \
+    python3-pip
 
-# Install Selenium and requirements
-RUN pip install selenium
-RUN pip install pyyaml
-RUN pip install requests
+RUN pip3 install \
+    selenium \
+    pyyaml \
+    requests
+
+RUN rm -rf /var/www/html/* \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY scripts/wait-for-grid.sh /opt/bin/wait-for-grid.sh
+
+RUN chmod +x /opt/bin/wait-for-grid.sh
 
 USER seluser
 

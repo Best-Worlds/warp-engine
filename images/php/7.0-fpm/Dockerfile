@@ -125,13 +125,13 @@ RUN rm -rf /var/www/html/* && \
   rm -rf /var/lib/apt/lists/*
 
 # Add users
-RUN groupadd -g 500  kirk &&  useradd -g 500  -u 500  -d /var/www/html -s /bin/bash kirk
+RUN groupadd -g 501  kirk &&  useradd -g 501  -u 501  -d /var/www/html -s /bin/bash kirk
 RUN groupadd -g 1000 warp &&  useradd -g 1000 -u 1000 -d /var/www/html -s /bin/bash warp
 RUN groupadd -g 1001 spock && useradd -g 1001 -u 1001 -d /var/www/html -s /bin/bash spock
 RUN groupadd -g 1002 scott && useradd -g 1002 -u 1002 -d /var/www/html -s /bin/bash scott
 
 # Add users to group www-data
-RUN usermod -aG 500  www-data
+RUN usermod -aG 501  www-data
 RUN usermod -aG 1000 www-data
 RUN usermod -aG 1001 www-data
 RUN usermod -aG 1002 www-data

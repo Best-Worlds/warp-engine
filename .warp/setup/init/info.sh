@@ -19,6 +19,7 @@ then
 
         # Disable XDEBUG for MacOS only, performance purpose
         sed -i -e 's/^zend_extension/\;zend_extension/g' $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini
+        [ -f $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini-e ] && rm $PROJECTPATH/.warp/docker/config/php/ext-xdebug.ini-e 2> /dev/null
         ;;
     esac
 fi

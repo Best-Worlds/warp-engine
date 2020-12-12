@@ -6,6 +6,7 @@
       - "9200"
       - "9300"
     environment:
+      - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms${ES_MEMORY} -Xmx${ES_MEMORY}"
     ulimits:
       memlock:

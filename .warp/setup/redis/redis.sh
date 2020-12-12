@@ -25,7 +25,7 @@ then
         echo "#Config Redis" >> $ENVIRONMENTVARIABLESFILESAMPLE
     fi
   
-    resp_version_cache=$( warp_question_ask_default "What version of Redis cache do you want to use? $(warp_message_info [3.2.10-alpine]) " "3.2.10-alpine" )
+    resp_version_cache=$( warp_question_ask_default "What version of Redis cache do you want to use? $(warp_message_info [5.0]) " "5.0" )
     warp_message_info2 "Selected Redis Cache version: $resp_version_cache, in the internal port 6379 $(warp_message_bold 'redis-cache:6379')"
 
     cache_config_file_cache=$( warp_question_ask_default "Set Redis configuration file: $(warp_message_info [./.warp/docker/config/redis/redis.conf]) " "./.warp/docker/config/redis/redis.conf" )
@@ -63,7 +63,7 @@ then
         echo "#Config Redis" >> $ENVIRONMENTVARIABLESFILESAMPLE
     fi
   
-    resp_version_session=$( warp_question_ask_default "What version of Redis Session do you want to use? $(warp_message_info [3.2.10-alpine]) " "3.2.10-alpine" )
+    resp_version_session=$( warp_question_ask_default "What version of Redis Session do you want to use? $(warp_message_info [5.0]) " "5.0" )
     warp_message_info2 "Selected version of Redis Session: $resp_version_session, in the internal port 6379 $(warp_message_bold 'redis-session:6379')"
 
     cache_config_file_session=$( warp_question_ask_default "Set Redis configuration file: $(warp_message_info [./.warp/docker/config/redis/redis.conf]) " "./.warp/docker/config/redis/redis.conf" )
@@ -101,7 +101,7 @@ then
         #echo "#Config Redis" >> $ENVIRONMENTVARIABLESFILESAMPLE
     fi
 
-    resp_version_fpc=$( warp_question_ask_default "What version of Redis FPC do you want to use? $(warp_message_info [3.2.10-alpine]) " "3.2.10-alpine" )
+    resp_version_fpc=$( warp_question_ask_default "What version of Redis FPC do you want to use? $(warp_message_info [5.0]) " "5.0" )
     warp_message_info2 "Selected Redis FPC version: $resp_version_fpc, in the internal port 6379 $(warp_message_bold 'redis-fpc:6379')"
 
     cache_config_file_fpc=$( warp_question_ask_default "Set Redis configuration file: $(warp_message_info [./.warp/docker/config/redis/redis.conf]) " "./.warp/docker/config/redis/redis.conf" )

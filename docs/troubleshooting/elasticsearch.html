@@ -423,6 +423,30 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/redis.html" title="Redis" class="md-nav__link">
+      Redis
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../features/varnish.html" title="Varnish" class="md-nav__link">
+      Varnish
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -576,6 +600,40 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#elasticsearch-7x" class="md-nav__link">
+    Elasticsearch 7.x
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-warp-ps" class="md-nav__link">
+    command warp ps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-warp-logs-elasticsearch" class="md-nav__link">
+    command warp logs elasticsearch
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-solutions_1" class="md-nav__link">
+    possible solutions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -683,6 +741,40 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#elasticsearch-7x" class="md-nav__link">
+    Elasticsearch 7.x
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-warp-ps" class="md-nav__link">
+    command warp ps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-warp-logs-elasticsearch" class="md-nav__link">
+    command warp logs elasticsearch
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-solutions_1" class="md-nav__link">
+    possible solutions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -745,6 +837,37 @@ vm.max_map_count<span class="o">=</span><span class="m">262144</span>
 </td></tr></table>
 
 <h3 id="ref-elasticseearch-docs">Ref. <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-prod-prerequisites">elasticseearch docs.</a></h3>
+<hr />
+<h2 id="elasticsearch-7x">Elasticsearch 7.x</h2>
+<h3 id="command-warp-ps">command <strong>warp ps</strong></h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>&lt;project-name&gt;_elasticsearch_1   /usr/local/bin/docker-entr ...   Exit <span class="m">78</span>
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="command-warp-logs-elasticsearch">command <strong>warp logs elasticsearch</strong></h3>
+<p><em>Native controller process has stopped</em></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>elasticsearch_1  <span class="p">|</span> <span class="o">{</span><span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;server&quot;</span>, <span class="s2">&quot;timestamp&quot;</span>: <span class="s2">&quot;2020-07-08T21:14:26,575Z&quot;</span>, <span class="s2">&quot;level&quot;</span>: <span class="s2">&quot;INFO&quot;</span>, <span class="s2">&quot;component&quot;</span>: <span class="s2">&quot;o.e.x.m.p.NativeController&quot;</span>, <span class="s2">&quot;cluster.name&quot;</span>: <span class="s2">&quot;docker-cluster&quot;</span>, <span class="s2">&quot;node.name&quot;</span>: <span class="s2">&quot;7ba16b86247e&quot;</span>, <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Native controller process has stopped - no new native processes can be started&quot;</span> <span class="o">}</span>
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="possible-solutions_1">possible solutions</h3>
+<p>Check if you have environment variable <code>discovery.type</code> inside the file <code>docker-compose-warp.yml.sample</code> in <strong>elasticsearch</strong> service, like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    <span class="nt">environment</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">discovery.type=single-node</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;ES_JAVA_OPTS=-Xms${ES_MEMORY}</span><span class="nv"> </span><span class="s">-Xmx${ES_MEMORY}&quot;</span>
+</code></pre></div>
+</td></tr></table>
+
+<p>If you don't have that setting you need to add it and follow these steps:</p>
+<ul>
+<li>warp stop --hard</li>
+<li>add <code>- discovery.type=single-node</code> at the file <code>docker-compose-warp.yml.sample</code></li>
+<li>warp reset</li>
+<li>warp init</li>
+<li>warp start</li>
+</ul>
 <hr />
                 
                   

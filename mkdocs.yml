@@ -31,6 +31,8 @@ nav:
     - Magento: 'features/magento.md'
     - Oro: 'features/oro.md'    
     - Grunt: 'features/grunt.md'
+    - Redis: 'features/redis.md'
+    - Varnish: 'features/varnish.md'
   - FAQs: 'faq/index.md'
   - Troubleshooting: 
     - warp start: 'troubleshooting/start.md'

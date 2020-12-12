@@ -50,6 +50,14 @@ Run the following command in your root project folder:
   curl -L -o warp http://ct.summasolutions.net/warp-engine/warp && chmod 755 warp
 ```
 
+## Command line update
+
+Run the following command in your root project folder:
+
+```
+  curl -L -o warp http://ct.summasolutions.net/warp-engine/warp && chmod 755 warp && ./warp update
+```
+
 ## Getting started
 
 After download the warp binary file, you should initialize your dockerized infraestrucutre running the following command:

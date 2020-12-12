@@ -3,15 +3,19 @@
 echo ""
 warp_message_info "Configuring Selenium Service"
 
-while : ; do
-    respuesta_selenium=$( warp_question_ask_default "Do you want to add selenium service? $(warp_message_info [y/N]) " "N" )
+if [ "$1" = "-n" ] || [ "$1" = "--no-interaction" ] ; then
+    respuesta_selenium="Y";
+else
+    while : ; do
+        respuesta_selenium=$( warp_question_ask_default "Do you want to add selenium service? $(warp_message_info [y/N]) " "N" )
 
-    if [ "$respuesta_selenium" = "Y" ] || [ "$respuesta_selenium" = "y" ] || [ "$respuesta_selenium" = "N" ] || [ "$respuesta_selenium" = "n" ] ; then
-        break
-    else
-        warp_message_warn "wrong answer, you must select between two options: $(warp_message_info [Y/n]) "
-    fi
-done
+        if [ "$respuesta_selenium" = "Y" ] || [ "$respuesta_selenium" = "y" ] || [ "$respuesta_selenium" = "N" ] || [ "$respuesta_selenium" = "n" ] ; then
+            break
+        else
+            warp_message_warn "wrong answer, you must select between two options: $(warp_message_info [Y/n]) "
+        fi
+    done
+fi;
 
 if [ "$respuesta_selenium" = "Y" ] || [ "$respuesta_selenium" = "y" ]
 then

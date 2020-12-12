@@ -11,6 +11,7 @@ function mysql_help_usage()
     warp_message ""
     warp_message_info "Options:"
     warp_message_info   " -h, --help         $(warp_message 'display this help message')"
+    warp_message_info   " --update           $(warp_message 'update db from private registry')"
     warp_message ""
 
     warp_message_info "Available commands:"
@@ -20,6 +21,7 @@ function mysql_help_usage()
     warp_message_info   " connect            $(warp_message 'connect to mysql command line (shell)')"
     warp_message_info   " import             $(warp_message 'allows to restore a database')"
     warp_message_info   " ssh                $(warp_message 'connect to mysql by ssh')"
+    warp_message_info   " switch             $(warp_message 'allows to change the MySQL version')"
 
     warp_message ""
     warp_message_info "Help:"
@@ -109,6 +111,29 @@ function mysql_ssh_help()
     warp_message_info "Example:"
     warp_message " warp mysql ssh"
     warp_message ""
+}
+
+function mysql_switch_help()
+{
+    warp_message ""
+    warp_message_info "Usage:"
+    warp_message      " warp mysql switch [options]"
+    warp_message ""
+
+    warp_message ""
+    warp_message_info "Options:"
+    warp_message_info   " -h, --help         $(warp_message 'display this help message')"
+    warp_message ""
+
+    warp_message ""
+    warp_message_info "Help:"
+    warp_message " this command allows to change the MySQL version"
+    warp_message " you can check the available versions of MySQL here: $(warp_message_info '[ https://hub.docker.com/r/library/mysql/tags/ ]')"
+    warp_message ""
+
+    warp_message_info "Example:"
+    warp_message " warp mysql switch 8.0"
+    warp_message ""    
 }
 
 function mysql_help()

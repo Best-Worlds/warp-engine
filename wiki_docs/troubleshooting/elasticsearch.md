@@ -54,3 +54,38 @@ sysctl -w vm.max_map_count=262144
 
 -------------
 
+## Elasticsearch 7.x
+
+### command **warp ps**
+
+```bash
+<project-name>_elasticsearch_1   /usr/local/bin/docker-entr ...   Exit 78
+```
+
+### command **warp logs elasticsearch**
+
+_Native controller process has stopped_
+
+```bash
+elasticsearch_1  | {"type": "server", "timestamp": "2020-07-08T21:14:26,575Z", "level": "INFO", "component": "o.e.x.m.p.NativeController", "cluster.name": "docker-cluster", "node.name": "7ba16b86247e", "message": "Native controller process has stopped - no new native processes can be started" }
+```
+
+### possible solutions
+
+Check if you have environment variable `discovery.type` inside the file `docker-compose-warp.yml.sample` in **elasticsearch** service, like this:
+
+```yaml
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms${ES_MEMORY} -Xmx${ES_MEMORY}"
+```
+
+If you don't have that setting you need to add it and follow these steps:
+
+- warp stop --hard
+- add `- discovery.type=single-node` at the file `docker-compose-warp.yml.sample`
+- warp reset
+- warp init
+- warp start
+
+-------------

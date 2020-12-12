@@ -1,6 +1,58 @@
 Warp Releases
 =============
 
+### [2020.11.02](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.11.02)
+
+* increased character validation to 12 in namespaces and projects
+
+
+### [2020.09.25](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.09.25)
+
+* warp fix oro message
+* add description PHP 7.4 to xdebug.ini.sample
+* Add Uppercase to regex validation
+
+### [2020.08.26](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.08.26)
+
+* Add module mongodb to PHP FPM 7.2, 7.3, 7.4
+* Update nginx conf for Magento 2.3
+* Add command warp fix --rabbitmq
+* Improve command warp fix --mysql for MySQL 8.0
+* Fix mode gandalf, validation version MySQL 8.0
+
+### [2020.07.27](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.07.27)
+
+* Fix elasticsearch service 7.x
+* Add image 7.2.24-fpm for Oro 3.x
+* Add Postgres image to private registry
+* Add command for change PHP version 
+* Add command for change MySQL version 
+* Add command warp mysql --update
+
+### [2020.06.23](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.06.23)
+
+* Fix chmod() composer on Magento 2.3x
+* Add command ece-tools and ece-patches
+* Add python3 to Selenium image
+
+### [2020.05.26](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.05.26)
+
+* Disable short_open_tag
+* Fix self-update
+
+### [2020.05.14](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.05.14)
+
+* Add new image PHP 7.4-fpm
+* Add image elasticsearch 7.6.2
+* Add module APCU to PHP FPM 7.2, 7.3, 7.4
+* Update node v12
+* Change redis 5.0 by default
+
+### [2020.04.28](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.04.28)
+
+* Add new image elasticsearch 6.5.4
+* Add deploy with Jenkins
+
 ### [2020.04.02](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.04.02)
 
 * Add command warp magento --config-smile
