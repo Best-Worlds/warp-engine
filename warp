@@ -464,6 +464,11 @@ case "$1" in
     fix_main $*
     ;;
 
+    git)
+    shift 1
+    git_main $*
+    ;;
+
     xdebug)
     shift 1
     xdebug_main $*

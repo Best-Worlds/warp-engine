@@ -32,6 +32,7 @@
 . "$WARPFOLDER/bin/grunt.sh"
 . "$WARPFOLDER/bin/crontab.sh"
 . "$WARPFOLDER/bin/fix.sh"
+. "$WARPFOLDER/bin/git.sh"
 . "$WARPFOLDER/bin/mailhog.sh"
 . "$WARPFOLDER/bin/xdebug.sh"
 . "$WARPFOLDER/bin/ioncube.sh"

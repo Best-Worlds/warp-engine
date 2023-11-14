@@ -3,6 +3,7 @@
     # IMPORT HELP
 
     . "$PROJECTPATH/.warp/bin/start_help.sh"
+    . "$PROJECTPATH/.warp/bin/git.sh"
 
 #######################################
 # Start the server and all of its
@@ -79,6 +80,8 @@ function start() {
 
     if [ $(warp_check_php_is_running) = true ]
     then
+      # Synchronize GitHub directory
+      git_rsync
       # COPY ID_RSA ./ssh
       copy_ssh_id
       # Initialize Cron Job

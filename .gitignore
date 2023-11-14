@@ -11,3 +11,26 @@
 .warp/lib/version.sh
 **/auth.json
 /deploy
+# WARP FRAMEWORK
+!/warp
+!/.warp
+!/.warp/**
+/.env
+/docker-compose-warp.yml
+/docker-compose-warp-mac.yml
+/docker-sync.yml
+!/.env.sample
+!/docker-compose-warp.yml.sample
+!/docker-compose-warp-mac.yml.sample
+!/docker-sync.yml.sample
+/.self-update-warp
+/.docker-sync
+/.warp/docker/volumes
+/.warp/docker/dumps
+/.warp/setup
+/.warp/lib
+/.warp/bin
+/.warp/docker/config/php/ext-xdebug.ini
+/.warp/docker/config/php/ext-ioncube.ini
+# FRAMEWORK WARP
+
