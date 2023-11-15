@@ -32,5 +32,6 @@
 /.warp/bin
 /.warp/docker/config/php/ext-xdebug.ini
 /.warp/docker/config/php/ext-ioncube.ini
+/release/latest
 # FRAMEWORK WARP
 

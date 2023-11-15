@@ -213,11 +213,11 @@ table.table thead tr th.download-icon {
           <p>&nbsp;</p>
           <h4>Command line install</h4>
           <h5 style="text-align: left;">Run the following command in your root project folder:</h5>
-        <pre>curl -L -o warp http://packages.bestworlds.com/warp-engine/warp-engine/warp && chmod 755 warp</pre>
+        <pre>curl -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp</pre>
         <p>&nbsp;</p>
-        <h4>Command line update</h4>
+        <h4>Command line update</h4>|
         <h5 style="text-align: left;">Run the following command in your root project folder:</h5>
-        <pre>curl -L -o warp http://packages.bestworlds.com/warp-engine/warp-engine/warp && chmod 755 warp && ./warp update</pre>
+        <pre>curl -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp && ./warp update</pre>
         </div>
         <h2>Getting started</h2>
         <div>
@@ -453,7 +453,7 @@ docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
                 <p>1- Create the alias</p>
                 <pre>sudo ifconfig lo0 alias 10.254.254.254</pre>
                 <p>2- Add the network configuration to OS X launch daemons, to create the alias automatically on system boot process. </p>
-                <pre>sudo curl -o /Library/LaunchDaemons/net.summasolutions.docker_10254_alias.plist http://packages.bestworlds.com/warp-engine/warp-engine/osx/net.summasolutions.docker_10254_alias.plist</pre>
+                <pre>sudo curl -o /Library/LaunchDaemons/net.summasolutions.docker_10254_alias.plist http://packages.bestworlds.com/warp-engine/osx/net.summasolutions.docker_10254_alias.plist</pre>
               </div>
             </div>
           </div>

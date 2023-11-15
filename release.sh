@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+ROOT_DIR=`git rev-parse --show-toplevel`
 COMMIT_VERSION=`git rev-parse --short HEAD`
 BUILD_VERSION=`date +%Y.%m.%d`
 TAG_VERSIONS=`git tag -l | sort -r`
@@ -15,3 +15,6 @@ cat warp > dist/warp
 cat warparchive.tar.xz >> dist/warp
 chmod +x dist/warp
 cp dist/warp dist/warp_$BUILD_VERSION
+
+# Add symlink for download purposes
+ln -s "$ROOT_DIR/dist/warp_$BUILD_VERSION" "$ROOT_DIR/release/latest"

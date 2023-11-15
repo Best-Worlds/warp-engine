@@ -109,6 +109,12 @@ DOCKERCOMPOSEFILEDEV="$PROJECTPATH/docker-compose-warp-dev.yml"
 # to the docker-compose.yml sample file
 DOCKERCOMPOSEFILEDEVSAMPLE="$PROJECTPATH/docker-compose-warp-dev.yml.sample"
 
+# Repository HTTP AUTH access user
+GITHUB_HTTP_AUTH_CREDENTIALS_USER="bestworlds"
+
+# Repository HTTP AUTH access pass
+GITHUB_HTTP_AUTH_CREDENTIALS_PASS="Sail7Seas"
+
 : '
 PHP Installed Modules.
     Each image provided in warp-engine/images/php/<version>/Dockerfile has preinstalled modules.

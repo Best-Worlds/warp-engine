@@ -16,7 +16,6 @@ function git_rsync()
     if [ -d "$GIT_CONFIG_DIR" ]
     then
       rsync -azvP "$GIT_CONFIG_DIR" "$PROJECTPATH/.git" > /dev/null
-      warp_message "GitHub directory has been synchronized."
     fi
 
 }
