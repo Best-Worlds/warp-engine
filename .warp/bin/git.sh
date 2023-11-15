@@ -11,13 +11,11 @@ function git_rsync()
         exit
     fi;
 
-    GIT_OVERRIDE_DIR="$PROJECTPATH/.git_override"
-    echo $GIT_OVERRIDE_DIR
+    GIT_CONFIG_DIR="$CONFIGFOLDER/git"
 
-    if [ -d "$GIT_OVERRIDE_DIR" ]
+    if [ -d "$GIT_CONFIG_DIR" ]
     then
-      rsync -azvP --exclude "logs" ./.git_override/ ./.git
-      warp_message ""
+      rsync -azvP "$GIT_CONFIG_DIR" "$PROJECTPATH/.git" > /dev/null
       warp_message "GitHub directory has been synchronized."
     fi
 

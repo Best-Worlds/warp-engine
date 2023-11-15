@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Styles configuration
+ERROR_FORMAT="\e[0;31m"
+NEUTRAL_FORMAT="\e[1;37m"
+
+# Hook parameters
+COMMIT_MSG=$(cat $1)
+REGEX_TKT_RULE=$(echo ${COMMIT_MSG} | grep -E "^[0-9]*[\:]")
+REGEX_NO_TKT_RULE=$(echo ${COMMIT_MSG} | grep -E "^NO_TKT:(|$)")
+
+if [ -z "${REGEX_TKT_RULE}" ] && [ -z "${REGEX_NO_TKT_RULE}" ]
+then
+    echo "${ERROR_FORMAT}"
+    echo "The commit message has a wrong format. Your message: '${COMMIT_MSG}'\n\nIt must start with '[TICKET_ID]:' (eg: '3487515:') or 'NO_TKT:' (exact match)". Fix it to move forward with commit process.
+    exit 1
+else
+    echo "${NEUTRAL_FORMAT}"
+    exit 0
+fi

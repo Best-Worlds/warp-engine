@@ -1,0 +1,118 @@
+#!/bin/sh
+
+# Styles configuration
+ERROR_FORMAT="\e[0;31m"
+PROCESSING_FORMAT="\e[0;33m"
+NEUTRAL_FORMAT="\e[1;37m"
+SUCCESS_FORMAT="\e[0;32m"
+
+# Hook parameters
+COMMIT_MSG=$(git rev-parse --abbrev-ref HEAD)
+
+# Basic Configurations
+ROOT_DIR=`git rev-parse --show-toplevel`
+DOCKER_COMPOSE_FILE="docker-compose-warp.yml"
+STANDARD="Magento2"
+
+# Directory Configurations
+LOG_DIR="${ROOT_DIR}/var/log/git"
+CURRENT_DATE=$(date '+%Y-%m-%d_%H-%M-%S')
+LOG_FILENAME="${CURRENT_DATE}.log"
+
+STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php`
+
+if [ "$#" -eq 1 ]
+then
+	oIFS=$IFS
+	IFS='
+	'
+	SFILES="$1"
+	IFS=$oIFS
+fi
+SFILES=${SFILES:-$STAGED_FILES_CMD}
+
+if [ "$SFILES" != "" ]
+then
+    echo "${NEUTRAL_FORMAT}The following files has been modified:"
+    i=1
+    echo "${SUCCESS_FORMAT}"
+    for FILE in $SFILES
+    do
+        echo "${i}- ${FILE}"
+        i=$((i+1))
+    done
+else
+    echo "${ERROR_FORMAT}Nothing to commit."
+    exit 1
+fi
+
+echo "${PROCESSING_FORMAT}\nChecking PHP syntax..."
+for FILE in $SFILES
+do
+    echo "${NEUTRAL_FORMAT}"
+	docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "php -l -d display_errors=0 ${FILE}"
+	if [ $? != 0 ]
+	then
+	    echo "${ERROR_FORMAT}"
+	    echo "Fix the syntax errors before commit."
+		exit 1
+	fi
+	FILES="$FILES $FILE"
+done
+
+if [ "$FILES" != "" ]
+then
+
+    # Creates log directory within git override folder
+    if [ ! -d ${LOG_DIR} ]; then
+      mkdir ${LOG_DIR} && chmod 775 ${LOG_DIR}
+    fi
+
+    # Creates new directory based on commit message (sluged)
+    COMMIT_LOG_DIR=`echo ${COMMIT_MSG} | iconv -t ascii//TRANSLIT | sed -E 's/[~\^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+\|-+$//g' | sed -E 's/^-+//g' | sed -E 's/-+$//g' | tr A-Z a-z`
+    FULL_COMMIT_LOG_DIR=${LOG_DIR}/${COMMIT_LOG_DIR}
+
+    if [ ! -d ${FULL_COMMIT_LOG_DIR} ]; then
+      mkdir ${FULL_COMMIT_LOG_DIR} && chmod 775 ${FULL_COMMIT_LOG_DIR}
+    fi
+
+    QTY_FILES=$(ls -la ${FULL_COMMIT_LOG_DIR} | grep .log | wc -l)
+    CURRENT_FILE_NUMBER=$((QTY_FILES+1))
+    LOG_FILE=${FULL_COMMIT_LOG_DIR}/${CURRENT_FILE_NUMBER}-${LOG_FILENAME}
+
+    echo "${PROCESSING_FORMAT}"
+    echo "Running ${STANDARD} Coding standards validations..." | tee -a ${LOG_FILE}
+
+	docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "vendor/bin/phpcs --standard=${STANDARD} $FILES" >> ${LOG_FILE}
+
+	if [ $? != 0 ]
+	then
+		echo "Coding standards errors have been detected. Trying to correct them automatically..." >> ${LOG_FILE}
+		docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "vendor/bin/phpcbf --standard=${STANDARD} $FILES" >> ${LOG_FILE}
+
+        # No errors to be fixed automatically
+		if [ $? = 0 ]
+		then
+		    echo "${ERROR_FORMAT}"
+		    echo "Review the report in order to fix the remaining errors => ${LOG_FILE}"
+			exit 1
+		fi
+
+        # Errors has been automatically corrected. Re-adding files and re-run coding standards validation
+		git add $FILES
+		echo "Running ${STANDARD} Coding standards validations again...\n" >> ${LOG_FILE}
+		docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "vendor/bin/phpcs --standard=${STANDARD} $FILES" >> ${LOG_FILE}
+
+		if [ $? != 0 ]
+		then
+		    echo "${ERROR_FORMAT}"
+		    echo "Review the report in order to fix the remaining errors => ${LOG_FILE}"
+			exit 1
+		fi
+	fi
+
+    echo "${SUCCESS_FORMAT}"
+	echo "Nothing to correct after code validation processes execution. Changes ready to be committed." | tee -a ${LOG_FILE}
+fi
+
+exit $?
