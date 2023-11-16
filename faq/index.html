@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Best Worlds">
+        <link rel="canonical" href="https://github.com/Best-Worlds/warp-engine/faq/index.html">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>FAQs - Warp Framework</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link href="../css/extra.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">Warp Framework</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../index.html" class="nav-link">Introduction</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../workshop/workshop.html" class="nav-link">Workshop video</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Get Started <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../started/requirements.html" class="dropdown-item">Requirements</a>
+</li>
+                                    
+<li>
+    <a href="../started/usage.html" class="dropdown-item">Usage</a>
+</li>
+                                    
+<li>
+    <a href="../started/gandalf.html" class="dropdown-item">Gandalf</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Installation <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../installation/mac.html" class="dropdown-item">MacOS</a>
+</li>
+                                    
+<li>
+    <a href="../installation/linux.html" class="dropdown-item">Linux</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Features <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../features/services.html" class="dropdown-item">Services</a>
+</li>
+                                    
+<li>
+    <a href="../features/magento.html" class="dropdown-item">Magento</a>
+</li>
+                                    
+<li>
+    <a href="../features/oro.html" class="dropdown-item">Oro</a>
+</li>
+                                    
+<li>
+    <a href="../features/grunt.html" class="dropdown-item">Grunt</a>
+</li>
+                                    
+<li>
+    <a href="../features/redis.html" class="dropdown-item">Redis</a>
+</li>
+                                    
+<li>
+    <a href="../features/varnish.html" class="dropdown-item">Varnish</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem active">
+                                <a href="index.html" class="nav-link">FAQs</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Troubleshooting <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../troubleshooting/start.html" class="dropdown-item">warp start</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/rsync.html" class="dropdown-item">warp rsync</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/db.html" class="dropdown-item">databases</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/elasticsearch.html" class="dropdown-item">elasticsearch</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/composer.html" class="dropdown-item">warp composer</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/gitignore.html" class="dropdown-item">.gitignore</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../features/varnish.html" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../troubleshooting/start.html" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/Best-Worlds/warp-engine/tree/master/wiki_docs/faq/index.md" class="nav-link">Edit on Best-Worlds/warp-engine
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#requeriments-and-dependencies" class="nav-link">Requeriments and dependencies</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#how-to-install-docker-sync-on-macos" class="nav-link">How to install docker-sync on macOS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#how-to-install-rsync" class="nav-link">How to install rsync</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#how-to-configure-xdebug" class="nav-link">How to configure Xdebug</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#how-to-use-composer" class="nav-link">How to use Composer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#setting-up-the-cron-jobs" class="nav-link">Setting up the Cron Jobs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#installing-and-configuring-grunt" class="nav-link">Installing and configuring Grunt</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="requeriments-and-dependencies">Requeriments and dependencies</h2>
+<ul>
+<li>Docker</li>
+<li>docker-compose</li>
+<li>docker-sync (only macOS)</li>
+</ul>
+<h2 id="how-to-install-docker-sync-on-macos">How to install <strong>docker-sync</strong> on macOS</h2>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>sudo gem install docker-sync -n /usr/local/bin
+</code></pre></div></td></tr></table></div>
+
+<hr />
+<h2 id="how-to-install-rsync">How to install <strong>rsync</strong></h2>
+<ul>
+<li>on macOS</li>
+</ul>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>brew install rsync
+</code></pre></div></td></tr></table></div>
+
+<ul>
+<li>on Debian</li>
+</ul>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>apt install rsync
+</code></pre></div></td></tr></table></div>
+
+<hr />
+<h2 id="how-to-configure-xdebug">How to configure Xdebug</h2>
+<p><strong>Configuring xdebug by Browser</strong></p>
+<p>1) The first step is to install the <a href="https://confluence.jetbrains.com/display/PhpStorm/Browser+Debugging+Extensions">Browser Toolbar</a> and enable listening for PHP Debug Conections</p>
+<p><img alt="debug-toolbar" src="../img/debugtoolbar.png" /></p>
+<p>2) After that, the server name must be configured in Nginx.</p>
+<p>To achieve this, please modify the nginx config file (file ended in .conf) setting the <code>server_name</code> attribute.</p>
+<p>The file can be located running the command <code>warp info</code> in your root project folder with the "Nginx configuration file" flag</p>
+<p><img alt="nginx-config" src="../img/nginx-config.jpg" /></p>
+<p>3) Now is time to configure the Web Server in PHPStorm IDE</p>
+<p>Please, go to: <code>File -&gt; Settings-&gt;Languages &amp; Frameworks -&gt; PHP -&gt; Servers</code></p>
+<p>Add a new Server clicking on the plus (+) button and set the following fields:</p>
+<ul>
+<li><code>Name:</code> Must be the same name configured in Nginx <code>server_name</code> field</li>
+<li><code>Host:</code> Must be the same value configured in Nginx <code>server_name</code> field</li>
+<li><code>Port:</code> Should be 80 if you are using HTTP or 443 if you ar using HTTPS</li>
+<li><code>Debbuger:</code> Choose Xdebug</li>
+</ul>
+<p>After configure those values, check the option Use path mappings and configure the right paths. See the table below</p>
+<table>
+<thead>
+<tr>
+<th>File/Directory (Your computer - host)</th>
+<th>absolute path on the Servers (inside the container)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/path/to/current/project/</td>
+<td>/var/www/html/</td>
+</tr>
+<tr>
+<td>/path/to/current/project/pub/</td>
+<td>/var/www/html/pub/</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="xdebug-server" src="../img/xdebug-server.png" /></p>
+<p>4) Once that the Web Server has been configured, the PHP Web Aplication must be created, so go to Menu: <code>Run -&gt; Edit Configurations</code></p>
+<p>Create a new PHP Web Application clicking on the plus (+) button and select the PHP Web Application option, then set the following fields:</p>
+<ul>
+<li><code>Name:</code> Must be the same name configured in Nginx <code>server_name</code> field</li>
+<li><code>Server:</code> Select the server created on previous step</li>
+</ul>
+<p><img alt="php_web_application" src="../img/php_web_application.png" /></p>
+<p><strong>Configuring xdebug by Console (cli)</strong></p>
+<p>Using Xdebug by console requires to set <strong>PHP_IDE_CONFIG</strong> environment var with same Nginx server_name value.</p>
+<p>Open the <code>.env</code> file located in your root project folder and set the value like this sample:</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nv">PHP_IDE_CONFIG</span><span class="o">=</span><span class="nv">serverName</span><span class="o">=</span>magento2.com
+</code></pre></div></td></tr></table></div>
+
+<p><em>Where magento2.com is the server_name set previously in Nginx configuration</em></p>
+<p><img alt="ServerName" src="../img/ServerName.jpg" /></p>
+<p>Configuring the Xdebug php extension (ext-xdebug.ini)</p>
+<p>Plase located in your root project folder, execute the command: <code>warp php info</code>, you will see the location of <code>ext-xdebug.ini</code> file.</p>
+<p>Open the file, for example located in <code>.warp/docker/config/php/ext-xdebug.ini</code></p>
+<p>Finally, make sure to configure your xdebug correctly, the most important options are:</p>
+<ul>
+<li>xdebug.remote_enable=1</li>
+<li>xdebug.remote_port=9000</li>
+<li>xdebug.remote_connect_back=0</li>
+<li>xdebug.idekey='PHPSTORM'</li>
+<li>xdebug.remote_host=172.17.0.1</li>
+</ul>
+<p>The field <code>xdebug.remote_host</code> depends of your Operating System and your local configurations:
+<strong>Linux:</strong> The IP should be grabbed from Docker network interface, ussually called <code>docker0</code>
+You can get it running the command <code>ifconfig</code> for instance:</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>docker0:<span class="w"> </span><span class="nv">flags</span><span class="o">=</span><span class="m">4099</span><span class="w">  </span>mtu<span class="w"> </span><span class="m">1500</span>
+<span class="w">    </span>inet<span class="w"> </span><span class="m">172</span>.17.0.1<span class="w">  </span>netmask<span class="w"> </span><span class="m">255</span>.255.0.0<span class="w">  </span>broadcast<span class="w"> </span><span class="m">172</span>.17.255.255
+<span class="w">    </span>inet6<span class="w"> </span>fe80::42:49ff:fec6:dfe7<span class="w">  </span>prefixlen<span class="w"> </span><span class="m">64</span><span class="w">  </span>scopeid<span class="w"> </span>0x20
+<span class="w">    </span>ether<span class="w"> </span><span class="m">02</span>:42:49:c6:df:e7<span class="w">  </span>txqueuelen<span class="w"> </span><span class="m">0</span><span class="w">  </span><span class="o">(</span>Ethernet<span class="o">)</span>
+<span class="w">    </span>RX<span class="w"> </span>packets<span class="w"> </span><span class="m">72049</span><span class="w">  </span>bytes<span class="w"> </span><span class="m">4443463</span><span class="w"> </span><span class="o">(</span><span class="m">4</span>.4<span class="w"> </span>MB<span class="o">)</span>
+<span class="w">    </span>RX<span class="w"> </span>errors<span class="w"> </span><span class="m">0</span><span class="w">  </span>dropped<span class="w"> </span><span class="m">0</span><span class="w">  </span>overruns<span class="w"> </span><span class="m">0</span><span class="w">  </span>frame<span class="w"> </span><span class="m">0</span>
+<span class="w">    </span>TX<span class="w"> </span>packets<span class="w"> </span><span class="m">82000</span><span class="w">  </span>bytes<span class="w"> </span><span class="m">435500419</span><span class="w"> </span><span class="o">(</span><span class="m">435</span>.5<span class="w"> </span>MB<span class="o">)</span>
+<span class="w">    </span>TX<span class="w"> </span>errors<span class="w"> </span><span class="m">0</span><span class="w">  </span>dropped<span class="w"> </span><span class="m">0</span><span class="w"> </span>overruns<span class="w"> </span><span class="m">0</span><span class="w">  </span>carrier<span class="w"> </span><span class="m">0</span><span class="w">  </span>collisions<span class="w"> </span><span class="m">0</span>
+</code></pre></div></td></tr></table></div>
+
+<p><strong>Mac OS X:</strong> The IP should be <code>xdebug.remote_host=10.254.254.254</code> added as an alias following the next steps:</p>
+<p>1- Create the alias</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>sudo<span class="w"> </span>ifconfig<span class="w"> </span>lo0<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="m">10</span>.254.254.254
+</code></pre></div></td></tr></table></div>
+
+<p>2- Add the network configuration to OS X launch daemons, to create the alias automatically on system boot process.</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>sudo<span class="w"> </span>curl<span class="w"> </span>-o<span class="w"> </span>/Library/LaunchDaemons/net.summasolutions.docker_10254_alias.plist<span class="w"> </span>http://ct.summasolutions.net/warp-engine/osx/net.summasolutions.docker_10254_alias.plist
+</code></pre></div></td></tr></table></div>
+
+<hr />
+<h2 id="how-to-use-composer">How to use Composer</h2>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp composer install
+</code></pre></div></td></tr></table></div>
+
+<hr />
+<h2 id="setting-up-the-cron-jobs">Setting up the Cron Jobs</h2>
+<p><strong>Editing The Crontab File</strong></p>
+<ul>
+<li>To check whether you have a crontab file run the following command:</li>
+</ul>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp crontab -l
+</code></pre></div></td></tr></table></div>
+
+<ul>
+<li>To create or edit a crontab file run the following command:</li>
+</ul>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp crontab -e
+</code></pre></div></td></tr></table></div>
+
+<ul>
+<li>The file that opens has a lot of information but the key part is the example just before the end of the comments section (comments are denoted by lines beginning with #).</li>
+</ul>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code># m h dom mon dow command
+</code></pre></div></td></tr></table></div>
+
+<p>Example:</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="w"> </span><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;Cron run test&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">cron</span><span class="o">.</span><span class="n">log</span>
+</code></pre></div></td></tr></table></div>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>a blank line is required at the end of this file!</p>
+</div>
+<hr />
+<h2 id="installing-and-configuring-grunt">Installing and configuring Grunt</h2>
+<p><a href="https://summasolutions.github.io/warp-engine/features/grunt.html">features/grunt.html</a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2023 Best Worlds</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

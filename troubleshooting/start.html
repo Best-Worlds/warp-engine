@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Best Worlds">
+        <link rel="canonical" href="https://github.com/Best-Worlds/warp-engine/troubleshooting/start.html">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>warp start - Warp Framework</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link href="../css/extra.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">Warp Framework</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../index.html" class="nav-link">Introduction</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../workshop/workshop.html" class="nav-link">Workshop video</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Get Started <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../started/requirements.html" class="dropdown-item">Requirements</a>
+</li>
+                                    
+<li>
+    <a href="../started/usage.html" class="dropdown-item">Usage</a>
+</li>
+                                    
+<li>
+    <a href="../started/gandalf.html" class="dropdown-item">Gandalf</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Installation <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../installation/mac.html" class="dropdown-item">MacOS</a>
+</li>
+                                    
+<li>
+    <a href="../installation/linux.html" class="dropdown-item">Linux</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Features <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../features/services.html" class="dropdown-item">Services</a>
+</li>
+                                    
+<li>
+    <a href="../features/magento.html" class="dropdown-item">Magento</a>
+</li>
+                                    
+<li>
+    <a href="../features/oro.html" class="dropdown-item">Oro</a>
+</li>
+                                    
+<li>
+    <a href="../features/grunt.html" class="dropdown-item">Grunt</a>
+</li>
+                                    
+<li>
+    <a href="../features/redis.html" class="dropdown-item">Redis</a>
+</li>
+                                    
+<li>
+    <a href="../features/varnish.html" class="dropdown-item">Varnish</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../faq/index.html" class="nav-link">FAQs</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Troubleshooting <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="start.html" class="dropdown-item active">warp start</a>
+</li>
+                                    
+<li>
+    <a href="rsync.html" class="dropdown-item">warp rsync</a>
+</li>
+                                    
+<li>
+    <a href="db.html" class="dropdown-item">databases</a>
+</li>
+                                    
+<li>
+    <a href="elasticsearch.html" class="dropdown-item">elasticsearch</a>
+</li>
+                                    
+<li>
+    <a href="composer.html" class="dropdown-item">warp composer</a>
+</li>
+                                    
+<li>
+    <a href="gitignore.html" class="dropdown-item">.gitignore</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../faq/index.html" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="rsync.html" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/Best-Worlds/warp-engine/tree/master/wiki_docs/troubleshooting/start.md" class="nav-link">Edit on Best-Worlds/warp-engine
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#command-start" class="nav-link">command start</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#command-start_1" class="nav-link">command start</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="command-start">command <strong>start</strong></h2>
+<p><code>warp start</code></p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code>ERROR:<span class="w"> </span><span class="k">for</span><span class="w"> </span>test_php_1<span class="w">  </span>Cannot<span class="w"> </span>start<span class="w"> </span>service<span class="w"> </span>php:<span class="w"> </span>OCI<span class="w"> </span>runtime<span class="w"> </span>create<span class="w"> </span>failed:<span class="w"> </span>container_linux.go:346:<span class="w"> </span>
+starting<span class="w"> </span>container<span class="w"> </span>process<span class="w"> </span>caused<span class="w"> </span><span class="s2">&quot;process_linux.go:449: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/Users/matias/Desktop/test/.warp/docker/config/php/ext-ioncube.ini\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged/usr/local/etc/php/conf.d/10-php-ext-ioncube.ini\\\&quot; caused \\\&quot;not a directory\\\&quot;\&quot;&quot;</span>:<span class="w"> </span>
+unknown:<span class="w"> </span>Are<span class="w"> </span>you<span class="w"> </span>trying<span class="w"> </span>to<span class="w"> </span>mount<span class="w"> </span>a<span class="w"> </span>directory<span class="w"> </span>onto<span class="w"> </span>a<span class="w"> </span>file<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>vice-versa<span class="o">)</span>?<span class="w"> </span>Check<span class="w"> </span><span class="k">if</span><span class="w"> </span>the<span class="w"> </span>specified<span class="w"> </span>host<span class="w"> </span>path<span class="w"> </span>exists<span class="w"> </span>and<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>expected<span class="w"> </span><span class="nb">type</span>
+
+ERROR:<span class="w"> </span><span class="k">for</span><span class="w"> </span>php<span class="w">  </span>Cannot<span class="w"> </span>start<span class="w"> </span>service<span class="w"> </span>php:<span class="w"> </span>OCI<span class="w"> </span>runtime<span class="w"> </span>create<span class="w"> </span>failed:<span class="w"> </span>container_linux.go:346:<span class="w"> </span>starting<span class="w"> </span>container<span class="w"> </span>process<span class="w"> </span>caused<span class="w"> </span><span class="s2">&quot;process_linux.go:449: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/Users/matias/Desktop/test/.warp/docker/config/php/ext-ioncube.ini\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged/usr/local/etc/php/conf.d/10-php-ext-ioncube.ini\\\&quot; caused \\\&quot;not a directory\\\&quot;\&quot;&quot;</span>:<span class="w"> </span>
+unknown:<span class="w"> </span>Are<span class="w"> </span>you<span class="w"> </span>trying<span class="w"> </span>to<span class="w"> </span>mount<span class="w"> </span>a<span class="w"> </span>directory<span class="w"> </span>onto<span class="w"> </span>a<span class="w"> </span>file<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>vice-versa<span class="o">)</span>?<span class="w"> </span>Check<span class="w"> </span><span class="k">if</span><span class="w"> </span>the<span class="w"> </span>specified<span class="w"> </span>host<span class="w"> </span>path<span class="w"> </span>exists<span class="w"> </span>and<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>expected<span class="w"> </span><span class="nb">type</span>
+ERROR:<span class="w"> </span>Encountered<span class="w"> </span>errors<span class="w"> </span><span class="k">while</span><span class="w"> </span>bringing<span class="w"> </span>up<span class="w"> </span>the<span class="w"> </span>project.
+ERROR:<span class="w"> </span>No<span class="w"> </span>container<span class="w"> </span>found<span class="w"> </span><span class="k">for</span><span class="w"> </span>php_1
+Error<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span>daemon:<span class="w"> </span>mount<span class="w"> </span>/Users/matias/Desktop/test/.warp/docker/config/php/ext-ioncube.ini:/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged/usr/local/etc/php/conf.d/10-php-ext-ioncube.ini,<span class="w"> </span>flags:<span class="w"> </span>0x5000:<span class="w"> </span>not<span class="w"> </span>a<span class="w"> </span>directory
+ERROR:<span class="w"> </span>No<span class="w"> </span>container<span class="w"> </span>found<span class="w"> </span><span class="k">for</span><span class="w"> </span>php_1
+</code></pre></div></td></tr></table></div>
+
+<h3 id="possible-solutions">possible solutions</h3>
+<ul>
+<li>Are you trying to mount a directory onto a file (or vice-versa)</li>
+<li>Check the mapped files in <code>docker-compose-warp.yml</code>, if the files do not exist, they are created as directories.</li>
+</ul>
+<p>In this case, run the following commands:</p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>stop<span class="w"> </span>--hard
+warp<span class="w"> </span>reset
+warp<span class="w"> </span>init
+warp<span class="w"> </span>start
+</code></pre></div></td></tr></table></div>
+
+<blockquote>
+<p>some configuration files are created from .samples files</p>
+</blockquote>
+<hr />
+<h2 id="command-start_1">command <strong>start</strong></h2>
+<p><code>warp start</code></p>
+<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">ERROR</span><span class="o">:</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">web</span><span class="w">  </span><span class="n">Cannot</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">web</span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="s1">&#39;driver failed programming external connectivity on endpoint somesite-m2_web_1 (a24e3b084b74c2bfed4452eae4d1d837be4644565041c76ba4941899336ecf85): Error starting userland proxy: Bind for 0.0.0.0:80: unexpected error (Failure EADDRINUSE)&#39;</span>
+<span class="n">ERROR</span><span class="o">:</span><span class="w"> </span><span class="n">Encountered</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="n">bringing</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">project</span><span class="o">.</span>
+</code></pre></div></td></tr></table></div>
+
+<h3 id="possible-solutions_1">possible solutions</h3>
+<ul>
+<li>check apache or nginx is working on port 80/443</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2023 Best Worlds</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
