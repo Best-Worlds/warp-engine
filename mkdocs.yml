@@ -58,8 +58,7 @@ docs_dir: wiki_docs
 copyright: 'Copyright &copy; 2023 Best Worlds'
 
 theme:
-  name: 'materia'
-  nav_style: 'light'
+  name: 'readthedocs'
   logo: 'img/logo.png'
   favicon: 'img/favicon.ico'
   palette:
