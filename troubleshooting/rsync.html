@@ -141,12 +141,10 @@
                 <h1 id="warp-rsync">warp rsync</h1>
 <h2 id="command-rsync">command <strong>rsync</strong></h2>
 <p><code>warp rsync push --all</code></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>rsync:<span class="w"> </span>--chown<span class="o">=</span><span class="m">501</span>:33:<span class="w"> </span>unknown<span class="w"> </span>option
+<div class="codehilite"><pre><span></span><code>rsync:<span class="w"> </span>--chown<span class="o">=</span><span class="m">501</span>:33:<span class="w"> </span>unknown<span class="w"> </span>option
 rsync<span class="w"> </span>error:<span class="w"> </span>syntax<span class="w"> </span>or<span class="w"> </span>usage<span class="w"> </span>error<span class="w"> </span><span class="o">(</span>code<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span>/BuildRoot/Library/Caches/com.apple.xbs/Sources/rsync/rsync-52.200.1/rsync/main.c<span class="o">(</span><span class="m">1337</span><span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="nv">client</span><span class="o">=</span><span class="m">2</span>.6.9<span class="o">]</span>
 Completed<span class="w"> </span>copying<span class="w"> </span>all<span class="w"> </span>files<span class="w"> </span>from<span class="w"> </span>host<span class="w"> </span>to<span class="w"> </span>container
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h3 id="possible-solutions">possible solutions</h3>
 <ul>
@@ -156,23 +154,19 @@ Completed<span class="w"> </span>copying<span class="w"> </span>all<span class="
 <hr />
 <h2 id="command-rsync_1">command <strong>rsync</strong></h2>
 <p><code>warp rsync push &lt;file&gt;</code></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>Template<span class="w"> </span>parsing<span class="w"> </span>error:<span class="w"> </span>template:<span class="w"> </span>:1:3:<span class="w"> </span>executing<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>at<span class="w"> </span>&lt;index<span class="w"> </span><span class="o">(</span>index<span class="w"> </span>.NetworkSettings.Ports<span class="w"> </span><span class="s2">&quot;873/tcp&quot;</span><span class="o">)</span><span class="w"> </span><span class="m">0</span>&gt;:<span class="w"> </span>error<span class="w"> </span>calling<span class="w"> </span>index:<span class="w"> </span>index<span class="w"> </span>of<span class="w"> </span>untyped<span class="w"> </span>nil
+<div class="codehilite"><pre><span></span><code>Template<span class="w"> </span>parsing<span class="w"> </span>error:<span class="w"> </span>template:<span class="w"> </span>:1:3:<span class="w"> </span>executing<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>at<span class="w"> </span>&lt;index<span class="w"> </span><span class="o">(</span>index<span class="w"> </span>.NetworkSettings.Ports<span class="w"> </span><span class="s2">&quot;873/tcp&quot;</span><span class="o">)</span><span class="w"> </span><span class="m">0</span>&gt;:<span class="w"> </span>error<span class="w"> </span>calling<span class="w"> </span>index:<span class="w"> </span>index<span class="w"> </span>of<span class="w"> </span>untyped<span class="w"> </span>nil
 rsync:<span class="w"> </span>failed<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>localhost<span class="w"> </span><span class="o">(</span>::1<span class="o">)</span>:<span class="w"> </span>Connection<span class="w"> </span>refused<span class="w"> </span><span class="o">(</span><span class="m">61</span><span class="o">)</span>
 rsync:<span class="w"> </span>failed<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>localhost<span class="w"> </span><span class="o">(</span><span class="m">127</span>.0.0.1<span class="o">)</span>:<span class="w"> </span>Connection<span class="w"> </span>refused<span class="w"> </span><span class="o">(</span><span class="m">61</span><span class="o">)</span>
 rsync<span class="w"> </span>error:<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>socket<span class="w"> </span>IO<span class="w"> </span><span class="o">(</span>code<span class="w"> </span><span class="m">10</span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span>clientserver.c<span class="o">(</span><span class="m">127</span><span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="nv">sender</span><span class="o">=</span><span class="m">3</span>.1.3<span class="o">]</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h3 id="possible-solutions_1">possible solutions</h3>
 <ul>
 <li>Check the file <code>docker-compose-warp.yml</code>, if you have the container <code>appdata</code> like this:</li>
 </ul>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">  </span><span class="nt">appdata</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="nt">appdata</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alpine:latest</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>Run the following command to restart all configuration, after that you will have correctly configured  container <code>appdata</code></p>
 <div class="admonition warning">
@@ -180,14 +174,11 @@ rsync<span class="w"> </span>error:<span class="w"> </span>error<span class="w">
 <p>You are going to delete all project settings  <br />
 If you go ahead you must reconfigure the entire project</p>
 </div>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>stop<span class="w"> </span>--hard
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>stop<span class="w"> </span>--hard
 warp<span class="w"> </span>reset<span class="w"> </span>--hard
 war<span class="w"> </span>init
 warp<span class="w"> </span>start
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <hr />
               

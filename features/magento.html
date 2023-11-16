@@ -148,22 +148,15 @@
               
                 <h1 id="how-to-install-magento-with-warp">How to install Magento with WARP</h1>
 <h2 id="create-new-folder">Create new folder</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>mkdir magento_demo
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>mkdir magento_demo
+</code></pre></div>
 
 <h2 id="download-warp">Download WARP</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nx">curl</span><span class="w"> </span><span class="o">-</span><span class="nx">u</span><span class="w"> </span><span class="s">&quot;bestworlds:Sail7Seas&quot;</span><span class="w"> </span><span class="o">-</span><span class="nx">L</span><span class="w"> </span><span class="o">-</span><span class="nx">o</span><span class="w"> </span><span class="nx">warp</span><span class="w"> </span><span class="nx">http</span><span class="p">:</span><span class="c1">//packages.bestworlds.com/warp-engine/release/latest &amp;&amp; chmod 755 warp</span>
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code><span class="nx">curl</span><span class="w"> </span><span class="o">-</span><span class="nx">u</span><span class="w"> </span><span class="s">&quot;bestworlds:Sail7Seas&quot;</span><span class="w"> </span><span class="o">-</span><span class="nx">L</span><span class="w"> </span><span class="o">-</span><span class="nx">o</span><span class="w"> </span><span class="nx">warp</span><span class="w"> </span><span class="nx">http</span><span class="p">:</span><span class="c1">//packages.bestworlds.com/warp-engine/release/latest &amp;&amp; chmod 755 warp</span>
+</code></pre></div>
 
 <h2 id="configure-services">Configure services</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>warp init --mode-gandalf \
+<div class="codehilite"><pre><span></span><code>warp init --mode-gandalf \
     --framework=m2  \
     --vhost=local.magento2.com  \
     --php=7.2-fpm  \
@@ -171,35 +164,31 @@
     --elasticsearch=5.6.8  \
     --redis=3.2.10-alpine  \
     --mailhog
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h2 id="download-magento">Download Magento</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">warp</span><span class="w"> </span><span class="n">magento</span><span class="w"> </span><span class="o">--</span><span class="n">download</span><span class="w"> </span><span class="mf">2.3</span><span class="o">.</span><span class="mi">2</span>
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code><span class="n">warp</span><span class="w"> </span><span class="n">magento</span><span class="w"> </span><span class="o">--</span><span class="n">download</span><span class="w"> </span><span class="mf">2.3</span><span class="o">.</span><span class="mi">2</span>
+</code></pre></div>
 
 <h2 id="start-project">Start project</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp start
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp start
+</code></pre></div>
 
 <h2 id="install-magento">Install Magento</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp magento --install
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp magento --install
+</code></pre></div>
 
 <h2 id="create-access-to-website">Create access to website</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;127.0.0.1   local.magento2.com&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/hosts<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;127.0.0.1   local.magento2.com&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/hosts<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+</code></pre></div>
 
 <h3 id="requeriments">Requeriments</h3>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>Docker
+<div class="codehilite"><pre><span></span><code>Docker
 docker-compose
 
 docker-sync (mac only)
 rsync ^3.1.1
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h3 id="access-to-website-or-adminpanel">Access to website or admin/panel</h3>
 <table>

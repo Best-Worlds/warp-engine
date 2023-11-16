@@ -135,8 +135,8 @@
                 <h1 id="how-to-config-varnish-on-magento-2">How to config Varnish on Magento 2</h1>
 <h2 id="warp-command-for-config-varnish-on-magento">WARP command for config Varnish on Magento</h2>
 <p>this command configure varnish VCL on Magento</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>magento<span class="w"> </span>--config-varnish
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>magento<span class="w"> </span>--config-varnish
+</code></pre></div>
 
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -145,22 +145,21 @@
 <h2 id="enable-disable-service">Enable / Disable service</h2>
 <p>you can enable or disable <strong>varnish</strong> when configuring the wizard in developer mode</p>
 <p>1) Reset basic configuration</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>reset
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>reset
+</code></pre></div>
 
 <p>2) Enable varnish</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Configuring<span class="w"> </span>Varnish<span class="w"> </span>Service
+<div class="codehilite"><pre><span></span><code>Configuring<span class="w"> </span>Varnish<span class="w"> </span>Service
 Do<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span>varnish<span class="w"> </span>service?<span class="w"> </span><span class="o">[</span>y/N<span class="o">]</span><span class="w"> </span>y
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h2 id="varnish-help">varnish --help</h2>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>you can check <strong>warp varnish help</strong> with the following command</p>
 </div>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>varnish<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>varnish<span class="w"> </span>--help
+</code></pre></div>
 
 <p><a href="https://devdocs.magento.com/guides/v2.4/config-guide/varnish/config-varnish-magento.html">Ref. Magento Docs:</a></p>
               

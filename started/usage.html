@@ -133,27 +133,11 @@
 </div>
 <p><strong>example:</strong></p>
 <p>If you run the following command:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>--help
+</code></pre></div>
 
 <p>You can see detailed help for each command</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code>Usage:
+<div class="codehilite"><pre><span></span><code>Usage:
 <span class="w"> </span>warp<span class="w"> </span>mysql<span class="w"> </span><span class="nb">command</span><span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>arguments<span class="o">]</span>
 
 
@@ -170,26 +154,14 @@ Available<span class="w"> </span>commands:
 
 Help:
 <span class="w"> </span>warp<span class="w"> </span>mysql<span class="w"> </span>dump<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>And each sub-command has a <code>--help</code> option.</p>
 <p><strong>example:</strong></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>dump<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>dump<span class="w"> </span>--help
+</code></pre></div>
 
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code>Usage:
+<div class="codehilite"><pre><span></span><code>Usage:
 <span class="w"> </span>warp<span class="w"> </span>mysql<span class="w"> </span>dump<span class="w"> </span><span class="o">[</span>db_name<span class="o">]</span><span class="w"> </span>&gt;<span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
 
 
@@ -202,20 +174,20 @@ Example:
 <span class="w"> </span>warp<span class="w"> </span>mysql<span class="w"> </span>dump<span class="w"> </span>warp_db<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/DEFINER[ ]*=[ ]*[^*]*\*/\*/&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>&gt;<span class="w"> </span>/path/to/save/backup/warp_db.sql.gz
 <span class="w"> </span>warp<span class="w"> </span>mysql<span class="w"> </span>dump<span class="w"> </span>warp_db<span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span><span class="p">|</span><span class="w"> </span>pv<span class="w"> </span>&gt;<span class="w"> </span>/path/to/save/backup/warp_db.sql.gz
 <span class="w"> </span>warp<span class="w"> </span>mysql<span class="w"> </span>dump<span class="w"> </span>warp_db<span class="w"> </span>&gt;<span class="w"> </span>/path/to/save/backup/warp_db.sql
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p><strong>the same option for:</strong></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>info<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>info<span class="w"> </span>--help
+</code></pre></div>
 
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>connect<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>connect<span class="w"> </span>--help
+</code></pre></div>
 
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>import<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>import<span class="w"> </span>--help
+</code></pre></div>
 
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>ssh<span class="w"> </span>--help
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>mysql<span class="w"> </span>ssh<span class="w"> </span>--help
+</code></pre></div>
               
             </div>
           </div><footer>

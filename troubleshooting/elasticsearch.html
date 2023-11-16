@@ -152,10 +152,9 @@
               
                 <h1 id="elasticsearch">Elasticsearch</h1>
 <h2 id="elasticsearch-6x">Elasticsearch 6.x</h2>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>ERROR:<span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>bootstrap<span class="w"> </span>checks<span class="w"> </span>failed
+<div class="codehilite"><pre><span></span><code>ERROR:<span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>bootstrap<span class="w"> </span>checks<span class="w"> </span>failed
 <span class="o">[</span><span class="m">1</span><span class="o">]</span>:<span class="w"> </span>max<span class="w"> </span>file<span class="w"> </span>descriptors<span class="w"> </span><span class="o">[</span><span class="m">4096</span><span class="o">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>elasticsearch<span class="w"> </span>process<span class="w"> </span>is<span class="w"> </span>too<span class="w"> </span>low,<span class="w"> </span>increase<span class="w"> </span>to<span class="w"> </span>at<span class="w"> </span>least<span class="w"> </span><span class="o">[</span><span class="m">65536</span><span class="o">]</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h3 id="possible-solutions">possible solutions</h3>
 <p>Set <code>vm.max_map_count</code> to at least <code>262144</code></p>
@@ -163,14 +162,13 @@
 <p>How you set <code>vm.max_map_count</code> depends on your platform:</p>
 <h2 id="linux">Linux</h2>
 <p>The <code>vm.max_map_count</code> setting should be set permanently in <code>/etc/sysctl.conf</code>:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>grep<span class="w"> </span>vm.max_map_count<span class="w"> </span>/etc/sysctl.conf
+<div class="codehilite"><pre><span></span><code>grep<span class="w"> </span>vm.max_map_count<span class="w"> </span>/etc/sysctl.conf
 vm.max_map_count<span class="o">=</span><span class="m">262144</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>To apply the setting on a live system, run:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>sysctl<span class="w"> </span>-w<span class="w"> </span>vm.max_map_count<span class="o">=</span><span class="m">262144</span>
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>sysctl<span class="w"> </span>-w<span class="w"> </span>vm.max_map_count<span class="o">=</span><span class="m">262144</span>
+</code></pre></div>
 
 <hr />
 <h2 id="macos-with-docker-for-mac">macOS with <a href="https://docs.docker.com/docker-for-mac">Docker for Mac</a></h2>
@@ -178,35 +176,33 @@ vm.max_map_count<span class="o">=</span><span class="m">262144</span>
 <ul>
 <li>From the command line, run:</li>
 </ul>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>screen<span class="w"> </span>~/Library/Containers/com.docker.docker/Data/vms/0/tty
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>screen<span class="w"> </span>~/Library/Containers/com.docker.docker/Data/vms/0/tty
+</code></pre></div>
 
 <ul>
 <li>Press enter and use<code>sysctl</code> to configure <code>vm.max_map_count</code>:</li>
 </ul>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>sysctl<span class="w"> </span>-w<span class="w"> </span>vm.max_map_count<span class="o">=</span><span class="m">262144</span>
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>sysctl<span class="w"> </span>-w<span class="w"> </span>vm.max_map_count<span class="o">=</span><span class="m">262144</span>
+</code></pre></div>
 
 <h3 id="ref-elasticseearch-docs">Ref. <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-prod-prerequisites">elasticseearch docs.</a></h3>
 <hr />
 <h2 id="elasticsearch-7x">Elasticsearch 7.x</h2>
 <h3 id="command-warp-ps">command <strong>warp ps</strong></h3>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>&lt;project-name&gt;_elasticsearch_1<span class="w">   </span>/usr/local/bin/docker-entr<span class="w"> </span>...<span class="w">   </span>Exit<span class="w"> </span><span class="m">78</span>
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>&lt;project-name&gt;_elasticsearch_1<span class="w">   </span>/usr/local/bin/docker-entr<span class="w"> </span>...<span class="w">   </span>Exit<span class="w"> </span><span class="m">78</span>
+</code></pre></div>
 
 <h3 id="command-warp-logs-elasticsearch">command <strong>warp logs elasticsearch</strong></h3>
 <p><em>Native controller process has stopped</em></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>elasticsearch_1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;server&quot;</span>,<span class="w"> </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2020-07-08T21:14:26,575Z&quot;</span>,<span class="w"> </span><span class="s2">&quot;level&quot;</span>:<span class="w"> </span><span class="s2">&quot;INFO&quot;</span>,<span class="w"> </span><span class="s2">&quot;component&quot;</span>:<span class="w"> </span><span class="s2">&quot;o.e.x.m.p.NativeController&quot;</span>,<span class="w"> </span><span class="s2">&quot;cluster.name&quot;</span>:<span class="w"> </span><span class="s2">&quot;docker-cluster&quot;</span>,<span class="w"> </span><span class="s2">&quot;node.name&quot;</span>:<span class="w"> </span><span class="s2">&quot;7ba16b86247e&quot;</span>,<span class="w"> </span><span class="s2">&quot;message&quot;</span>:<span class="w"> </span><span class="s2">&quot;Native controller process has stopped - no new native processes can be started&quot;</span><span class="w"> </span><span class="o">}</span>
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>elasticsearch_1<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;server&quot;</span>,<span class="w"> </span><span class="s2">&quot;timestamp&quot;</span>:<span class="w"> </span><span class="s2">&quot;2020-07-08T21:14:26,575Z&quot;</span>,<span class="w"> </span><span class="s2">&quot;level&quot;</span>:<span class="w"> </span><span class="s2">&quot;INFO&quot;</span>,<span class="w"> </span><span class="s2">&quot;component&quot;</span>:<span class="w"> </span><span class="s2">&quot;o.e.x.m.p.NativeController&quot;</span>,<span class="w"> </span><span class="s2">&quot;cluster.name&quot;</span>:<span class="w"> </span><span class="s2">&quot;docker-cluster&quot;</span>,<span class="w"> </span><span class="s2">&quot;node.name&quot;</span>:<span class="w"> </span><span class="s2">&quot;7ba16b86247e&quot;</span>,<span class="w"> </span><span class="s2">&quot;message&quot;</span>:<span class="w"> </span><span class="s2">&quot;Native controller process has stopped - no new native processes can be started&quot;</span><span class="w"> </span><span class="o">}</span>
+</code></pre></div>
 
 <h3 id="possible-solutions_1">possible solutions</h3>
 <p>Check if you have environment variable <code>discovery.type</code> inside the file <code>docker-compose-warp.yml.sample</code> in <strong>elasticsearch</strong> service, like this:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">discovery.type=single-node</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;ES_JAVA_OPTS=-Xms${ES_MEMORY}</span><span class="nv"> </span><span class="s">-Xmx${ES_MEMORY}&quot;</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>If you don't have that setting you need to add it and follow these steps:</p>
 <ul>

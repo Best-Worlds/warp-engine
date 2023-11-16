@@ -130,27 +130,11 @@
 <blockquote>
 <p>The easiest way is to create a file with name install_docker.sh, paste the script below and give it execute permissions.</p>
 </blockquote>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>chmod +x install_docker.sh
+<div class="codehilite"><pre><span></span><code>chmod +x install_docker.sh
 sudo ./install_docker.sh
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
 
 <span class="c1"># https://docs.docker.com/install/linux/docker-ce/ubuntu/</span>
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>software-properties-common
@@ -166,7 +150,7 @@ sudo<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </sp
 <span class="c1"># https://docs.docker.com/install/linux/linux-postinstall/</span>
 sudo<span class="w"> </span>groupadd<span class="w"> </span>docker
 sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
               
             </div>
           </div><footer>

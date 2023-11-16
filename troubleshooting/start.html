@@ -130,16 +130,7 @@
               
                 <h2 id="command-start">command <strong>start</strong></h2>
 <p><code>warp start</code></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code>ERROR:<span class="w"> </span><span class="k">for</span><span class="w"> </span>test_php_1<span class="w">  </span>Cannot<span class="w"> </span>start<span class="w"> </span>service<span class="w"> </span>php:<span class="w"> </span>OCI<span class="w"> </span>runtime<span class="w"> </span>create<span class="w"> </span>failed:<span class="w"> </span>container_linux.go:346:<span class="w"> </span>
+<div class="codehilite"><pre><span></span><code>ERROR:<span class="w"> </span><span class="k">for</span><span class="w"> </span>test_php_1<span class="w">  </span>Cannot<span class="w"> </span>start<span class="w"> </span>service<span class="w"> </span>php:<span class="w"> </span>OCI<span class="w"> </span>runtime<span class="w"> </span>create<span class="w"> </span>failed:<span class="w"> </span>container_linux.go:346:<span class="w"> </span>
 starting<span class="w"> </span>container<span class="w"> </span>process<span class="w"> </span>caused<span class="w"> </span><span class="s2">&quot;process_linux.go:449: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/Users/matias/Desktop/test/.warp/docker/config/php/ext-ioncube.ini\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged/usr/local/etc/php/conf.d/10-php-ext-ioncube.ini\\\&quot; caused \\\&quot;not a directory\\\&quot;\&quot;&quot;</span>:<span class="w"> </span>
 unknown:<span class="w"> </span>Are<span class="w"> </span>you<span class="w"> </span>trying<span class="w"> </span>to<span class="w"> </span>mount<span class="w"> </span>a<span class="w"> </span>directory<span class="w"> </span>onto<span class="w"> </span>a<span class="w"> </span>file<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>vice-versa<span class="o">)</span>?<span class="w"> </span>Check<span class="w"> </span><span class="k">if</span><span class="w"> </span>the<span class="w"> </span>specified<span class="w"> </span>host<span class="w"> </span>path<span class="w"> </span>exists<span class="w"> </span>and<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>expected<span class="w"> </span><span class="nb">type</span>
 
@@ -149,7 +140,7 @@ ERROR:<span class="w"> </span>Encountered<span class="w"> </span>errors<span cla
 ERROR:<span class="w"> </span>No<span class="w"> </span>container<span class="w"> </span>found<span class="w"> </span><span class="k">for</span><span class="w"> </span>php_1
 Error<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span>daemon:<span class="w"> </span>mount<span class="w"> </span>/Users/matias/Desktop/test/.warp/docker/config/php/ext-ioncube.ini:/var/lib/docker/overlay2/4f3d14d1f3d7755705914496fd518389d2510081d6d1f0e1e41155da236c638b/merged/usr/local/etc/php/conf.d/10-php-ext-ioncube.ini,<span class="w"> </span>flags:<span class="w"> </span>0x5000:<span class="w"> </span>not<span class="w"> </span>a<span class="w"> </span>directory
 ERROR:<span class="w"> </span>No<span class="w"> </span>container<span class="w"> </span>found<span class="w"> </span><span class="k">for</span><span class="w"> </span>php_1
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h3 id="possible-solutions">possible solutions</h3>
 <ul>
@@ -157,14 +148,11 @@ ERROR:<span class="w"> </span>No<span class="w"> </span>container<span class="w"
 <li>Check the mapped files in <code>docker-compose-warp.yml</code>, if the files do not exist, they are created as directories.</li>
 </ul>
 <p>In this case, run the following commands:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>stop<span class="w"> </span>--hard
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>stop<span class="w"> </span>--hard
 warp<span class="w"> </span>reset
 warp<span class="w"> </span>init
 warp<span class="w"> </span>start
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <blockquote>
 <p>some configuration files are created from .samples files</p>
@@ -172,10 +160,9 @@ warp<span class="w"> </span>start
 <hr />
 <h2 id="command-start_1">command <strong>start</strong></h2>
 <p><code>warp start</code></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">ERROR</span><span class="o">:</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">web</span><span class="w">  </span><span class="n">Cannot</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">web</span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="s1">&#39;driver failed programming external connectivity on endpoint somesite-m2_web_1 (a24e3b084b74c2bfed4452eae4d1d837be4644565041c76ba4941899336ecf85): Error starting userland proxy: Bind for 0.0.0.0:80: unexpected error (Failure EADDRINUSE)&#39;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">ERROR</span><span class="o">:</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">web</span><span class="w">  </span><span class="n">Cannot</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">web</span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="s1">&#39;driver failed programming external connectivity on endpoint somesite-m2_web_1 (a24e3b084b74c2bfed4452eae4d1d837be4644565041c76ba4941899336ecf85): Error starting userland proxy: Bind for 0.0.0.0:80: unexpected error (Failure EADDRINUSE)&#39;</span>
 <span class="n">ERROR</span><span class="o">:</span><span class="w"> </span><span class="n">Encountered</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="n">bringing</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">project</span><span class="o">.</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <h3 id="possible-solutions_1">possible solutions</h3>
 <ul>

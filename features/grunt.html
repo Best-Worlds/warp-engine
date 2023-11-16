@@ -131,45 +131,31 @@
                 <h1 id="how-to-config-grunt-on-magento-2">How to config Grunt on Magento 2</h1>
 <p>Just 5 steps, you can config <strong>Grunt</strong> </p>
 <p>1) From the Magento_root directory, copy and paste the contents of the following files:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>cp<span class="w"> </span>package.json.sample<span class="w"> </span>package.json
+<div class="codehilite"><pre><span></span><code>cp<span class="w"> </span>package.json.sample<span class="w"> </span>package.json
 cp<span class="w"> </span>Gruntfile.js.sample<span class="w"> </span>Gruntfile.js
 cp<span class="w"> </span>grunt-config.json.sample<span class="w"> </span>grunt-config.json
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>2) Install Grunt Cli</p>
 <p>Inside the container, run the following command in a command prompt:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>warp<span class="w"> </span>php<span class="w"> </span>ssh<span class="w"> </span>--root
-</code></pre></div></td></tr></table></div>
+<div class="codehilite"><pre><span></span><code>warp<span class="w"> </span>php<span class="w"> </span>ssh<span class="w"> </span>--root
+</code></pre></div>
 
 <p>After that install <strong>npm</strong> and <strong>grunt</strong>. </p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>npm<span class="w"> </span>install
+<div class="codehilite"><pre><span></span><code>npm<span class="w"> </span>install
 npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>grunt-cli
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>3) Modify file <strong>grunt-config.json</strong> like that:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="o">{</span>
+<div class="codehilite"><pre><span></span><code><span class="o">{</span>
 <span class="w">    </span><span class="s2">&quot;themes&quot;</span>:<span class="w"> </span><span class="s2">&quot;dev/tools/grunt/configs/themes&quot;</span>
 <span class="o">}</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>4) Config theme in file <strong>dev/tools/grunt/configs/themes.js</strong></p>
 <p>by default you have <strong>luma</strong>, and you can use example to add <strong>warp</strong></p>
 <p>Example path: <strong>app/design/frontend/WarpTheme/default</strong></p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code>warp: {
+<div class="codehilite"><pre><span></span><code>warp: {
         area: &#39;frontend&#39;,
         name: &#39;WarpTheme/default&#39;,
         locale: &#39;en_US&#39;,
@@ -179,13 +165,12 @@ npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </s
         ],
         dsl: &#39;less&#39;
     },
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>5) Ready!!, every time we need to compile content, we run console:</p>
-<div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nv">warp</span><span class="w"> </span><span class="nv">grunt</span><span class="w"> </span><span class="k">exec</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">warp</span><span class="w"> </span><span class="nv">grunt</span><span class="w"> </span><span class="k">exec</span>
 <span class="nv">warp</span><span class="w"> </span><span class="nv">grunt</span><span class="w"> </span><span class="nv">less</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div>
 
 <p>After that, you can see:</p>
 <p><img alt="grunt-exec" src="../img/grunt.jpg" /></p>
