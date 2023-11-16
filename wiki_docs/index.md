@@ -3,7 +3,7 @@
 ## Overview
 
 
-```
+```bash
   ___ ____     ____        _____
  ____      ___      ______      ___
       _  ___  __    ___        ____
@@ -42,7 +42,7 @@
 
 Run the following command in your root project folder:
 
-```shell script
+```bash
 curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
 ```
 
@@ -50,7 +50,7 @@ curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-en
 
 Run the following command in your root project folder:
 
-```
+```bash
 curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp && ./warp update
 ```
 
@@ -58,7 +58,7 @@ curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-en
 
 After download the warp binary file, you should initialize your dockerized infraestrucutre running the following command:
 
-```
+```bash
 ./warp init	
 ```
 
