@@ -1,36 +1,16 @@
 html {
-    /* csslint ignore:start */
-    /* The nav header is 3.5rem high, plus 20px for the margin-top of the
+    /* The nav header is 5.01875rem high, plus 20px for the margin-top of the
        main container. */
-    scroll-padding-top: calc(3.5rem + 20px);
-    /* csslint ignore:end */
-}
-
-/* Replacement for `body { background-attachment: fixed; }`, which has
-   performance issues when scrolling on large displays. See #1394. */
-body::before {
-    content: ' ';
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: #f8f8f8;
-    background: url(../img/grid.png) repeat-x;
-    will-change: transform;
-    z-index: -1;
+    scroll-padding-top: calc(5.01875rem + 20px);
 }
 
 body > .container {
     margin-top: 20px;
-    min-height: 400px;
 }
 
-.navbar.fixed-top { /* csslint allow: adjoining-classes */
-    /* csslint ignore:start */
+.navbar.fixed-top {
     position: -webkit-sticky;
     position: sticky;
-    /* csslint ignore:end */
 }
 
 .source-links {
@@ -39,59 +19,36 @@ body > .container {
 
 .col-md-9 img {
     max-width: 100%;
-    display: inline-block;
-    padding: 4px;
-    line-height: 1.428571429;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin: 20px auto 30px auto;
 }
 
-h1 {
-    color: #444;
-    font-weight: 400;
-    font-size: 42px;
+pre, code {
+    color: #000;
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
-h2, h3, h4, h5, h6 {
-    color: #444;
-    font-weight: 300;
-}
-
-hr {
-    border-top: 1px solid #aaa;
-}
-
-pre, .rst-content tt {
-    max-width: 100%;
-    background: #fff;
-    border: solid 1px #e1e4e5;
-    color: #333;
-    overflow-x: auto;
-}
-
-code.code-large, .rst-content tt.code-large {
-    font-size: 90%;
+pre {
+    padding: 1em;
 }
 
 code {
-    padding: 2px 5px;
-    background: #fff;
-    border: solid 1px #e1e4e5;
-    color: #333;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    padding: 3px;
 }
 
 pre code {
-    display: block;
-    background: transparent;
-    border: none;
-    white-space: pre;
-    word-wrap: normal;
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 12px;
+    box-shadow: none;
+    /* Override styles from hljs theme */
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+a code {
+    color: #2196f3;
+}
+
+a:hover code {
+    color: #0a6ebd;
 }
 
 kbd {
@@ -102,14 +59,6 @@ kbd {
     border-radius: 3px;
     -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
     box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
-}
-
-a code {
-    color: #2FA4E7;
-}
-
-a:hover code, a:focus code {
-    color: #157AB5;
 }
 
 footer {
@@ -123,6 +72,53 @@ footer {
     margin-top: 60px;
 }
 
+/* Style the admonitions. */
+
+.admonition {
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.admonition > .admonition-title {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    background: rgba(0,0,0,0.03);
+    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+    font-size: 1rem;
+}
+
+.admonition > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.admonition > *:not(.admonition-title):first-of-type,
+.admonition > .admonition-title + * {
+    margin-top: 1rem;
+}
+
+.admonition > *:last-child {
+    padding-bottom: 1rem;
+}
+
+/* Style each kind of admonition. */
+
+.admonition.note > .admonition-title {
+    background: #9c27b0;
+    color: #fff;
+}
+
+.admonition.warning > .admonition-title {
+    background: #ff9800;
+    color: #fff;
+}
+
+.admonition.danger > .admonition-title {
+    background: #de1b22;
+    color: #fff;
+}
+
 /*
  * Side navigation
  *
@@ -130,20 +126,16 @@ footer {
  * sections of docs content.
  */
 
-.bs-sidebar.affix { /* csslint allow: adjoining-classes */
-    /* csslint ignore:start */
+.bs-sidebar.affix {
     position: -webkit-sticky;
     position: sticky;
-    /* csslint ignore:end */
-    /* The nav header is 3.5rem high, plus 20px for the margin-top of the
+    /* The nav header is 5.01875rem high, plus 20px for the margin-top of the
        main container. */
-    top: calc(3.5rem + 20px);
+    top: calc(5.01875rem + 20px);
 }
 
-.bs-sidebar.card { /* csslint allow: adjoining-classes */
+.bs-sidebar.card {
     padding: 0;
-    max-height: 90%;
-    overflow-y: auto;
 }
 
 /* Toggle (vertically flip) sidebar collapse icon */
@@ -155,7 +147,7 @@ footer {
     transform: scale(1, -1);
 }
 
-.bs-sidebar .navbar-toggler.collapsed span { /* csslint allow: adjoining-classes */
+.bs-sidebar .navbar-toggler.collapsed span {
     -moz-transform: scale(1, 1);
     -webkit-transform: scale(1, 1);
     -o-transform: scale(1, 1);
@@ -203,66 +195,26 @@ footer {
 }
 
 .headerlink {
-    font-family: FontAwesome;
-    font-size: 14px;
     display: none;
     padding-left: .5em;
 }
 
-h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, h4:hover .headerlink, h5:hover .headerlink, h6:hover .headerlink {
+h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, h4:hover .headerlink, h5:hover .headerlink, h6:hover .headerlink{
     display:inline-block;
 }
 
-blockquote {
-    padding-left: 10px;
-    border-left: 4px solid #e6e6e6;
-}
-
-.admonition, details {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    text-align: left;
-}
-
-.admonition.note, details.note { /* csslint allow: adjoining-classes */
-    color: #2e6b89;
-    background-color: #e2f0f7;
-    border-color: #bce8f1;
-}
-
-.admonition.warning, details.warning { /* csslint allow: adjoining-classes */
-    color: #7a6032;
-    background-color: #fffae5;
-    border-color: #fbeed5;
-}
-
-.admonition.danger, details.danger { /* csslint allow: adjoining-classes */
-    color: #7f3130;
-    background-color: #fde3e3;
-    border-color: #eed3d7;
-}
-
-.admonition-title, summary {
-    font-weight: bold;
-    text-align: left;
-}
-
-.admonition>p:last-child, details>p:last-child {
-    margin-bottom: 0;
-}
-
 @media (max-width: 991.98px) {
-    .navbar-collapse.show { /* csslint allow: adjoining-classes */
+    .navbar-collapse.show {
         overflow-y: auto;
-        max-height: calc(100vh - 3.5rem);
+        max-height: calc(100vh - 5.01875rem);
     }
 }
 
-.dropdown-item.open { /* csslint allow: adjoining-classes */
-    color: #fff;
-    background-color: #2FA4E7;
+.dropdown-item.open {
+    color: #141414;
+    background: #f8f9fa -webkit-gradient(linear, left top, left bottom,
+                                         from(#f9fafb), to(#f8f9fa)) repeat-x;
+    background: #f8f9fa linear-gradient(180deg, #f9fafb, #f8f9fa) repeat-x;
 }
 
 .dropdown-submenu > .dropdown-menu {
@@ -286,13 +238,13 @@ blockquote {
 }
 
 .dropdown-submenu:hover > a::after {
-    border-left-color: #fff;
+    border-left-color: #404040;
 }
 
 @media (min-width: 992px) {
     .dropdown-menu {
         overflow-y: auto;
-        max-height: calc(100vh - 3.5rem);
+        max-height: calc(100vh - 5.01875rem);
     }
 
     .dropdown-submenu {
@@ -300,26 +252,10 @@ blockquote {
     }
 
     .dropdown-submenu > .dropdown-menu {
-        /* csslint ignore:start */
         position: fixed !important;
-        /* csslint ignore:end */
         margin-top: -9px;
         margin-left: -2px;
         border-width: 1px;
         padding: 0.5rem 0;
     }
-
-    .dropdown-submenu.pull-left { /* csslint allow: adjoining-classes */
-        float: none;
-    }
-
-    .dropdown-submenu.pull-left > .dropdown-menu { /* csslint allow: adjoining-classes */
-        left: -100%;
-        margin-left: 10px;
-    }
-}
-
-@media print {
-    /* Remove sidebar when print */
-    .col-md-3 { display: none; }
 }
