@@ -42,8 +42,7 @@ then
         i=$((i+1))
     done
 else
-    echo "${ERROR_FORMAT}Nothing to commit."
-    exit 1
+    exit 0
 fi
 
 echo "${PROCESSING_FORMAT}\nChecking PHP syntax..."
