@@ -1,4 +1,4 @@
-# Summa docs: Material + MkDocs, an excellent static site generator geared towards project documentation.
+# BW Warp docs: Material + MkDocs, an excellent static site generator geared towards project documentation.
 # It is built using Google's Material Design guidelines
 
 #--------------------------------
@@ -8,11 +8,11 @@
 # Project information
 site_name: Warp Framework
 site_description: Speeding up! your development infraestructure
-site_author: Summa Solutions
-site_url: https://summasolutions.github.io/warp-engine/
+site_author: Best Worlds
+site_url: https://github.com/Best-Worlds/warp-engine/
 
-repo_name: 'summasolutions/warp-engine'
-repo_url: 'https://github.com/SummaSolutions/warp-engine/'
+repo_name: 'Best-Worlds/warp-engine'
+repo_url: 'https://github.com/Best-Worlds/warp-engine/'
 edit_uri: 'tree/master/wiki_docs'
 
 # Main menu
@@ -55,15 +55,15 @@ docs_dir: wiki_docs
 #-------------------------------
 
 # Copyright
-copyright: 'Copyright &copy; 2019 Summa Solutions'
+copyright: 'Copyright &copy; 2023 Best Worlds'
 
 theme:
-  name: material
-  logo: 'img/summa_white.png'
+  name: bootstrap
+  logo: 'img/logo.png'
   favicon: 'img/favicon.ico'
   palette:
-    primary: 'light green'
-    accent: 'green'
+    primary: '#7cb342'
+    accent: '#237199'
   font:
     text: 'Ubuntu'
     code: 'Ubuntu Mono'
@@ -75,8 +75,9 @@ extra_css:
 
 extra:
   social:
+    -
     - type: 'globe'
-      link: 'https://warp-engine.github.io/'
+      link: 'https://github.com/Best-Worlds/warp-engine'
 
 
 # Extensions

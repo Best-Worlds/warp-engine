@@ -157,9 +157,3 @@ Example:
 !!! warning
     a blank line is required at the end of this file!
 
-----------
-
-## Installing and configuring Grunt
-
-[features/grunt.html](https://summasolutions.github.io/warp-engine/features/grunt.html)
-

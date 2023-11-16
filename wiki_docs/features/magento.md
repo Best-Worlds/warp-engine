@@ -10,7 +10,7 @@ mkdir magento_demo
 ## Download WARP
 
 ```
-curl -L -o warp http://ct.summasolutions.net/warp-engine/warp && chmod 755 warp
+curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
 ```
 
 ## Configure services
