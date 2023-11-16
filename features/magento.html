@@ -1,211 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <meta name="author" content="Best Worlds">
-        <link rel="canonical" href="https://github.com/Best-Worlds/warp-engine/features/magento.html">
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Magento - Warp Framework</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
-        <link href="../css/extra.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
-
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="../index.html">Warp Framework</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="navitem">
-                                <a href="../index.html" class="nav-link">Introduction</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="../workshop/workshop.html" class="nav-link">Workshop video</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Get Started <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../started/requirements.html" class="dropdown-item">Requirements</a>
-</li>
-                                    
-<li>
-    <a href="../started/usage.html" class="dropdown-item">Usage</a>
-</li>
-                                    
-<li>
-    <a href="../started/gandalf.html" class="dropdown-item">Gandalf</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Installation <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../installation/mac.html" class="dropdown-item">MacOS</a>
-</li>
-                                    
-<li>
-    <a href="../installation/linux.html" class="dropdown-item">Linux</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Features <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="services.html" class="dropdown-item">Services</a>
-</li>
-                                    
-<li>
-    <a href="magento.html" class="dropdown-item active">Magento</a>
-</li>
-                                    
-<li>
-    <a href="oro.html" class="dropdown-item">Oro</a>
-</li>
-                                    
-<li>
-    <a href="grunt.html" class="dropdown-item">Grunt</a>
-</li>
-                                    
-<li>
-    <a href="redis.html" class="dropdown-item">Redis</a>
-</li>
-                                    
-<li>
-    <a href="varnish.html" class="dropdown-item">Varnish</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="navitem">
-                                <a href="../faq/index.html" class="nav-link">FAQs</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Troubleshooting <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../troubleshooting/start.html" class="dropdown-item">warp start</a>
-</li>
-                                    
-<li>
-    <a href="../troubleshooting/rsync.html" class="dropdown-item">warp rsync</a>
-</li>
-                                    
-<li>
-    <a href="../troubleshooting/db.html" class="dropdown-item">databases</a>
-</li>
-                                    
-<li>
-    <a href="../troubleshooting/elasticsearch.html" class="dropdown-item">elasticsearch</a>
-</li>
-                                    
-<li>
-    <a href="../troubleshooting/composer.html" class="dropdown-item">warp composer</a>
-</li>
-                                    
-<li>
-    <a href="../troubleshooting/gitignore.html" class="dropdown-item">.gitignore</a>
-</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="services.html" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="oro.html" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/Best-Worlds/warp-engine/tree/master/wiki_docs/features/magento.md" class="nav-link">Edit on Best-Worlds/warp-engine
-                                    </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
-
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Best Worlds" /><link rel="canonical" href="https://github.com/Best-Worlds/warp-engine/features/magento.html" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Magento - Warp Framework</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/extra.css" rel="stylesheet" />
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-level="1"><a href="#how-to-install-magento-with-warp" class="nav-link">How to install Magento with WARP</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#create-new-folder" class="nav-link">Create new folder</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#download-warp" class="nav-link">Download WARP</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#configure-services" class="nav-link">Configure services</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#download-magento" class="nav-link">Download Magento</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#start-project" class="nav-link">Start project</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#install-magento" class="nav-link">Install Magento</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#create-access-to-website" class="nav-link">Create access to website</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Magento";
+        var mkdocs_page_input_path = "features/magento.md";
+        var mkdocs_page_url = "/Best-Worlds/warp-engine/features/magento.html";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
 
-<h1 id="how-to-install-magento-with-warp">How to install Magento with WARP</h1>
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html">
+          <img src="../img/logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../workshop/workshop.html">Workshop video</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Get Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../started/requirements.html">Requirements</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../started/usage.html">Usage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../started/gandalf.html">Gandalf</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/mac.html">MacOS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/linux.html">Linux</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Features</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="services.html">Services</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="magento.html">Magento</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#create-new-folder">Create new folder</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#download-warp">Download WARP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configure-services">Configure services</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#download-magento">Download Magento</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#start-project">Start project</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-magento">Install Magento</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#create-access-to-website">Create access to website</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#requeriments">Requeriments</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#access-to-website-or-adminpanel">Access to website or admin/panel</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="oro.html">Oro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="grunt.html">Grunt</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="redis.html">Redis</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="varnish.html">Varnish</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../faq/index.html">FAQs</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/start.html">warp start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/rsync.html">warp rsync</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/db.html">databases</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/elasticsearch.html">elasticsearch</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/composer.html">warp composer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/gitignore.html">.gitignore</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Warp Framework</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Features</li>
+      <li class="breadcrumb-item active">Magento</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Best-Worlds/warp-engine/tree/master/wiki_docs/features/magento.md">Edit on Best-Worlds/warp-engine</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="how-to-install-magento-with-warp">How to install Magento with WARP</h1>
 <h2 id="create-new-folder">Create new folder</h2>
 <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>mkdir magento_demo
 </code></pre></div></td></tr></table></div>
@@ -286,84 +227,53 @@ rsync ^3.1.1
 <td>Password123</td>
 </tr>
 </tbody>
-</table></div>
+</table>
+              
             </div>
-        </div>
-
-        <footer class="col-md-12">
-            <hr>
-                <p>Copyright &copy; 2023 Best Worlds</p>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../js/jquery-3.6.0.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script>
-            var base_url = "..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../js/base.js"></script>
-        <script src="../search/main.js"></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="services.html" class="btn btn-neutral float-left" title="Services"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="oro.html" class="btn btn-neutral float-right" title="Oro">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2023 Best Worlds</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
         </div>
-    </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="services.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="oro.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
 
-    </body>
+</body>
 </html>
