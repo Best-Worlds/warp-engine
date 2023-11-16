@@ -42,7 +42,7 @@
 
 Run the following command in your root project folder:
 
-```
+```shell script
 curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
 ```
 
