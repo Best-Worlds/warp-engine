@@ -1,8 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
-# Styles configuration
-ERROR_FORMAT="\e[0;31m"
-NEUTRAL_FORMAT="\e[1;37m"
+CHERRY_PICK_HASH=`git rev-parse --quiet --verify CHERRY_PICK_HEAD`
+MERGE_HASH=`git rev-parse --quiet --verify MERGE_HEAD`
+
+if [ ! -z "${CHERRY_PICK_HASH}" ] || [ ! -z "${MERGE_HASH}" ]
+then
+    exit 0
+fi
+
+ROOT_DIR=`git rev-parse --show-toplevel`
+
+. "$ROOT_DIR/.warp/lib/message.sh"
 
 # Hook parameters
 COMMIT_MSG=$(cat $1)
@@ -11,10 +19,8 @@ REGEX_NO_TKT_RULE=$(echo ${COMMIT_MSG} | grep -E "^NO_TKT:(|$)")
 
 if [ -z "${REGEX_TKT_RULE}" ] && [ -z "${REGEX_NO_TKT_RULE}" ]
 then
-    echo "${ERROR_FORMAT}"
-    echo "The commit message has a wrong format. Your message: '${COMMIT_MSG}'\n\nIt must start with '[TICKET_ID]:' (eg: '3487515:') or 'NO_TKT:' (exact match)". Fix it to move forward with commit process.
+    warp_message_error "The commit message has a wrong format. Your message: '${COMMIT_MSG}'\n\nIt must start with '[TICKET_ID]:' (eg: '3487515:') or 'NO_TKT:' (exact match)". Fix it to move forward with commit process.
     exit 1
 else
-    echo "${NEUTRAL_FORMAT}"
     exit 0
 fi
