@@ -17,7 +17,7 @@ LOG_DIR="${PROJECTPATH}/var/log/git"
 CURRENT_DATE=$(date '+%Y-%m-%d_%H-%M-%S')
 LOG_FILENAME="${CURRENT_DATE}.log"
 
-STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php`
+STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD`
 NOT_STAGED_FILES_CMD=`git status -s | awk '/MM / { print $2 }'`
 
 if [ "$#" -eq 1 ]
@@ -77,6 +77,12 @@ warp_message ""
 
 for FILE in $SFILES
 do
+  FILE_EXTENSION=${FILE##*.}
+    if [ ! "${FILE_EXTENSION}" = "php" ]
+    then
+        continue
+    fi
+
 	docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "php -l -d display_errors=0 ${FILE}"
 	if [ $? != 0 ]
 	then
