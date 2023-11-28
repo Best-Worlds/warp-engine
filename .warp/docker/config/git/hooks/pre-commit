@@ -169,7 +169,7 @@ do
         then
             SQUIZ_STANDARD_FILES+=("${FILE}")
         else
-            warp_message_info2 "Unrecognizible extension [{$FILE_EXTENSION}] on the standards for the file ${FILE}. Skipping."
+            warp_message_info "Unrecognizible extension [$FILE_EXTENSION] on the standards for the file ${FILE}. Skipping."
         fi
         # Skipping syntax validation
         continue
@@ -223,8 +223,14 @@ then
     then
 
         echo -e  "Coding Standards errors have been detected. Trying to correct them automatically..." >> ${LOG_FILE}
-        MAGENTO2_STANDARD_AUTOMATIC_FIXES_FLAG=$(fix_standard "${MAGENTO2_STANDARD}")
-        SQUIZ_STANDARD_AUTOMATIC_FIXES_FLAG=$(fix_standard "${SQUIZ_STANDARD}")
+        if [ "${MAGENTO2_STANDARD_VALIDATION_RESULT_FLAG}" != 0 ]
+        then
+            MAGENTO2_STANDARD_AUTOMATIC_FIXES_FLAG=$(fix_standard "${MAGENTO2_STANDARD}")
+        fi
+        if [ ! -z "${SQUIZ_STANDARD_FILES[*]}" ]
+        then
+            SQUIZ_STANDARD_AUTOMATIC_FIXES_FLAG=$(fix_standard "${SQUIZ_STANDARD}")
+        fi
 
         # No errors to be fixed automatically
         if [ "${MAGENTO2_STANDARD_AUTOMATIC_FIXES_FLAG}" -eq 0 ] && [ "${SQUIZ_STANDARD_AUTOMATIC_FIXES_FLAG}" -eq 0 ]
