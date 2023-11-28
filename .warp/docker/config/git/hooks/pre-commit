@@ -4,18 +4,95 @@ ROOT_DIR=`git rev-parse --show-toplevel`
 
 . "$ROOT_DIR/.warp/variables.sh"
 . "$ROOT_DIR/.warp/lib/message.sh"
+. "$ROOT_DIR/.warp/lib/env.sh"
 
+# Functions
+validate_standard () {
+    local STANDARD=$1
+    local LOCAL_FLAG
+    local FILES_VARIABLE_NAME="${STANDARD^^}_STANDARD_FILES"
+    local FILE_EXTENSIONS_VARIABLE_NAME="${STANDARD^^}_STANDARD_EXTENSIONS"
+
+    # shellcheck disable=SC2155
+    local ERROR_SEVERITY=$(get_severity_value ${STANDARD} "error")
+    # shellcheck disable=SC2155
+    local WARNING_SEVERITY=$(get_severity_value ${STANDARD} "warning")
+
+    local FILES
+    FILES=$(eval echo "\${${FILES_VARIABLE_NAME}[*]}")
+
+    local FILE_EXTENSIONS
+    FILE_EXTENSIONS=$(eval echo "\${${FILE_EXTENSIONS_VARIABLE_NAME}[*]}")
+    FILE_EXTENSIONS=${FILE_EXTENSIONS// /,}
+
+    # Validate Magento2 standard files
+    echo -e "Running ${STANDARD} (${FILE_EXTENSIONS}) Coding standards validations..." >> ${LOG_FILE}
+    docker-compose -f "${DOCKERCOMPOSEFILE}" exec -u www-data -T php /bin/bash -c "vendor/bin/phpcs --basepath=/var/www/html/ --error-severity=${ERROR_SEVERITY} --warning-severity=${WARNING_SEVERITY} --standard=${STANDARD} ${FILES}" >> ${LOG_FILE}
+
+    if [ $? -eq 0 ]
+    then
+        LOCAL_FLAG=0
+        echo -e "\nNo Coding Standard errors detected.\n" >> ${LOG_FILE}
+    else
+        LOCAL_FLAG=1
+    fi
+
+    echo ${LOCAL_FLAG}
+}
+
+fix_standard () {
+    local STANDARD=$1
+    local FILES_VARIABLE_NAME="${STANDARD^^}_STANDARD_FILES"
+
+    # shellcheck disable=SC2155
+    local ERROR_SEVERITY=$(get_severity_value ${STANDARD} "error")
+    # shellcheck disable=SC2155
+    local WARNING_SEVERITY=$(get_severity_value ${STANDARD} "warning")
+
+    local FILES
+    FILES=$(eval echo "\${${FILES_VARIABLE_NAME}[*]}")
+
+    # Validate Magento2 standard files
+    echo -e "\nTrying to fix ${STANDARD} Coding standards errors automatically..." >> ${LOG_FILE}
+    docker-compose -f "${DOCKERCOMPOSEFILE}" exec -u www-data -T php /bin/bash -c "vendor/bin/phpcbf --basepath=/var/www/html/ --error-severity=${ERROR_SEVERITY} --warning-severity=${WARNING_SEVERITY} --standard=${STANDARD} ${FILES}" >> ${LOG_FILE}
+
+    echo $?
+}
+
+get_severity_value () {
+    local STANDARD=$1
+    local TYPE=$2
+
+    local SEVERITY_VALUE
+    SEVERITY_VALUE="$(warp_env_read_var "GIT_CS_${STANDARD^^}_STANDARD_${TYPE^^}_SEVERITY")"
+    if [ -z ${SEVERITY_VALUE} ]
+    then
+        SEVERITY_VALUE=1
+    fi
+
+    echo ${SEVERITY_VALUE}
+}
 # Hook parameters
 COMMIT_MSG=$(git rev-parse --abbrev-ref HEAD)
-
-# Basic Configurations
-DOCKER_COMPOSE_FILE="docker-compose-warp.yml"
-STANDARD="Magento2"
 
 # Directory Configurations
 LOG_DIR="${PROJECTPATH}/var/log/git"
 CURRENT_DATE=$(date '+%Y-%m-%d_%H-%M-%S')
 LOG_FILENAME="${CURRENT_DATE}.log"
+
+# Magento2 Standard Information
+MAGENTO2_STANDARD="Magento2"
+MAGENTO2_STANDARD_EXTENSIONS=( "php" "phtml" "xml" "less" )
+MAGENTO2_STANDARD_FILES=( )
+MAGENTO2_STANDARD_VALIDATION_RESULT_FLAG=0
+MAGENTO2_STANDARD_AUTOMATIC_FIXES_FLAG=0
+
+# Squiz Standard Information
+SQUIZ_STANDARD="squiz"
+SQUIZ_STANDARD_EXTENSIONS=( "js" )
+SQUIZ_STANDARD_FILES=( )
+SQUIZ_STANDARD_VALIDATION_RESULT_FLAG=0
+SQUIZ_STANDARD_AUTOMATIC_FIXES_FLAG=0
 
 STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD`
 NOT_STAGED_FILES_CMD=`git status -s | awk '/MM / { print $2 }'`
@@ -77,25 +154,39 @@ warp_message ""
 
 for FILE in $SFILES
 do
-  FILE_EXTENSION=${FILE##*.}
-    if [ ! "${FILE_EXTENSION}" = "php" ]
+    FILES="$FILES $FILE"
+
+    FILE_EXTENSION=${FILE##*.}
+    if [[ "${MAGENTO2_STANDARD_EXTENSIONS[*]}" =~ ${FILE_EXTENSION} ]]
     then
+        MAGENTO2_STANDARD_FILES+=("${FILE}")
+        if [[ ! "${FILE_EXTENSION}" = "php" ]]
+        then
+            continue
+        fi
+    else
+        if [[ "${SQUIZ_STANDARD_EXTENSIONS[*]}" =~ ${FILE_EXTENSION} ]]
+        then
+            SQUIZ_STANDARD_FILES+=("${FILE}")
+        else
+            warp_message_info2 "Unrecognizible extension [{$FILE_EXTENSION}] on the standards for the file ${FILE}. Skipping."
+        fi
+        # Skipping syntax validation
         continue
     fi
 
-	docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "php -l -d display_errors=0 ${FILE}"
+	docker-compose -f "${DOCKERCOMPOSEFILE}" exec -u www-data -T php /bin/bash -c "php -l -d display_errors=0 ${FILE}"
 	if [ $? != 0 ]
 	then
 	    warp_message ""
 	    warp_message_error "Fix the syntax errors before commit."
 		exit 1
 	fi
-	FILES="$FILES $FILE"
+
 done
 
 if [ "$FILES" != "" ]
 then
-
     # Creates log directory within git override folder
     if [ ! -d ${LOG_DIR} ]; then
         mkdir ${LOG_DIR} && chmod 775 ${LOG_DIR}
@@ -114,19 +205,29 @@ then
     LOG_FILE=${FULL_COMMIT_LOG_DIR}/${CURRENT_FILE_NUMBER}-${LOG_FILENAME}
 
     warp_message ""
-    TMP_MESSAGE="Running ${STANDARD} Coding standards validations..."
-    warp_message_warn "${TMP_MESSAGE}" && echo "${TMP_MESSAGE}" >> ${LOG_FILE}
+    warp_message_warn "Running Coding Standard validations..."
 
-    docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "vendor/bin/phpcs --standard=${STANDARD} $FILES" >> ${LOG_FILE}
+    if [ ! -z "${MAGENTO2_STANDARD_FILES[*]}" ]
+    then
+        MAGENTO2_STANDARD_VALIDATION_RESULT_FLAG=$(validate_standard "${MAGENTO2_STANDARD}")
+    fi
 
-    if [ $? != 0 ]
+    # Validate squiz standard files
+    if [ ! -z "${SQUIZ_STANDARD_FILES[*]}" ]
+    then
+        SQUIZ_STANDARD_VALIDATION_RESULT_FLAG=$(validate_standard "${SQUIZ_STANDARD}")
+    fi
+
+    # If errors/warnings were detected
+    if [ "${MAGENTO2_STANDARD_VALIDATION_RESULT_FLAG}" != 0 ] || [ "${SQUIZ_STANDARD_VALIDATION_RESULT_FLAG}" != 0 ]
     then
 
-        echo -e  "Coding standards errors have been detected. Trying to correct them automatically..." >> ${LOG_FILE}
-        docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "vendor/bin/phpcbf --standard=${STANDARD} $FILES" >> ${LOG_FILE}
+        echo -e  "Coding Standards errors have been detected. Trying to correct them automatically..." >> ${LOG_FILE}
+        MAGENTO2_STANDARD_AUTOMATIC_FIXES_FLAG=$(fix_standard "${MAGENTO2_STANDARD}")
+        SQUIZ_STANDARD_AUTOMATIC_FIXES_FLAG=$(fix_standard "${SQUIZ_STANDARD}")
 
         # No errors to be fixed automatically
-        if [ $? = 0 ]
+        if [ "${MAGENTO2_STANDARD_AUTOMATIC_FIXES_FLAG}" -eq 0 ] && [ "${SQUIZ_STANDARD_AUTOMATIC_FIXES_FLAG}" -eq 0 ]
         then
             warp_message ""
             warp_message_error "Review the report in order to fix the remaining errors => ${LOG_FILE}"
@@ -134,12 +235,20 @@ then
         fi
 
         # Errors has been automatically corrected. Re-adding files and re-run coding standards validation
-        git add $FILES
+        git add ${FILES}
 
-        echo -e "\nRunning ${STANDARD} Coding standards validations again..." >> ${LOG_FILE}
-        docker-compose -f ${DOCKER_COMPOSE_FILE} exec -u www-data -T php /bin/bash -c "vendor/bin/phpcs --standard=${STANDARD} $FILES" >> ${LOG_FILE}
+        echo -e "\nRunning Coding Standard validations again...\n" >> ${LOG_FILE}
 
-        if [ $? != 0 ]
+        if [ "${MAGENTO2_STANDARD_VALIDATION_RESULT_FLAG}" != 0 ]
+        then
+            MAGENTO2_STANDARD_VALIDATION_RESULT_FLAG=$(validate_standard "${MAGENTO2_STANDARD}")
+        fi
+        if [ "${SQUIZ_STANDARD_VALIDATION_RESULT_FLAG}" != 0 ]
+        then
+            SQUIZ_STANDARD_VALIDATION_RESULT_FLAG=$(validate_standard "${SQUIZ_STANDARD}")
+        fi
+
+        if [ "${MAGENTO2_STANDARD_VALIDATION_RESULT_FLAG}" != 0 ] || [ "${SQUIZ_STANDARD_VALIDATION_RESULT_FLAG}" != 0 ]
         then
             warp_message ""
             warp_message_error "Review the report in order to fix the remaining errors => ${LOG_FILE}"
