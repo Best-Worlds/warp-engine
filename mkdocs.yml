@@ -33,6 +33,7 @@ nav:
     - Grunt: 'features/grunt.md'
     - Redis: 'features/redis.md'
     - Varnish: 'features/varnish.md'
+    - Code Review: 'features/code-review.md'
   - FAQs: 'faq/index.md'
   - Troubleshooting: 
     - warp start: 'troubleshooting/start.md'
