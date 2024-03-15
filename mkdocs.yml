@@ -88,4 +88,4 @@ markdown_extensions:
         linenums: false
 
 ## mkdocs build --site-dir docs
-
+site_dir: 'docs/'
