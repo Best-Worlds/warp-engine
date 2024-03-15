@@ -43,7 +43,7 @@
 Run the following command in your root project folder:
 
 ```bash
-curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
+curl -u "bestworlds:Sail7Seas" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
 ```
 
 ## Command line update
@@ -51,7 +51,7 @@ curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-en
 Run the following command in your root project folder:
 
 ```bash
-curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp && ./warp update
+curl -u "bestworlds:Sail7Seas" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp && ./warp update
 ```
 
 ## Getting started
