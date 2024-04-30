@@ -1,6 +1,6 @@
 FROM magento/magento-cloud-docker-php:7.2-cli-1.1
 
-LABEL maintainer="Matias Anoniz <matiasanoniz@gmail.com>"
+LABEL maintainer="Bestworlds <dev@bestworlds.com>"
 
 ENV MAGENTO_VERSION 2.3.4
 ENV INSTALL_DIR /var/www/html/${MAGENTO_VERSION}-ee

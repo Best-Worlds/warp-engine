@@ -1,6 +1,6 @@
 FROM php:7.2.24-fpm
 
-LABEL maintainer="Matias Anoniz <matiasanoniz@gmail.com>"
+LABEL maintainer="Bestworlds <dev@bestworlds.com>"
 
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --enable-intl --enable-opcache --enable-zip
 

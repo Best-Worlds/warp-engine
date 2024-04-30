@@ -1,6 +1,6 @@
 FROM postgres:9.6.15
 
-LABEL maintainer="Matias Anoniz <matiasanoniz@gmail.com>"
+LABEL maintainer="Bestworlds <dev@bestworlds.com>"
 
 RUN apt-get update && apt-get install -y postgresql-contrib
 

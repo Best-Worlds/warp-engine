@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.11
 
-LABEL maintainer="Matias Anoniz <matiasanoniz@gmail.com>"
+LABEL maintainer="Bestworlds <dev@bestworlds.com>"
 
 ENV MAGENTO_VERSION 2.2.9
 ENV INSTALL_DIR /var/www/html/${MAGENTO_VERSION}-sample
