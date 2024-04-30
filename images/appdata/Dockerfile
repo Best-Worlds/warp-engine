@@ -1,14 +1,14 @@
-FROM debian:jessie
+FROM debian:bullseye
 
-LABEL maintainer="Matias Anoniz <matiasanoniz@gmail.com>"
+LABEL maintainer="Bestworlds <dev@bestworlds.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
-    --no-install-recommends rsync \
-&& apt-get clean autoclean \
-&& apt-get autoremove -y \
-&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update
+RUN apt-get install -y  --no-install-recommends rsync
+RUN apt-get clean autoclean
+RUN apt-get autoremove -y
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 873
 
