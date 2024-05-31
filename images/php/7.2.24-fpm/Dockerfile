@@ -113,7 +113,7 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
 
 # Magento 2.3.2 
 # https://github.com/magento/magento2/issues/23405 
-RUN echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list 
+RUN echo "deb http://deb.debian.org/debian bullseye-backports main" >> /etc/apt/sources.list
 
 RUN rm -f /usr/local/etc/php/conf.d/*sodium.ini \
   && rm -f /usr/local/lib/php/extensions/*/*sodium.so \
