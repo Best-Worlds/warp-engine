@@ -1,6 +1,6 @@
 
   elasticsearch:
-    image: summasolutions/elasticsearch:${ES_VERSION}
+    image: devbestworlds/elasticsearch:${ES_VERSION}
     env_file: .env
     ports:
       - "9200"

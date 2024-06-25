@@ -21,7 +21,7 @@ then
         cp -R $PROJECTPATH/.warp/setup/varnish/config/varnish $CONFIGFOLDER/varnish
     fi;
 
-    warp_message_info2 "You can check the available versions of varnish here $(warp_message_info '[ https://hub.docker.com/r/summasolutions/varnish/tags/ ]')"
+    warp_message_info2 "You can check the available versions of varnish here $(warp_message_info '[ https://hub.docker.com/r/devbestworlds/varnish/tags/ ]')"
     
     while : ; do
         varnish_version=$( warp_question_ask_default "Choose a version of varnish: $(warp_message_info [5.2.1]) " "5.2.1" )

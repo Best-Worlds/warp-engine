@@ -12,9 +12,9 @@ if [ $(warp_check_is_running) = false ]; then
 fi
 
 #echo "Create Project"
-#docker run --rm -ti  -v $(pwd):/app -w /app summasolutions/php:7.1-fpm composer create-project --no-install --ignore-platform-reqs --repository=https://repo.magento.com/ magento/project-enterprise-edition:2.3.2
-#docker run --rm -ti  -v $(pwd):/app -w /app summasolutions/php:7.1-fpm composer create-project --no-install --ignore-platform-reqs --repository=https://repo.magento.com/ magento/project-community-edition:2.3.2
-#docker run --rm -ti  -v ~/.composer:/root/.composer -v $(pwd):/app -w /app summasolutions/php:7.1-fpm composer create-project --no-install --ignore-platform-reqs --repository=https://repo.magento.com/ magento/project-community-edition:2.3.2
+#docker run --rm -ti  -v $(pwd):/app -w /app devbestworlds/php:7.1-fpm composer create-project --no-install --ignore-platform-reqs --repository=https://repo.magento.com/ magento/project-enterprise-edition:2.3.2
+#docker run --rm -ti  -v $(pwd):/app -w /app devbestworlds/php:7.1-fpm composer create-project --no-install --ignore-platform-reqs --repository=https://repo.magento.com/ magento/project-community-edition:2.3.2
+#docker run --rm -ti  -v ~/.composer:/root/.composer -v $(pwd):/app -w /app devbestworlds/php:7.1-fpm composer create-project --no-install --ignore-platform-reqs --repository=https://repo.magento.com/ magento/project-community-edition:2.3.2
 
 ADMIN_USER="admin"
 ADMIN_PASS="Password123"

@@ -22,7 +22,7 @@ function build_help_usage()
 
     warp_message_info "Example:"
     warp_message " warp build --no-cache --tag image:tag path/to/folder/with/Dockerfile"
-    warp_message " warp build --no-cache --tag summasolutions/magento:2.3.4-ee images/magento2/2.3.4-ee"
+    warp_message " warp build --no-cache --tag devbestworlds/magento:2.3.4-ee images/magento2/2.3.4-ee"
     warp_message ""    
 }
 

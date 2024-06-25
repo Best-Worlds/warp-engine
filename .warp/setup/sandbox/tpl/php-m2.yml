@@ -1,6 +1,6 @@
 
   php:
-    image: summasolutions/php:${PHP_70}
+    image: devbestworlds/php:${PHP_70}
     hostname: "php70-fpm"
     volumes_from:
       - appdata
@@ -12,7 +12,7 @@
       - back
 
   php71:
-    image: summasolutions/php:${PHP_71}
+    image: devbestworlds/php:${PHP_71}
     hostname: "php71-fpm"
     volumes:
       - ./.warp/docker/config/php71/php.ini:/usr/local/etc/php/php.ini
@@ -36,7 +36,7 @@
       - back
 
   php72:
-    image: summasolutions/php:${PHP_72}
+    image: devbestworlds/php:${PHP_72}
     hostname: "php72-fpm"
     volumes:
       - ./.warp/docker/config/php72/php.ini:/usr/local/etc/php/php.ini

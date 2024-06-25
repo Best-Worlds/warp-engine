@@ -3,7 +3,7 @@
 version: "2"
 services:
   seleniumhub:
-    image: summasolutions/selenium:hub
+    image: devbestworlds/selenium:hub
     #image: selenium/hub
     env_file: .env
     links:

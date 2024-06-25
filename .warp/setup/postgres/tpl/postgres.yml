@@ -1,6 +1,6 @@
 
   postgres:
-    image: summasolutions/postgres:${POSTGRES_VERSION}
+    image: devbestworlds/postgres:${POSTGRES_VERSION}
     env_file: .env
     ports: 
       - "${POSTGRES_BINDED_PORT}:5432"

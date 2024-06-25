@@ -11,9 +11,9 @@
     command: /bin/sh /startup.sh
 
   2.2.9-ce:
-    image: summasolutions/magento:2.2.9-ce
+    image: devbestworlds/magento:2.2.9-ce
     env_file: .env
 
   2.3.1-ce:
-    image: summasolutions/magento:2.3.1-ce
+    image: devbestworlds/magento:2.3.1-ce
     env_file: .env

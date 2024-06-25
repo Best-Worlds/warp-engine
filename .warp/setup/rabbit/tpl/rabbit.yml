@@ -1,6 +1,6 @@
 
   rabbitmq:
-    image: summasolutions/rabbitmq:${RABBIT_VERSION}
+    image: devbestworlds/rabbitmq:${RABBIT_VERSION}
     env_file: .env
     hostname: "rabbit"
     ports: 

@@ -16,7 +16,7 @@ done
 if [ "$respuesta_rabbit" = "Y" ] || [ "$respuesta_rabbit" = "y" ]
 then
 
-    warp_message_info2 "You can check the Rabbit versions available here: $(warp_message_info '[ https://hub.docker.com/r/summasolutions/rabbitmq/tags ]')"
+    warp_message_info2 "You can check the Rabbit versions available here: $(warp_message_info '[ https://hub.docker.com/r/devbestworlds/rabbitmq/tags ]')"
   
     resp_version_rabbit=$( warp_question_ask_default "What version of Rabbit do you want to use? $(warp_message_info [3.7-management]) " "3.7-management" )
     warp_message_info2 "Selected Rabbit version: $resp_version_rabbit, in the internal port 5672 $(warp_message_bold 'rabbitmq:5672')"

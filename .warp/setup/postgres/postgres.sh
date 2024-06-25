@@ -16,7 +16,7 @@ done
 if [ "$respuesta_psql" = "Y" ] || [ "$respuesta_psql" = "y" ]
 then
 
-    warp_message_info2 "You can check the available versions of PostgreSQL here: $(warp_message_info '[ https://hub.docker.com/r/summasolutions/postgres/tags/ ]')"
+    warp_message_info2 "You can check the available versions of PostgreSQL here: $(warp_message_info '[ https://hub.docker.com/r/devbestworlds/postgres/tags/ ]')"
     while : ; do
         psql_version=$( warp_question_ask_default "Choose the PostgreSQL engine version: $(warp_message_info [9.6.15]) " "9.6.15" )
     

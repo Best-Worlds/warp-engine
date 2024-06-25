@@ -21,7 +21,7 @@
     ## END proxy_network_ip ##
 
   varnish:
-    image: summasolutions/varnish:${VARNISH_VERSION}
+    image: devbestworlds/varnish:${VARNISH_VERSION}
     ports:
       - "80"
     links:
