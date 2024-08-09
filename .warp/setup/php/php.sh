@@ -1,5 +1,7 @@
 #!/bin/bash +x
 
+. "$PROJECTPATH/.warp/lib/dockerhub.sh"
+
 echo ""
 warp_message_info "Configuring PHP Service"
 
@@ -17,14 +19,15 @@ if [ "$respuesta_php" = "Y" ] || [ "$respuesta_php" = "y" ]
 then
     warp_message_info2 "You can check the available PHP versions from: $(warp_message_info '[ https://hub.docker.com/r/devbestworlds/php/tags/ ]')"
     while : ; do
-        php_version=$( warp_question_ask_default "Set the PHP version of your project: $(warp_message_info [7.2-fpm]) " "7.2-fpm" )
+        last_tag=$(get_docker_image_last_tag 'php')
+        php_version=$( warp_question_ask_default "Set the PHP version of your project: $(warp_message_info ["${last_tag}"]) " "${last_tag}" )
     
         case $php_version in
-        '5.6-fpm'|'7.0-fpm'|'7.1-fpm'|'7.2-fpm'|'7.3-fpm'|'7.4-fpm'|'7.1.17-fpm'|'7.1.26-fpm'|'7.2.24-fpm')
+        "$(get_docker_image_tags 'php')")
             break
         ;;
         *)
-            warp_message_info2 "Selected: $php_version, the available versions are 5.6-fpm, 7.0-fpm, 7.1-fpm, 7.2-fpm, 7.3-fpm, 7.4-fpm, 7.1.17-fpm, 7.1.26-fpm, 7.2.24-fpm"
+            warp_message_info2 "Selected: $php_version, $(get_docker_image_tags 'php')"
         ;;
         esac        
     done

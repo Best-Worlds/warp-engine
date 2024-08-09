@@ -3,6 +3,7 @@
     # IMPORT HELP
 
     . "$PROJECTPATH/.warp/bin/php_help.sh"
+    . "$PROJECTPATH/.warp/lib/dockerhub.sh"
 
 function php_info()
 {
@@ -24,7 +25,7 @@ function php_info()
         warp_message "php.ini file:               $(warp_message_info $PROJECTPATH/.warp/docker/config/php/php.ini)"
         warp_message "Cron file:                  $(warp_message_info $PROJECTPATH/.warp/docker/config/crontab/cronfile)"
         warp_message ""
-        warp_message_warn " - In order to configure Xdebug, please check FAQs here: $(warp_message_bold 'http://ct.summasolutions.net/warp-engine/?#anchorFAQs')"
+        warp_message_warn " - In order to configure Xdebug, please check FAQs here: $(warp_message_bold 'https://packages.bestworlds.com/warp-engine/docs/faq/index.html')"
         
         warp_message ""
     fi
@@ -80,11 +81,11 @@ function php_switch()
     else
         php_version=$1
         case $php_version in
-        '5.6-fpm'|'7.0-fpm'|'7.1-fpm'|'7.2-fpm'|'7.3-fpm'|'7.4-fpm'|'7.1.17-fpm'|'7.1.26-fpm'|'7.2.24-fpm')
+            "$(get_docker_image_tags 'php')")
             warp_message_info2 "PHP new version selected: $php_version"
         ;;
         *)
-            warp_message_info2 "Selected: $php_version, the available versions are 5.6-fpm, 7.0-fpm, 7.1-fpm, 7.2-fpm, 7.3-fpm, 7.4-fpm, 7.1.17-fpm, 7.1.26-fpm, 7.2.24-fpm"
+            warp_message_info2 "Selected: $php_version, $(get_docker_image_tags 'php')"
             warp_message_warn "for help run: $(warp_message_bold './warp php switch --help')"
             exit 1;
         ;;
@@ -182,6 +183,10 @@ function php_main()
         switch)
             shift 1
             php_switch $*
+        ;;
+
+        tags)
+            get_docker_image_tags_switch 'php'
         ;;
 
         -h | --help)
