@@ -80,17 +80,16 @@ function php_switch()
         warp_message_warn "for help run: $(warp_message_bold './warp php switch --help')"
     else
         php_version=$1
-        case $php_version in
-            "$(get_docker_image_tags 'php')")
+        image_tags_switch=$(get_docker_image_tags_switch 'php')
+        image_tags=$(get_docker_image_tags 'php')
+        if [[ "$php_version" =~ ^($image_tags_switch)$ ]]; then
             warp_message_info2 "PHP new version selected: $php_version"
-        ;;
-        *)
-            warp_message_info2 "Selected: $php_version, $(get_docker_image_tags 'php')"
+        else
+            warp_message_info2 "Selected: $php_version, $image_tags"
             warp_message_warn "for help run: $(warp_message_bold './warp php switch --help')"
             exit 1;
-        ;;
-        esac
-        
+        fi
+
         if [ -d $CONFIGFOLDER/php ]
         then
             warp_message "* reset php configurations files $(warp_message_ok [ok])"
@@ -183,10 +182,6 @@ function php_main()
         switch)
             shift 1
             php_switch $*
-        ;;
-
-        tags)
-            get_docker_image_tags_switch 'php'
         ;;
 
         -h | --help)

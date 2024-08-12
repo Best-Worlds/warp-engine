@@ -17,22 +17,20 @@ done
 
 if [ "$respuesta_php" = "Y" ] || [ "$respuesta_php" = "y" ]
 then
-    warp_message_info2 "You can check the available PHP versions from: $(warp_message_info '[ https://hub.docker.com/r/devbestworlds/php/tags/ ]')"
+    warp_message_info2 "You can check the available PHP versions from: $(warp_message_info '[ '$(get_docker_image_repository_url "php")' ]')"
+    image_tags_switch=$(get_docker_image_tags_switch 'php')
+    image_tags=$(get_docker_image_tags 'php')
+    last_tag=$(get_docker_image_last_tag 'php')
     while : ; do
-        last_tag=$(get_docker_image_last_tag 'php')
         php_version=$( warp_question_ask_default "Set the PHP version of your project: $(warp_message_info ["${last_tag}"]) " "${last_tag}" )
-    
-        case $php_version in
-        "$(get_docker_image_tags 'php')")
+        if [[ "$php_version" =~ ^($image_tags_switch)$ ]]; then
             break
-        ;;
-        *)
-            warp_message_info2 "Selected: $php_version, $(get_docker_image_tags 'php')"
-        ;;
-        esac        
+        else
+            warp_message_info2 "Selected: $php_version, $image_tags"
+        fi
     done
-    warp_message_info2 "PHP version selected: $php_version"
 
+    warp_message_info2 "PHP version selected: $php_version"
     cat $PROJECTPATH/.warp/setup/php/tpl/php.yml >> $DOCKERCOMPOSEFILESAMPLE
 
     echo ""  >> $ENVIRONMENTVARIABLESFILESAMPLE
