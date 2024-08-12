@@ -15,24 +15,25 @@ done
 
 if [ "$respuesta_mysql" = "Y" ] || [ "$respuesta_mysql" = "y" ]
 then
+    warp_message_info2 "You can check the available versions of MySQL here: $(warp_message_info '[ '$(get_docker_image_repository_url "mysql")' ]')"
 
-    warp_message_info2 "You can check the available versions of MySQL here: $(warp_message_info '[ https://hub.docker.com/r/library/mysql/tags/ ]')"
-    mysql_version=$( warp_question_ask_default "Choose the MySQL engine version: $(warp_message_info [5.7]) " "5.7" )
+    image_tags_switch=$(get_docker_image_tags_switch 'mysql')
+    image_tags=$(get_docker_image_tags 'mysql')
+    last_tag=$(get_docker_image_last_tag 'mysql')
+    while : ; do
+        mysql_version=$( warp_question_ask_default "Choose the MySQL engine version: $(warp_message_info ["${last_tag}"]) " "${last_tag}" )
+        if [[ "$mysql_version" =~ ^($image_tags_switch)$ ]]; then
+            break
+        else
+            warp_message_info2 "Selected: $mysql_version, $image_tags"
+        fi
+    done
+
     warp_message_info2 "Selected MySQL Version: $mysql_version"
 
-    mysql_docker_image="mysql:${mysql_version}"
+    mysql_docker_image="${DOCKER_NAMESPACE}/mysql:${mysql_version}"
 
     if [ "$private_registry_mode" = "Y" ] || [ "$private_registry_mode" = "y" ] ; then
-        # while : ; do
-        #     mysql_use_project_specific=$( warp_question_ask_default "Do you want to use a custom specific DB image from your private registry? $(warp_message_info [Y/n]) " "Y" )
-
-        #     if [ "$mysql_use_project_specific" = "Y" ] || [ "$mysql_use_project_specific" = "y" ] || [ "$mysql_use_project_specific" = "N" ] || [ "$mysql_use_project_specific" = "n" ] ; then
-        #         break
-        #     else
-        #         warp_message_warn "wrong answer, you must select between two options: $(warp_message_info [Y/n]) "
-        #     fi
-        # done;
-        
         if [ ! -z "$docker_private_registry" ]
         then
             # Overwrite default mysql image.

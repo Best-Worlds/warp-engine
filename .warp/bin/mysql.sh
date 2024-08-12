@@ -167,6 +167,16 @@ function mysql_switch()
         if [ "$respuesta_switch_version_db" = "Y" ] || [ "$respuesta_switch_version_db" = "y" ]
         then
             mysql_version=$1
+            image_tags_switch=$(get_docker_image_tags_switch 'mysql')
+            image_tags=$(get_docker_image_tags 'mysql')
+            if [[ "$mysql_version" =~ ^($image_tags_switch)$ ]]; then
+                warp_message_info2 "MySQL new version selected: $mysql_version"
+            else
+                warp_message_info2 "Selected: $mysql_version, $image_tags"
+                warp_message_warn "for help run: $(warp_message_bold './warp mysql switch --help')"
+                exit 1;
+            fi
+
             warp_message_info2 "change version to: $mysql_version"
 
             MYSQL_VERSION_OLD="MYSQL_VERSION=$MYSQL_VERSION_CURRENT"
@@ -195,7 +205,7 @@ function mysql_switch()
                 PROJECT=$(warp_env_read_var PROJECT)                
                 mysql_docker_image="${NAMESPACE}-${PROJECT}-dbs"
 
-                CREATE_MYSQL_IMAGE_FROM="mysql:${mysql_version} ${DOCKER_PRIVATE_REGISTRY}/${mysql_docker_image}:latest"
+                CREATE_MYSQL_IMAGE_FROM="${mysql_docker_image}:latest"
 
                 # clear custom image
                 docker pull "mysql:$mysql_version"
