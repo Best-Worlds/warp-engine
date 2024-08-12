@@ -75,17 +75,18 @@ function redis_cli()
         exit 1;
     fi
 
-    case "$1" in 
+    COMMAND=$2
+    case "$1" in
         "fpc")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-fpc redis-cli
+            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-fpc redis-cli $COMMAND
             ;;
 
         "session")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-session redis-cli
+            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-session redis-cli $COMMAND
             ;;
 
         "cache")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-cache redis-cli
+            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-cache redis-cli $COMMAND
             ;;
 
         *)            
@@ -150,6 +151,11 @@ function redis_main()
 
         info)
             redis_info
+        ;;
+
+        flush)
+            shift 1
+            redis_cli $* 'FLUSHALL'
         ;;
 
         -h | --help)

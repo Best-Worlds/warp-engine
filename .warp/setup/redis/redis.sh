@@ -16,24 +16,32 @@ while : ; do
     fi
 done
 
+image_tags_switch=$(get_docker_image_tags_switch 'redis')
+image_tags=$(get_docker_image_tags 'redis')
+last_tag=$(get_docker_image_last_tag 'redis')
+
 if [ "$respuesta_redis_cache" = "Y" ] || [ "$respuesta_redis_cache" = "y" ]
 then
 
-    if [ $MSJ_REDIS_VERSION_HUB = 1 ] ; then
-        warp_message_info2 "You can check the Redis versions available here: $(warp_message_info '[ https://hub.docker.com/_/redis/ ]')"
-        MSJ_REDIS_VERSION_HUB=0 # False
-        echo "#Config Redis" >> $ENVIRONMENTVARIABLESFILESAMPLE
-    fi
-  
-    resp_version_cache=$( warp_question_ask_default "What version of Redis cache do you want to use? $(warp_message_info [5.0]) " "5.0" )
-    warp_message_info2 "Selected Redis Cache version: $resp_version_cache, in the internal port 6379 $(warp_message_bold 'redis-cache:6379')"
+    warp_message_info2 "You can check the Redis versions available here: $(warp_message_info '[ '$(get_docker_image_repository_url "redis")' ]')"
+
+    while : ; do
+        redis_version=$( warp_question_ask_default "Choose a version of Redis for cache: $(warp_message_info ["${last_tag}"]) " "${last_tag}" )
+        if [[ "$redis_version" =~ ^($image_tags_switch)$ ]]; then
+            break
+        else
+            warp_message_info2 "Selected: $redis_version, $image_tags"
+        fi
+    done
+
+    warp_message_info2 "Selected Redis Cache version: $redis_version, in the internal port 6379 $(warp_message_bold 'redis-cache:6379')"
 
     cache_config_file_cache=$( warp_question_ask_default "Set Redis configuration file: $(warp_message_info [./.warp/docker/config/redis/redis.conf]) " "./.warp/docker/config/redis/redis.conf" )
     warp_message_info2 "Selected configuration file: $cache_config_file_cache"
     
     cat $PROJECTPATH/.warp/setup/redis/tpl/redis_cache.yml >> $DOCKERCOMPOSEFILESAMPLE
 
-    echo "REDIS_CACHE_VERSION=$resp_version_cache" >> $ENVIRONMENTVARIABLESFILESAMPLE
+    echo "REDIS_CACHE_VERSION=$redis_version" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "REDIS_CACHE_CONF=$cache_config_file_cache" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "" >> $ENVIRONMENTVARIABLESFILESAMPLE
 
@@ -57,21 +65,25 @@ done
 if [ "$respuesta_redis_session" = "Y" ] || [ "$respuesta_redis_session" = "y" ]
 then
 
-    if [ $MSJ_REDIS_VERSION_HUB = 1 ] ; then
-        warp_message_info2 "You can check the Redis versions available here: $(warp_message_info '[ https://hub.docker.com/_/redis/ ]')"
-        MSJ_REDIS_VERSION_HUB=0 # False
-        echo "#Config Redis" >> $ENVIRONMENTVARIABLESFILESAMPLE
-    fi
-  
-    resp_version_session=$( warp_question_ask_default "What version of Redis Session do you want to use? $(warp_message_info [5.0]) " "5.0" )
-    warp_message_info2 "Selected version of Redis Session: $resp_version_session, in the internal port 6379 $(warp_message_bold 'redis-session:6379')"
+    warp_message_info2 "You can check the Redis versions available here: $(warp_message_info '[ '$(get_docker_image_repository_url "redis")' ]')"
+
+    while : ; do
+        redis_version=$( warp_question_ask_default "Choose a version of Redis for session: $(warp_message_info ["${last_tag}"]) " "${last_tag}" )
+        if [[ "$redis_version" =~ ^($image_tags_switch)$ ]]; then
+            break
+        else
+            warp_message_info2 "Selected: $redis_version, $image_tags"
+        fi
+    done
+
+    warp_message_info2 "Selected version of Redis Session: $redis_version, in the internal port 6379 $(warp_message_bold 'redis-session:6379')"
 
     cache_config_file_session=$( warp_question_ask_default "Set Redis configuration file: $(warp_message_info [./.warp/docker/config/redis/redis.conf]) " "./.warp/docker/config/redis/redis.conf" )
     warp_message_info2 "Selected configuration file: $cache_config_file_session"
 
     cat $PROJECTPATH/.warp/setup/redis/tpl/redis_session.yml >> $DOCKERCOMPOSEFILESAMPLE
 
-    echo "REDIS_SESSION_VERSION=$resp_version_session" >> $ENVIRONMENTVARIABLESFILESAMPLE
+    echo "REDIS_SESSION_VERSION=$redis_version" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "REDIS_SESSION_CONF=$cache_config_file_session" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "" >> $ENVIRONMENTVARIABLESFILESAMPLE
 
@@ -95,21 +107,25 @@ done
 if [ "$respuesta_redis_fpc" = "Y" ] || [ "$respuesta_redis_fpc" = "y" ]
 then
 
-    if [ $MSJ_REDIS_VERSION_HUB = 1 ] ; then
-        warp_message_info2 "You can check the Redis versions available here: $(warp_message_info '[ https://hub.docker.com/_/redis/ ]')"
-        MSJ_REDIS_VERSION_HUB=0 # False
-        #echo "#Config Redis" >> $ENVIRONMENTVARIABLESFILESAMPLE
-    fi
+    warp_message_info2 "You can check the Redis versions available here: $(warp_message_info '[ '$(get_docker_image_repository_url "redis")' ]')"
 
-    resp_version_fpc=$( warp_question_ask_default "What version of Redis FPC do you want to use? $(warp_message_info [5.0]) " "5.0" )
-    warp_message_info2 "Selected Redis FPC version: $resp_version_fpc, in the internal port 6379 $(warp_message_bold 'redis-fpc:6379')"
+    while : ; do
+        redis_version=$( warp_question_ask_default "Choose a version of Redis for FPC: $(warp_message_info ["${last_tag}"]) " "${last_tag}" )
+        if [[ "$redis_version" =~ ^($image_tags_switch)$ ]]; then
+            break
+        else
+            warp_message_info2 "Selected: $redis_version, $image_tags"
+        fi
+    done
+
+    warp_message_info2 "Selected Redis FPC version: $redis_version, in the internal port 6379 $(warp_message_bold 'redis-fpc:6379')"
 
     cache_config_file_fpc=$( warp_question_ask_default "Set Redis configuration file: $(warp_message_info [./.warp/docker/config/redis/redis.conf]) " "./.warp/docker/config/redis/redis.conf" )
     warp_message_info2 "Selected configuration file: $cache_config_file_fpc"
 
     cat $PROJECTPATH/.warp/setup/redis/tpl/redis_fpc.yml >> $DOCKERCOMPOSEFILESAMPLE
 
-    echo "REDIS_FPC_VERSION=$resp_version_fpc" >> $ENVIRONMENTVARIABLESFILESAMPLE
+    echo "REDIS_FPC_VERSION=$redis_version" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "REDIS_FPC_CONF=$cache_config_file_fpc" >> $ENVIRONMENTVARIABLESFILESAMPLE
     echo "" >> $ENVIRONMENTVARIABLESFILESAMPLE
 
