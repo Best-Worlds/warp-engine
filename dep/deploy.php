@@ -9,11 +9,13 @@ set('git_ssh_command', 'ssh');
 
 desc('Update code from git');
 task('warp:git-pull', function () {
+    run('cd /var/www/html/warp-engine');
     run('git pull --rebase origin bestworlds');
 });
 
 desc('Create new release');
 task('warp:new-release', function () {
+    run('cd /var/www/html/warp-engine');
     run('bash release.sh');
 });
 
