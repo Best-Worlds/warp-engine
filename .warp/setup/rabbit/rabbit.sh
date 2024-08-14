@@ -16,6 +16,8 @@ done
 if [ "$respuesta_rabbit" = "Y" ] || [ "$respuesta_rabbit" = "y" ]
 then
 
+    warp_message_info2 "You can check the available versions of RabbitMQ here: $(warp_message_info '[ '$(get_docker_image_repository_url "rabbitmq")' ]')"
+
     image_tags_switch=$(get_docker_image_tags_switch 'rabbitmq')
     image_tags=$(get_docker_image_tags 'rabbitmq')
     last_tag=$(get_docker_image_last_tag 'rabbitmq')
