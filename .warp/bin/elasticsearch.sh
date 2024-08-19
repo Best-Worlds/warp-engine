@@ -39,6 +39,54 @@ function elasticsearch_info()
 
 }
 
+function elasticsearch_connect_ssh()
+{
+
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]
+    then
+        php_ssh_help
+        exit 1
+    fi;
+
+    if [ $(warp_check_is_running) = false ]; then
+        warp_message_error "The containers are not running"
+        warp_message_error "please, first run warp start"
+
+        exit 1;
+    fi
+
+    if [ "$1" = "--root" ]
+    then
+        docker-compose -f $DOCKERCOMPOSEFILE exec -uroot elasticsearch bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+    else
+        docker-compose -f $DOCKERCOMPOSEFILE exec elasticsearch bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+    fi;
+}
+
+function elasticsearch_indexes()
+{
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ -z "$1" ]
+    then
+        elasticsearch_indexes_help_usage
+        exit 1
+    fi;
+
+    if [ $(warp_check_is_running) = false ]; then
+        warp_message_error "The containers are not running"
+        warp_message_error "please, first run warp start"
+
+        exit 1;
+    fi
+
+    watch=""
+    if [ "$1" = "-w" ] || [ "$1" = "--watch" ] || [ "$2" = "-w" ] || [ "$2" = "--watch" ]
+    then
+        watch="watch "
+    fi;
+
+    docker-compose -f $DOCKERCOMPOSEFILE exec elasticsearch bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`;${watch}curl -XGET elasticsearch:9200/_cat/indices/$1*?v"
+}
+
 function elasticsearch_command()
 {
 
@@ -60,6 +108,16 @@ function elasticsearch_main()
 
         info)
             elasticsearch_info
+        ;;
+
+        ssh)
+            shift 1
+            elasticsearch_connect_ssh $*
+        ;;
+
+        indexes)
+            shift 1
+            elasticsearch_indexes $*
         ;;
 
         -h | --help)
