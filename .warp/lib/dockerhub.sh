@@ -16,5 +16,5 @@ get_docker_image_last_tag() {
 
 get_docker_image_repository_url() {
     SERVICE=$1
-    echo "https://hub.docker.com/r/devbestworlds/${SERVICE}/tags/"
+    echo "https://hub.docker.com/r/${DOCKER_NAMESPACE}/${SERVICE}/tags/"
 }
