@@ -109,11 +109,15 @@ DOCKERCOMPOSEFILEDEV="$PROJECTPATH/docker-compose-warp-dev.yml"
 # to the docker-compose.yml sample file
 DOCKERCOMPOSEFILEDEVSAMPLE="$PROJECTPATH/docker-compose-warp-dev.yml.sample"
 
+# HTTP AUTH for engine GitHub repository
+HTTP_AUTH_CREDENTIALS_USER="bestworlds"
+HTTP_AUTH_CREDENTIALS_PASS="Sail7Seas"
+
 # Repository HTTP AUTH access user
-GITHUB_HTTP_AUTH_CREDENTIALS_USER="bestworlds"
+GITHUB_HTTP_AUTH_CREDENTIALS_USER="$HTTP_AUTH_CREDENTIALS_USER"
 
 # Repository HTTP AUTH access pass
-GITHUB_HTTP_AUTH_CREDENTIALS_PASS="Sail7Seas"
+GITHUB_HTTP_AUTH_CREDENTIALS_PASS="$HTTP_AUTH_CREDENTIALS_PASS"
 
 # Docker Hub connection
 DOCKER_NAMESPACE="devbestworlds"

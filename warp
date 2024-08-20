@@ -23,7 +23,7 @@ hash tr 2>/dev/null || { echo >&2 "warp framework requires \"tr command\". On de
 [[ $(pwd) =~ [[:space:]]+ ]] && { echo "this folder contains spaces, warp framework requires a folder without spaces"; exit 1; }
 
 include_warp_framework() {
-    
+
     # INCLUDE VARIABLES
     . "$PROJECTPATH/.warp/variables.sh"
     # INCLUDE WARP FRAMEWORK
@@ -50,7 +50,7 @@ setup_main() {
             exit 0;
         fi;
 
-        init_main init --no-interaction        
+        init_main init --no-interaction
         exit 1
     elif [ "$1" = "-mg" ] || [ "$1" = "--mode-gandalf" ] ; then
         if [ ! -d $PROJECTPATH/.warp/setup ]; then
@@ -116,7 +116,7 @@ setup_help_usage()
 }
 
 help() {
-    
+
     if [ -d $PROJECTPATH/.warp/bin ]; then
         warp_banner
 
@@ -138,21 +138,24 @@ help() {
 
 warp_check_latest_version()
 {
-    warp_message_warn "looking for a new version available..."
-    WARP_VERSION_LATEST=$(curl --silent "https://api.github.com/repos/Best-Worlds/warp-engine/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    WARP_VERSION_LATEST=$(curl --silent "https://api.github.com/repos/Best-Worlds/warp-engine/tags" | grep -i "name" | sed -E 's/.*"([^"]+)".*/\1/' | head -n 1)
 
     if [ -f $PROJECTPATH/.warp/lib/version.sh ] && [ ! -z "$WARP_VERSION_LATEST" ]
-    then        
+    then
         . $PROJECTPATH/.warp/lib/version.sh
         WARP_VERSION_LOCAL=$(echo $WARP_VERSION | tr -d ".")
         _WARP_VERSION_LATEST=$(echo $WARP_VERSION_LATEST | tr -d ".")
-        
+
         if [ $WARP_VERSION_LOCAL -lt $_WARP_VERSION_LATEST ] && [ ! $WARP_VERSION_LOCAL -eq $_WARP_VERSION_LATEST ]
         then
+            warp_message_warn "checking for new versions available..."
+            warp_message ""
+            sleep 1
             warp_message "current version $WARP_VERSION, new version available $WARP_VERSION_LATEST"
+            warp_message ""
 
             while : ; do
-                respuesta_update_warp_online=$( warp_question_ask_default "Are you sure to update Warp Framework? $(warp_message_info [Y/n]) " "Y" )
+                respuesta_update_warp_online=$( warp_question_ask_default "Are you sure you want to update Warp Framework? $(warp_message_info [Y/n]) " "Y" )
                 if [ "$respuesta_update_warp_online" = "Y" ] || [ "$respuesta_update_warp_online" = "y" ] || [ "$respuesta_update_warp_online" = "N" ] || [ "$respuesta_update_warp_online" = "n" ] ; then
                     break
                 else
@@ -162,7 +165,7 @@ warp_check_latest_version()
 
             if [ "$respuesta_update_warp_online" = "Y" ] || [ "$respuesta_update_warp_online" = "y" ]
             then
-                curl --silent -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
+                curl --silent -u "$HTTP_AUTH_CREDENTIALS_USER:$HTTP_AUTH_CREDENTIALS_PASS" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
                 warp_setup --self-update
             fi
         fi
@@ -226,15 +229,15 @@ function warp_info()
 
     . "$PROJECTPATH/.warp/bin/info_help.sh"
 
-    if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then  
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
         info_help_usage
         exit 0;
-    fi;    
+    fi;
 
     if ! warp_check_env_file ; then
         warp_message_error "file not found $(basename $ENVIRONMENTVARIABLESFILE)"
         exit 1;
-    fi; 
+    fi;
 
     if [ "$1" = "--ip" ] ; then
         if [ $(warp_check_is_running) = false ]; then
@@ -246,15 +249,15 @@ function warp_info()
 
         docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}   {{.Name}}'   $(docker-compose -f  $DOCKERCOMPOSEFILE ps -q) | sed 's/ \// /'
     else
-        mysql_main info   
-        postgres_main info   
-        webserver_main info   
-        php_main info   
-        elasticsearch_main info   
-        varnish_main info   
-        redis_main info   
-        rabbit_main info   
-        mailhog_main info   
+        mysql_main info
+        postgres_main info
+        webserver_main info
+        php_main info
+        elasticsearch_main info
+        varnish_main info
+        redis_main info
+        rabbit_main info
+        mailhog_main info
     fi;
 }
 
@@ -273,12 +276,12 @@ function warp_setup()
 
     if [ "$OPTION" = "sandbox" ]
     then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then    
+        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
             echo "Installing Warp mode Sandbox, wait a few moments"
             sleep 1
             echo "Successful installation!, starting configurations.."
             sleep 1
-            # Init Instalation
+            # Init installation
             include_warp_framework
             sandbox_main init
         fi
@@ -286,12 +289,12 @@ function warp_setup()
 
     if [ "$OPTION" = "--no-interaction" ]
     then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then    
+        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
             echo "Installing Warp mode --no-interaction, wait a few moments"
             sleep 1
             echo "Successful installation!, starting without wizard.."
             sleep 1
-            # Init Instalation
+            # Init installation
             include_warp_framework
             init_main init --no-interaction
         fi
@@ -299,12 +302,12 @@ function warp_setup()
 
     if [ "$OPTION" = "--mode-gandalf" ]
     then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then    
+        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
             echo "Installing Warp --mode-gandalf, wait a few moments"
             sleep 1
             echo "Successful installation!, starting without wizard.."
             sleep 1
-            # Init Instalation
+            # Init installation
             include_warp_framework
             init_main init --mode-gandalf $*
         fi
@@ -316,7 +319,7 @@ function warp_setup()
         sleep 1
         echo "Successful update!"
         sleep 1
-        # Init Instalation
+        # Init installation
         include_warp_framework
         # save new version to ENVIRONMENTVARIABLESFILESAMPLE
         warp_env_change_version_sample_file
@@ -328,23 +331,23 @@ function warp_setup()
         sleep 1
         echo "Successful update!"
         sleep 1
-        # Init Instalation
+        # Init installation
         include_warp_framework
         # save new version to ENVIRONMENTVARIABLESFILESAMPLE
         warp_env_change_version_sample_file
         # load banner
-        warp_banner        
+        warp_banner
         exit 0;
     fi
 
     if [ "$OPTION" = "install" ]
     then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then    
+        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
             echo "Installing Warp, wait a few moments"
             sleep 1
             echo "Successful installation!, starting configurations.."
             sleep 1
-            # Init Instalation
+            # Init installation
             include_warp_framework
             init_main init
         fi
@@ -365,7 +368,7 @@ function warp_setup()
             sleep 1
             echo "Successful update!"
             sleep 1
-            # Init Instalation
+            # Init installation
             include_warp_framework
             # save new version to ENVIRONMENTVARIABLESFILESAMPLE
             warp_env_change_version_sample_file
@@ -427,7 +430,7 @@ then
             warp_check_latest_version
             # update next check
             echo $DATE_OSX_LINUX > "$CHECK_UPDATE_FILE" 2> /dev/null
-        fi    
+        fi
     else
         touch "$CHECK_UPDATE_FILE" 2> /dev/null
         # save next check
