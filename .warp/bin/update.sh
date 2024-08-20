@@ -16,14 +16,14 @@ function update_command() {
       docker-compose -f $DOCKERCOMPOSEFILE pull
   else
 
-      warp_setup update
+      warp_check_latest_version
   fi;
 }
 
 function update_main()
 {
     case "$1" in
-        update)
+        self-update)
           shift 1
           update_command $*
         ;;
