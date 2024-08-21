@@ -168,6 +168,8 @@ warp_check_latest_version()
                 curl --silent -u "$HTTP_AUTH_CREDENTIALS_USER:$HTTP_AUTH_CREDENTIALS_PASS" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
                 warp_setup --self-update
             fi
+        else
+            warp_message_info "Warp framework is at its latest version. Nothing to update."
         fi
     fi
 }
@@ -200,6 +202,11 @@ warp_update()
         echo "checking if there are images available to update"
         docker-compose -f $DOCKERCOMPOSEFILE pull
         exit 0;
+    fi
+
+    if [ "$1" = "--self-update" ] ; then
+        warp_check_latest_version
+        exit 0
     fi
 
     warp_setup update
@@ -281,7 +288,6 @@ function warp_setup()
             sleep 1
             echo "Successful installation!, starting configurations.."
             sleep 1
-            # Init installation
             include_warp_framework
             sandbox_main init
         fi
@@ -294,7 +300,6 @@ function warp_setup()
             sleep 1
             echo "Successful installation!, starting without wizard.."
             sleep 1
-            # Init installation
             include_warp_framework
             init_main init --no-interaction
         fi
@@ -307,7 +312,6 @@ function warp_setup()
             sleep 1
             echo "Successful installation!, starting without wizard.."
             sleep 1
-            # Init installation
             include_warp_framework
             init_main init --mode-gandalf $*
         fi
@@ -319,9 +323,7 @@ function warp_setup()
         sleep 1
         echo "Successful update!"
         sleep 1
-        # Init installation
         include_warp_framework
-        # save new version to ENVIRONMENTVARIABLESFILESAMPLE
         warp_env_change_version_sample_file
     fi
 
@@ -331,11 +333,8 @@ function warp_setup()
         sleep 1
         echo "Successful update!"
         sleep 1
-        # Init installation
         include_warp_framework
-        # save new version to ENVIRONMENTVARIABLESFILESAMPLE
         warp_env_change_version_sample_file
-        # load banner
         warp_banner
         exit 0;
     fi
@@ -347,32 +346,8 @@ function warp_setup()
             sleep 1
             echo "Successful installation!, starting configurations.."
             sleep 1
-            # Init installation
             include_warp_framework
             init_main init
-        fi
-    elif [ "$OPTION" = "update" ]
-    then
-        while : ; do
-            respuesta=$( warp_question_ask_default "Are you sure to update Warp Framework? $(warp_message_info [Y/n]) " "Y" )
-            if [ "$respuesta" = "Y" ] || [ "$respuesta" = "y" ] || [ "$respuesta" = "N" ] || [ "$respuesta" = "n" ] ; then
-                break
-            else
-                warp_message_warn "Incorrect answer, you must select between two options: $(warp_message_info [Y/n]) "
-            fi
-        done
-
-        if [ "$respuesta" = "Y" ] || [ "$respuesta" = "y" ]
-        then
-            echo "Updating Warp, wait a few moments"
-            sleep 1
-            echo "Successful update!"
-            sleep 1
-            # Init installation
-            include_warp_framework
-            # save new version to ENVIRONMENTVARIABLESFILESAMPLE
-            warp_env_change_version_sample_file
-            warp_banner
         fi
     fi
 }
@@ -600,7 +575,6 @@ case "$1" in
 
     *)
     help
-    warp_check_latest_version
     ;;
 esac
 
