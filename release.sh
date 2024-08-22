@@ -15,3 +15,5 @@ cp dist/warp dist/warp_$BUILD_VERSION
 
 # Add symlink for download purposes
 ln -snf "$ROOT_DIR/dist/warp_$BUILD_VERSION" "$ROOT_DIR/release/latest"
+
+echo "New release generated: warp_$BUILD_VERSION"
