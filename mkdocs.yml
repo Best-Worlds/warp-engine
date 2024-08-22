@@ -42,6 +42,9 @@ nav:
     - elasticsearch: 'troubleshooting/elasticsearch.md'
     - warp composer: 'troubleshooting/composer.md'
     - .gitignore: 'troubleshooting/gitignore.md'
+  - Developer:
+    - Framework: 'developer/framework.md'
+    - Deployment: 'developer/deployment.md'
 
 use_directory_urls: false
 
