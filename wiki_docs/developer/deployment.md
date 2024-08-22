@@ -28,10 +28,10 @@ To be able to upload an image to the Docker Hub account is necessary to execute 
 <ul>
 	<li>Under the framework "images" repository is necessary to create a <b>Dockerfile</b> following the next pattern:
 
-```
+```plain
 [service] -> [version] -> Dockerfile
 
-Translated to an concrete case:
+Translated to a concrete case:
 
 php -> 8.1.3-fpm -> Dockerfile
 ```
@@ -39,7 +39,7 @@ php -> 8.1.3-fpm -> Dockerfile
 <li>
 The Dockerfile is kind of the recipe for building a new image. It contains the instructions for Docker to be able to construct it. The most important instruction is the one that points to the image to mirror for starting. This should be located in the first line of the file and this is the syntax:
 
-```
+```Dockerfile
 FROM php:8.1.3-fpm
 ```
 After that you can use the <b>"RUN"</b> instruction to execute several commands for the image building process. These are a few among many others:
@@ -49,11 +49,9 @@ After that you can use the <b>"RUN"</b> instruction to execute several commands 
 	<li>Creating bash aliases</li>
 	<li>Installing programs/commands</li>
 	<li>Creating custom files/folders</li>
-<ul>
-</li>
 </ul>
 
-```
+```Dockerfile
 # Create .ssh folder  
 RUN mkdir -p /var/www/.ssh  
   
@@ -64,16 +62,17 @@ RUN chmod -R g+w /var/www/
 <li>
 Once the entire recipe is finished you need to execute a command to actually build that specific image before uploading it. It helps verifying there are no errors on its initialization (make sure to connect to Docker Hub from console)
 
-```
+```bash
 docker build -t devbestworlds/redis:6.0 ./images/redis/6.0
 ```
 
 </li>
 <li>
-After the build finishes correctly -with no errors- you need to push that image into the Docker Hub specific repository.
+After the build finishes correctly, with no errors, you need to push that image into the Docker Hub specific repository.
 
-```
+```bash
 docker push devbestworlds/redis:6.0
 ```
 </li>
+</ul>
 
