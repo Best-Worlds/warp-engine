@@ -8,7 +8,8 @@ use Symfony\Component\Console\Input\InputOption;
 set('default_timeout', 500);
 set('git_ssh_command', 'ssh');
 
-option('generate-new-release', 'i', InputOption::VALUE_OPTIONAL, 'Flag to determine whether a new release must be generated.', false);
+option('generate-new-release', 'r', InputOption::VALUE_OPTIONAL, 'Flag to determine whether a new release must be generated.', 'no');
+option('rebuild-documentation', 'd', InputOption::VALUE_OPTIONAL, 'Flag to determine whether the docs must be rebuilt (mkdocs).', 'no');
 
 desc('Update code from git');
 task('warp:git-pull', function () {
@@ -24,10 +25,20 @@ task('warp:new-release', function () {
     }
 });
 
+desc('Rebuild documentation');
+task('warp:rebuild-documentation', function () {
+    if (input()->getOption('rebuild-documentation') === 'yes') {
+        run('cd {{deploy_path}} && mkdocs build --site-dir {{deploy_path}}/docs');
+    }else {
+        writeln('Nothing to build at doc level.');
+    }
+});
+
 desc('Execute deployment');
 task('deploy', [
     'warp:git-pull',
     'warp:new-release',
+    'warp:rebuild-documentation'
 ]);
 
 import('hosts.yml');
