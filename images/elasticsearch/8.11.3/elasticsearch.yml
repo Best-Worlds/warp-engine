@@ -1,0 +1,15 @@
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+indices:
+  id_field_data:
+    enabled: true
+xpack:
+  security:
+    enabled: false
+    enrollment:
+      enabled: false
+cluster:
+  routing:
+    allocation:
+      disk:
+        threshold_enabled: false
