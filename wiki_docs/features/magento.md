@@ -13,19 +13,6 @@ mkdir magento_demo
 curl -u "bestworlds:Sail7Seas" -L -o warp http://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
 ```
 
-## Configure services
-
-```
-warp init --mode-gandalf \
-    --framework=m2  \
-    --vhost=local.magento2.com  \
-    --php=7.2-fpm  \
-    --mysql=5.7  \
-    --elasticsearch=5.6.8  \
-    --redis=3.2.10-alpine  \
-    --mailhog
-```
-
 ## Download Magento
 
 ```

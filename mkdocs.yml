@@ -22,7 +22,6 @@ nav:
   - Get Started:
     - Requirements: 'started/requirements.md'
     - Usage: 'started/usage.md'
-    - Gandalf: 'started/gandalf.md'
   - Installation:
     - MacOS: 'installation/mac.md'
     - Linux: 'installation/linux.md'

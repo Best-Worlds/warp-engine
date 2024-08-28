@@ -68,7 +68,18 @@ docker build -t devbestworlds/redis:6.0 ./images/redis/6.0
 
 </li>
 <li>
-After the build finishes correctly, with no errors, you need to push that image into the Docker Hub specific repository.
+After the build finishes correctly, you can check your own image by executing the following commands:
+
+```bash
+# Run image locally
+docker run -d --name [my-container-name] devbestworlds/redis:6.0
+# Enter to the container
+docker exec -it [my-container-name] /bin/bash
+```
+
+</li>
+<li>
+Once you've checked everything is working, no errors, you can just push that image into the Docker Hub specific repository.
 
 ```bash
 docker push devbestworlds/redis:6.0

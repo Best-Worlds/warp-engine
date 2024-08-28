@@ -13,8 +13,11 @@
 # PHP 7.3
 #zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so
 
-## CONFIG XDEBUG FOR 8.1 ##
-zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20210902/xdebug.so
+# PHP 8.1
+#zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20210902/xdebug.so
+
+## CONFIG XDEBUG FOR 8.2 ##
+zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20220829/xdebug.so
 
 xdebug.mode=debug
 xdebug.client_port=9000
