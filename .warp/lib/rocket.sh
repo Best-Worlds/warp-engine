@@ -40,7 +40,7 @@ function warp_set_current_remote_env()
         while : ; do
             environment_number=$( warp_question_ask "Enter a number to choose an environment: $(warp_remote_env_options)" )
 
-            if [[ ! -z ${REMOTE_ENVIRONMENTS[$environment_number]} ]] ; then
+            if [[ $environment_number =~ ^[0-9]$ ]] && [[ ! -z ${REMOTE_ENVIRONMENTS[$environment_number]} ]] ; then
                 CURRENT_REMOTE_ENV="${REMOTE_ENVIRONMENTS[$environment_number]}"
                 break
             else
@@ -89,7 +89,7 @@ function warp_remote_env_options()
 ##
 function warp_validate_remote_env()
 {
-    if [[ ! "${REMOTE_ENVIRONMENTS[@]}" =~ $1 ]]
+    if [[ $(array_includes "$1" "${REMOTE_ENVIRONMENTS[@]}") = false ]]
     then
         warp_message_error "Environment $1 doesn't exists"
         exit 0
@@ -124,7 +124,7 @@ function warp_remote_env_connect()
         ssh -q -o BatchMode=yes -o "ConnectTimeout=5" -o "SendEnv=TERM" -o "IdentityFile=${IDENTITY_KEY}" "${USER}@${HOST}" 'exit 0'
         RESULT=$?
         if [ ${RESULT} -ne 0 ]; then
-            warp_message_error "Unable to connect! Verify the environment information"
+            warp_message_error "Unable to connect! Make sure the environment information is correct"
         else
             warp_message_ok "Successfully connected!"
         fi
