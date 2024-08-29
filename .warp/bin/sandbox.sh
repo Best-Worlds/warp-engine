@@ -137,12 +137,7 @@ function sandbox_push() {
       exit 0;
   fi
 
-  if [ $(warp_check_is_running) = false ]; then
-    warp_message_error "The containers are not running"
-    warp_message_error "please, first run warp start"
-
-    exit 1;
-  fi
+  warp_check_is_running_error
 
   [ -z "$1" ] && warp_message_error "Please specify a directory or file to copy to container (ex. vendor, --all)" && exit
   CONTAINER_PHP_NAME=$(docker-compose -f $DOCKERCOMPOSEFILE ps|grep php72|awk '{print $1}')
@@ -170,12 +165,7 @@ function sandbox_pull() {
       exit 0;
   fi
 
-  if [ $(warp_check_is_running) = false ]; then
-    warp_message_error "The containers are not running"
-    warp_message_error "please, first run warp start"
-
-    exit 1;
-  fi
+  warp_check_is_running_error
 
   [ -z "$1" ] && warp_message_error "Please specify a directory or file to copy from container (ex. vendor, --all)" && exit
   CONTAINER_PHP_NAME=$(docker-compose -f $DOCKERCOMPOSEFILE ps|grep php72|awk '{print $1}')

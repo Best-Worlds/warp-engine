@@ -20,12 +20,7 @@ function magento_command()
         exit 0;
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 0;
-    fi
+    warp_check_is_running_error
 
     if [ "$1" = "--install-only" ]
     then
@@ -99,12 +94,7 @@ function magento_command_tools()
         exit 0;
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 0;
-    fi
+    warp_check_is_running_error
 
     if [ "$1" = "ece-patches" ]
     then

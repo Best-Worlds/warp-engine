@@ -315,12 +315,7 @@ function warp_info()
     fi;
 
     if [ "$1" = "--ip" ] ; then
-        if [ $(warp_check_is_running) = false ]; then
-            warp_message_error "The containers are not running"
-            warp_message_error "please, first run warp start"
-
-            exit 1;
-        fi
+        warp_check_is_running_error
 
         docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}   {{.Name}}'   $(docker-compose -f  $DOCKERCOMPOSEFILE ps -q) | sed 's/ \// /'
     else

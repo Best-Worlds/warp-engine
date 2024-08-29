@@ -11,12 +11,7 @@ function rsync_push_to_container() {
       exit 0;
   fi
 
-  if [ $(warp_check_is_running) = false ]; then
-    warp_message_error "The containers are not running"
-    warp_message_error "please, first run warp start"
-
-    exit 1;
-  fi
+  warp_check_is_running_error
 
   # Check rsync is installed
   hash rsync 2>/dev/null || warp_rsync_is_not_installed  
@@ -50,12 +45,7 @@ function rsync_pull_from_container() {
       exit 0;
   fi
 
-  if [ $(warp_check_is_running) = false ]; then
-    warp_message_error "The containers are not running"
-    warp_message_error "please, first run warp start"
-
-    exit 1;
-  fi
+  warp_check_is_running_error
 
   # Check rsync is installed
   hash rsync 2>/dev/null || warp_rsync_is_not_installed

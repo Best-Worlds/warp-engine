@@ -68,12 +68,7 @@ function redis_cli()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     COMMAND=$2
     case "$1" in
@@ -107,12 +102,7 @@ function redis_monitor()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     case "$1" in 
         "fpc")

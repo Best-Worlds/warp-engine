@@ -48,12 +48,7 @@ function elasticsearch_connect_ssh()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     if [ "$1" = "--root" ]
     then
@@ -71,12 +66,7 @@ function elasticsearch_indexes()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     watch=""
     if [ "$1" = "-w" ] || [ "$1" = "--watch" ] || [ "$2" = "-w" ] || [ "$2" = "--watch" ]

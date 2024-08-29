@@ -18,13 +18,7 @@ function crontab() {
       exit 0;
   fi
 
-  if [ $(warp_check_is_running) = false ]; then
-    warp_message_error "The containers are not running"
-    warp_message_error "please, first run warp start"
-
-    exit 1;
-  fi
-
+  warp_check_is_running_error
   
   if [ "$*" = "crontab -e" ] ; then
 

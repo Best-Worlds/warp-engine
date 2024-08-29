@@ -45,12 +45,7 @@ function postgres_connect()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     POSTGRES_DB=$(warp_env_read_var POSTGRES_DB)
     POSTGRES_USER=$(warp_env_read_var POSTGRES_USER)
@@ -67,12 +62,7 @@ function postgres_connect_ssh()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     docker-compose -f $DOCKERCOMPOSEFILE exec postgres bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
 }
@@ -86,12 +76,7 @@ function postgres_dump()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     POSTGRES_USER=$(warp_env_read_var POSTGRES_USER)
 
@@ -111,12 +96,7 @@ function postgres_import()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
+    warp_check_is_running_error
 
     db=$1
 
