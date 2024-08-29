@@ -16,7 +16,7 @@ warp_create_directory_if_not_exists()
     DIR="${ROOT_DIR}/$1"
     if [[ ! -d "${DIR}" ]];
     then
-        mkdir "${DIR}"
+        sudo mkdir "${DIR}"
         warp_grant_directory_permissions "${DIR}"
     fi
 }
@@ -33,7 +33,8 @@ warp_create_directory_if_not_exists()
 ##
 warp_grant_directory_permissions()
 {
-    chmod ug+rwx $*
+    sudo chown $(whoami):www-data $*
+    sudo chmod ug+rwx $*
 }
 
 ##
