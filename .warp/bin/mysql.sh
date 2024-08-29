@@ -50,28 +50,51 @@ function mysql_info()
 
 function mysql_connect() 
 {
-
     if [ "$1" = "-h" ] || [ "$1" = "--help" ]
     then
         mysql_connect_help 
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
+    if [[ $(warp_get_current_remote_env) = false ]];
+    then
+        warp_check_is_running_error
+        DATABASE_ROOT_PASSWORD=$(warp_env_read_var DATABASE_ROOT_PASSWORD)
 
-        exit 1;
+        docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "mysql -uroot -p$DATABASE_ROOT_PASSWORD"
+    else
+        warp_remote_env_connect "$(mysql_connect_get_command)"
     fi
+}
 
-    DATABASE_ROOT_PASSWORD=$(warp_env_read_var DATABASE_ROOT_PASSWORD)
+function mysql_query()
+{
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]
+        then
+            mysql_connect_help
+            exit 1
+        fi;
 
-    docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "mysql -uroot -p$DATABASE_ROOT_PASSWORD"
+        QUERY=$1
+        if [[ -z "${QUERY}" ]];
+        then
+            warp_message_error "Missing query for database execution"
+            exit 1
+        fi
+
+        if [[ $(warp_get_current_remote_env) = false ]];
+        then
+            warp_check_is_running_error
+            DATABASE_ROOT_PASSWORD=$(warp_env_read_var DATABASE_ROOT_PASSWORD)
+
+            docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "mysql -uroot -p$DATABASE_ROOT_PASSWORD -e '${QUERY}'"
+        else
+            warp_remote_env_connect "$(mysql_connect_get_command)"
+        fi
 }
 
 function mysql_update_db() 
 {
-
     DOCKER_PRIVATE_REGISTRY=$(warp_env_read_var DOCKER_PRIVATE_REGISTRY)
 
     if [ -z "$DOCKER_PRIVATE_REGISTRY" ] ; then
@@ -119,20 +142,13 @@ function mysql_update_db()
 
 function mysql_connect_ssh() 
 {
-
     if [ "$1" = "-h" ] || [ "$1" = "--help" ]
     then
         mysql_ssh_help 
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
-
+    warp_check_is_running_error
     docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
 }
 
@@ -237,46 +253,93 @@ function mysql_dump()
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
+    if [[ $(warp_get_current_remote_env) = false ]];
+    then
+        warp_check_is_running_error
+        DATABASE_ROOT_PASSWORD=$(warp_env_read_var DATABASE_ROOT_PASSWORD)
 
-        exit 1;
+        db="$@"
+
+        [ -z "$db" ] && warp_message_error "Database name is required" && exit 1
+
+        docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "mysqldump -uroot -p$DATABASE_ROOT_PASSWORD $db 2> /dev/null"
+    else
+        # Creates new directory if not exists for remote environment dumps
+        DUMPS_DIR=".warp/docker/dumps/$(warp_get_current_remote_env)"
+        warp_create_directory_if_not_exists "${DUMPS_DIR}"
+
+        if [[ ! -z $* ]];
+        then
+            TABLES_FILENAME=$(echo $* | tr " " "-")
+        else
+            TABLES_FILENAME="full-db"
+        fi
+
+        OUTPUT="${DUMPS_DIR}/${TABLES_FILENAME}-$(date '+%Y_%m_%d%-H_%M_%S').sql"
+        SUCCESS_MESSAGE="$(warp_message_ok "Dump was generated under the following path: $(warp_message_bold ${OUTPUT})")"
+
+        warp_remote_env_connect "$(mysql_connect_get_command 'dump' $*)" > ${OUTPUT}
+        warp_message "${SUCCESS_MESSAGE}"
     fi
 
-    DATABASE_ROOT_PASSWORD=$(warp_env_read_var DATABASE_ROOT_PASSWORD)
-
-    db="$@"
-
-    [ -z "$db" ] && warp_message_error "Database name is required" && exit 1
-    
-    docker-compose -f $DOCKERCOMPOSEFILE exec mysql bash -c "mysqldump -uroot -p$DATABASE_ROOT_PASSWORD $db 2> /dev/null"
 }
 
 function mysql_import()
 {
-
     if [ "$1" = "-h" ] || [ "$1" = "--help" ]
     then
         mysql_import_help 
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
+    warp_check_is_running_error
 
-        exit 1;
+    if [[ $(warp_get_current_remote_env) = false ]];
+    then
+        warp_check_is_running_error
+
+        db=$1
+        [ -z "$db" ] && warp_message_error "Database name is required" && exit 1
+
+        DATABASE_ROOT_PASSWORD=$(warp_env_read_var DATABASE_ROOT_PASSWORD)
+
+        docker-compose -f $DOCKERCOMPOSEFILE exec -T mysql bash -c "mysql -uroot -p$DATABASE_ROOT_PASSWORD $db 2> /dev/null"
+    else
+        $(warp_remote_env_connect "$(mysql_connect_get_command "dump")") > $(warp_get_current_remote_env)-$(date '+%Y-%m-%d%H:%M:%S').sql 2> /dev/null
+    fi
+}
+
+function mysql_connect_get_command
+{
+    case "$1" in
+        "dump")
+            COMMAND="-C mysqldump"
+            shift 1
+            TABLES="$* 2>/dev/null"
+            shift
+        ;;
+        *)
+            COMMAND="-t mysql"
+            TABLES=""
+        ;;
+    esac
+
+    ENV_FILENAME="$(warp_remote_env_read_var 'root_dir')/app/etc/env.php"
+    ENV_FILE_DATA=$(warp_remote_env_connect "-t cat ${ENV_FILENAME}")
+
+    DB_CONN_DATA=$(echo "${ENV_FILE_DATA}" | sed -n "/'db' => \[/,/\],/p" | sed -n "/'default' => \[/,/\],/p")
+    DB_HOST_PORT=$(echo "${DB_CONN_DATA}" | grep "'host' =>" | awk -F"'" '{print $4}')
+    DB_NAME=$(echo "${DB_CONN_DATA}" | grep "'dbname' =>" | awk -F"'" '{print $4}')
+    DB_USER=$(echo "${DB_CONN_DATA}" | grep "'username' =>" | awk -F"'" '{print $4}')
+    DB_PASS=$(echo "${DB_CONN_DATA}" | grep "'password' =>" | awk -F"'" '{print $4}')
+    DB_HOST=${DB_HOST_PORT}
+    DB_PORT="3306"
+    if [[ "${DB_HOST_PORT}" == *:* ]]; then
+        DB_HOST=$(echo "${DB_HOST_PORT}" | awk -F':' '{print $1}')
+        DB_PORT=$(echo "${DB_HOST_PORT}" | awk -F':' '{print $2}')
     fi
 
-    db=$1
-
-    [ -z "$db" ] && warp_message_error "Database name is required" && exit 1
-
-    DATABASE_ROOT_PASSWORD=$(warp_env_read_var DATABASE_ROOT_PASSWORD)
-    
-    docker-compose -f $DOCKERCOMPOSEFILE exec -T mysql bash -c "mysql -uroot -p$DATABASE_ROOT_PASSWORD $db 2> /dev/null"
-
+    echo "${COMMAND} --host=${DB_HOST} --port=${DB_PORT} --user=${DB_USER} --password=${DB_PASS} ${DB_NAME} ${TABLES}"
 }
 
 function mysql_main()
@@ -299,6 +362,11 @@ function mysql_main()
         connect)
             shift 1
             mysql_connect $*
+        ;;
+
+        query)
+            shift 1
+            mysql_query $*
         ;;
 
         ssh)

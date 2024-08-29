@@ -44,6 +44,7 @@ function php_ssh_help()
     warp_message ""
     warp_message_info "Options:"
     warp_message_info   " -h, --help         $(warp_message 'display this help message')"
+    warp_message_info   " -e, --env          $(warp_message 'specify remote environment')"
     warp_message_info   " --root             $(warp_message 'inside container php as root')"
     warp_message ""
 
@@ -56,6 +57,8 @@ function php_ssh_help()
     warp_message_info "Example:"
     warp_message " warp php ssh"
     warp_message " warp php ssh --root"
+    warp_message " warp php ssh -e          $(warp_message_warn "(environment selection feature will popup)")"
+    warp_message " warp php ssh -e stage"
     warp_message ""    
 }
 

@@ -27,16 +27,6 @@ do
 		[ -f $PATH_ROOT_SITE/bin/magento ] && chmod +x $PATH_ROOT_SITE/bin/magento
     fi;
 
-    # Permission to Oro binary
-	if [ -f $PATH_ROOT_SITE/bin/console ]
-    then
-		[ -f $PATH_ROOT_SITE/bin/console ] && chown www-data:www-data $PATH_ROOT_SITE/bin/console
-		[ -f $PATH_ROOT_SITE/bin/console ] && chmod +x $PATH_ROOT_SITE/bin/console
-    elif [ -f $PATH_ROOT_SITE/app/console ] ; then        
-		[ -f $PATH_ROOT_SITE/app/console ] && chown www-data:www-data $PATH_ROOT_SITE/app/console
-		[ -f $PATH_ROOT_SITE/app/console ] && chmod +x $PATH_ROOT_SITE/app/console
-    fi
-
 	# Set permission to warp binary
 	[ -f $PATH_ROOT_SITE/warp ] && chmod 775 $PATH_ROOT_SITE/warp
 

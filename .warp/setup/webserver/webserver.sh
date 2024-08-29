@@ -120,9 +120,6 @@ then
         'm2')
             cat $CONFIGFOLDER/nginx/sites-enabled/m2.conf | sed -e "s/{{SERVER_NAME}}/${nginx_virtual_host}/" > $CONFIGFOLDER/nginx/sites-enabled/$nginx_config_file
         ;;
-        'oro')
-            cat $CONFIGFOLDER/nginx/sites-enabled/oro.conf | sed -e "s/{{SERVER_NAME}}/${nginx_virtual_host}/" > $CONFIGFOLDER/nginx/sites-enabled/$nginx_config_file
-        ;;
         'php')
             cat $CONFIGFOLDER/nginx/sites-enabled/php.conf | sed -e "s/{{SERVER_NAME}}/${nginx_virtual_host}/" > $CONFIGFOLDER/nginx/sites-enabled/$nginx_config_file
         ;;

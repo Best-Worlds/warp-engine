@@ -45,7 +45,7 @@ fi;
 
 
 while : ; do
-    framework=$( warp_question_ask_default "Select the main framework for this project. Possible values are $(warp_message_info [m1/m2/oro/php]): " "m2" )
+    framework=$( warp_question_ask_default "Select the main framework for this project. Possible values are $(warp_message_info [m1/m2/php]): " "m2" )
 
     case $framework in
         'm1')
@@ -54,14 +54,11 @@ while : ; do
         'm2')
             break
         ;;
-        'oro')
-            break
-        ;;
         'php')
             break
         ;;
         *)
-            warp_message_info2 "Selected: $framework, the available options are m1, m2, oro, php"
+            warp_message_info2 "Selected: $framework, the available options are m1, m2, php"
         ;;
     esac
 done

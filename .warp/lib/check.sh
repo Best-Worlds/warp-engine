@@ -124,6 +124,25 @@ warp_check_is_running() {
     fi
 }
 
+#######################################
+# Check if the docker-components are running
+# Globals:
+#   DOCKERCOMPOSEFILE
+# Arguments:
+#   None
+# Returns:
+#   true|false
+#######################################
+warp_check_is_running_error() {
+    if [ $(warp_check_is_running) = false ]
+    then
+        warp_message_error "The containers are not running"
+        warp_message_error "please, first run warp start"
+
+        exit 1;
+    fi
+}
+
 warp_check_php_is_running() {
     if [ -f $DOCKERCOMPOSEFILE ]
     then

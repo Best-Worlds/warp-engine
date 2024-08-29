@@ -1,7 +1,5 @@
 #!/bin/bash +x
 
-. "$PROJECTPATH/.warp/lib/dockerhub.sh"
-
 echo ""
 warp_message_info "Configuring PHP Service"
 

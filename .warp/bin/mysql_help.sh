@@ -85,12 +85,19 @@ function mysql_connect_help()
     warp_message ""
 
     warp_message ""
+    warp_message_info "Options:"
+    warp_message_info   " -e, --env         $(warp_message 'specify remote environment')"
+    warp_message ""
+
+    warp_message ""
     warp_message_info "Help:"
     warp_message " Connect to mysql command line "
     warp_message ""
 
     warp_message_info "Example:"
     warp_message " warp mysql connect"
+    warp_message " warp mysql connect -e          $(warp_message_warn "(environment selection feature will popup)")"
+    warp_message " warp mysql connect -e stage"
     warp_message " mysql >> show databases;"
     warp_message ""
 }

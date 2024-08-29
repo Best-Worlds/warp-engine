@@ -28,6 +28,8 @@ include_warp_framework() {
     . "$PROJECTPATH/.warp/variables.sh"
     # INCLUDE WARP FRAMEWORK
     . "$PROJECTPATH/.warp/includes.sh"
+
+    warp_initialize_environments
 }
 
 if [ -d $PROJECTPATH/.warp/lib ]; then
@@ -38,6 +40,80 @@ if [ -d $PROJECTPATH/.warp/lib ]; then
     # Check minimum versions
     warp_check_docker_version
 fi;
+
+# Handling options/arguments
+POSITIONAL_PARAMS=()
+for arg in $*; do
+  if [[ ! "$arg" == -* ]] && [[ ! "$arg" == --* ]];
+  then
+    POSITIONAL_PARAMS+=( "$arg" )
+    shift
+  else
+    # breaking process till find an option argument
+    break
+  fi
+done
+
+if [[ ! -z "$*" ]];
+then
+  OPTIONS=$*
+  if [[ "$OPTIONS" == "-e" ]];
+  then
+    OPTIONS="-e empty"
+  fi
+
+  # Setting option arguments (-* or --* parameter)
+  OPTS=`getopt -o e:hjsda -l env:,help,hard,status,disable,enable -n 'parse-options' -- "${OPTIONS}"`
+
+  eval set -- "$OPTS"
+
+  while true; do
+    case "$1" in
+      -e | --env )
+        if [[ "$2" =~ "empty" ]]
+        then
+          warp_set_current_remote_env
+        else
+          warp_set_current_remote_env $2
+        fi
+        shift
+        break
+      ;;
+      -d | --disable)
+        POSITIONAL_PARAMS+=( "--disable" )
+        shift
+        break
+      ;;
+      -a | --enable)
+        POSITIONAL_PARAMS+=( "--enable" )
+        shift
+        break
+      ;;
+      -j | --hard)
+        POSITIONAL_PARAMS+=( "--hard" )
+        shift
+        break
+      ;;
+      -h | --help )
+        POSITIONAL_PARAMS+=( "--help" )
+        shift
+        break
+      ;;
+      -s | --status)
+        POSITIONAL_PARAMS+=( "--status" )
+        shift
+        break
+      ;;
+      -- | " -- ")
+        shift
+        ;;
+      *)
+        warp_message_error "Invalid $1 argument"
+        exit 1
+      ;;
+    esac
+  done
+fi
 
 setup_main() {
 
@@ -52,14 +128,6 @@ setup_main() {
 
         init_main init --no-interaction
         exit 1
-    elif [ "$1" = "-mg" ] || [ "$1" = "--mode-gandalf" ] ; then
-        if [ ! -d $PROJECTPATH/.warp/setup ]; then
-            warp_setup --mode-gandalf $*
-            exit 0;
-        fi;
-
-        init_main init --mode-gandalf $*
-        exit 0;
     else
         if [ ! -d $PROJECTPATH/.warp/setup ]; then
             warp_setup install
@@ -256,15 +324,16 @@ function warp_info()
 
         docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}   {{.Name}}'   $(docker-compose -f  $DOCKERCOMPOSEFILE ps -q) | sed 's/ \// /'
     else
-        mysql_main info
-        postgres_main info
         webserver_main info
         php_main info
+        mysql_main info
+        remote_env_main info
         elasticsearch_main info
-        varnish_main info
         redis_main info
         rabbit_main info
         mailhog_main info
+        postgres_main info
+        varnish_main info
     fi;
 }
 
@@ -302,18 +371,6 @@ function warp_setup()
             sleep 1
             include_warp_framework
             init_main init --no-interaction
-        fi
-    fi
-
-    if [ "$OPTION" = "--mode-gandalf" ]
-    then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
-            echo "Installing Warp --mode-gandalf, wait a few moments"
-            sleep 1
-            echo "Successful installation!, starting without wizard.."
-            sleep 1
-            include_warp_framework
-            init_main init --mode-gandalf $*
         fi
     fi
 
@@ -413,169 +470,157 @@ then
     fi
 fi
 
-case "$1" in
-    init)
-    shift 1
-    setup_main  $*
-    ;;
+# Setting service param
+SERVICE_PARAM=${POSITIONAL_PARAMS[0]};
+# Removing service param once redirected to the service
+POSITIONAL_PARAMS=("${POSITIONAL_PARAMS[@]:1}")
 
-    mysql)
-    shift 1
-    mysql_main $*
-    ;;
+case "${SERVICE_PARAM}" in
 
-    postgres)
-    shift 1
-    postgres_main $*
-    ;;
-
-    php)
-    shift 1
-    php_main $*
-    ;;
-
-    start)
-    start_main $*
-    ;;
-
-    fix)
-    fix_main $*
-    ;;
-
-    git)
-    shift 1
-    git_main $*
-    ;;
-
-    xdebug)
-    shift 1
-    xdebug_main $*
-    ;;
-
-    volume)
-    shift 1
-    volume_main $*
-    ;;
-
-    ioncube)
-    shift 1
-    ioncube_main $*
-    ;;
-
-    restart)
-    restart_main $*
-    ;;
-
-    stop)
-    stop_main $*
-    ;;
-
-    ps)
-    ps_main $*
-    ;;
-
-    info)
-    shift 1
-    warp_info $*
+    build)
+      build_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
     composer)
-    composer_main $*
-    ;;
-
-    magento)
-    magento_main $*
-    ;;
-
-    ece-tools|ece-patches)
-    magento_main $*
-    ;;
-
-    oro)
-    oro_main $*
+      composer_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
     crontab)
-    crontab_main $*
-    ;;
-
-    npm)
-    npm_main $*
-    ;;
-
-    grunt)
-    grunt_main $*
-    ;;
-
-    logs)
-    logs_main $*
+      crontab_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
     docker)
-    docker_main $*
+      docker_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
-    build)
-    build_main $*
+    ece-tools|ece-patches)
+      magento_main ${POSITIONAL_PARAMS[@]}
     ;;
 
     elasticsearch)
-    shift 1
-    elasticsearch_main $*
+      elasticsearch_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
-    varnish)
-    shift 1
-    varnish_main $*
+    fix)
+      fix_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
-    redis)
-    shift 1
-    redis_main $*
+    git)
+      git_main ${POSITIONAL_PARAMS[@]}
     ;;
 
-    sync)
-    shift 1
-    sync_main $*
+    grunt)
+      grunt_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
-    rsync)
-    shift 1
-    rsync_main $*
+    info)
+      warp_info ${POSITIONAL_PARAMS[@]}
     ;;
 
-    rabbit)
-    shift 1
-    rabbit_main $*
+    init)
+      setup_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
-    selenium)
-    shift 1
-    selenium_main $*
+    ioncube)
+      ioncube_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    logs)
+      logs_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    magento)
+      magento_main ${POSITIONAL_PARAMS[@]}
     ;;
 
     mailhog)
-    shift 1
-    mailhog_main $*
+      mailhog_main ${POSITIONAL_PARAMS[@]}
     ;;
 
-    sandbox | sb)
-    shift 1
-    setup_sandbox_main $*
+    mysql)
+      mysql_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    npm)
+      npm_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    php)
+      php_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    postgres)
+      postgres_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    ps)
+      ps_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    rabbit)
+      rabbit_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    redis)
+      redis_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    remote)
+      remote_env_main ${POSITIONAL_PARAMS[@]}
     ;;
 
     reset)
-    reset_main $*
+      reset_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    restart)
+      restart_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    rsync)
+      rsync_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    sandbox | sb)
+      setup_sandbox_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    selenium)
+      selenium_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    start)
+      start_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    stop)
+      stop_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    sync)
+      sync_main ${POSITIONAL_PARAMS[@]}
     ;;
 
     update)
-    shift 1
-    warp_update $*
+      warp_update ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    varnish)
+      varnish_main  ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    volume)
+      volume_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
+    xdebug)
+      xdebug_main ${POSITIONAL_PARAMS[@]}
     ;;
 
     *)
     help
     ;;
+
 esac
 
 exit 0

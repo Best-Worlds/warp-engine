@@ -3,7 +3,6 @@
     # IMPORT HELP
 
     . "$PROJECTPATH/.warp/bin/php_help.sh"
-    . "$PROJECTPATH/.warp/lib/dockerhub.sh"
 
 function php_info()
 {
@@ -33,26 +32,24 @@ function php_info()
 
 function php_connect_ssh() 
 {
-
     if [ "$1" = "-h" ] || [ "$1" = "--help" ]
     then
         php_ssh_help 
         exit 1
     fi;
 
-    if [ $(warp_check_is_running) = false ]; then
-        warp_message_error "The containers are not running"
-        warp_message_error "please, first run warp start"
-
-        exit 1;
-    fi
-
-    if [ "$1" = "--root" ]
+    if [[ $(warp_get_current_remote_env) = false ]];
     then
-        docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+        warp_check_is_running_error
+        if [ "$1" = "--root" ];
+        then
+            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+        else
+            docker-compose -f $DOCKERCOMPOSEFILE exec php bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+        fi;
     else
-        docker-compose -f $DOCKERCOMPOSEFILE exec php bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
-    fi;    
+        warp_remote_env_connect
+    fi;
 }
 
 function php_switch() 

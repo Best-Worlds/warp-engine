@@ -13,15 +13,15 @@
 # Returns:
 #   None
 ##
-function warp_question_ask() {
+function warp_question_ask()
+{
     read -p "$1" response
 
     echo $response
 }
 
-
-function warp_question_ask_default() {
-
+function warp_question_ask_default()
+{
     if [ "$2" = "" ]; then
         echo "Error Default value is missing"
         exit;

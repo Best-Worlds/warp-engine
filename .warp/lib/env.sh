@@ -1,5 +1,20 @@
 #!/bin/bash
 
+##
+# Initialize environments array by declaring it global
+#
+# Globals:
+#   REMOTE_ENVIRONMENTS
+# Arguments:
+#
+# Returns:
+#   string
+##
+function warp_initialize_environments()
+{
+    declare -g REMOTE_ENVIRONMENTS
+    IFS=' ' read -r -a REMOTE_ENVIRONMENTS <<< $(warp_env_read_var REMOTE_ENVIRONMENTS)
+}
 
 ##
 # Read a variable from .env file located in root folder
@@ -8,7 +23,7 @@
 #    echo $my_var
 #
 # Globals:
-#   PROJECTPATH
+#   ENVIRONMENTVARIABLESFILE
 # Arguments:
 #   $1 Var to read. Ex. REDIS_CACHE_VERSION
 # Returns:
@@ -18,6 +33,29 @@ function warp_env_read_var()
 {
     [ -f $ENVIRONMENTVARIABLESFILE ] && _VAR=$(grep "^$1=" $ENVIRONMENTVARIABLESFILE | cut -d '=' -f2)
     echo $_VAR
+}
+
+##
+# Read a variable from .env file located in root folder related to a specific remote environment
+#
+# Globals:
+#   CURRENT_REMOTE_ENV
+# Arguments:
+#   $1 Var to read. Ex. STAGE_REMOTE_ENVIRONMENT_HOST
+# Returns:
+#   string
+##
+function warp_remote_env_read_var()
+{
+    VAR_NAME=${1^^}
+    if [[ -z "$2" ]]
+    then
+        REMOTE_ENV=${CURRENT_REMOTE_ENV^^}
+    else
+        REMOTE_ENV=${2^^}
+    fi
+    REMOTE_VAR_NAME="${REMOTE_ENV}_REMOTE_ENVIRONMENT_${VAR_NAME}"
+    warp_env_read_var ${REMOTE_VAR_NAME}
 }
 
 # Generate RANDOM Password

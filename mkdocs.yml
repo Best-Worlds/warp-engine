@@ -28,7 +28,6 @@ nav:
   - Features:
     - Services: 'features/services.md'
     - Magento: 'features/magento.md'
-    - Oro: 'features/oro.md'    
     - Grunt: 'features/grunt.md'
     - Redis: 'features/redis.md'
     - Varnish: 'features/varnish.md'
