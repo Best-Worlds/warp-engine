@@ -4,10 +4,10 @@
 # PHP 7.0-fpm
 #zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20151012/ioncube.so
 
-# PHP 7.1-fpm|7.1.17-fpm|7.1.26-fpm
+# PHP 7.1-fpm 7.1.17-fpm 7.1.26-fpm
 #zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20160303/ioncube.so
 
-# PHP 7.2-fpm|7.2.24-fpm
+# PHP 7.2-fpm 7.2.24-fpm
 #zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ioncube.so
 
 # PHP 7.3-fpm

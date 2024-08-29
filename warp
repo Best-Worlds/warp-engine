@@ -63,7 +63,7 @@ then
   fi
 
   # Setting option arguments (-* or --* parameter)
-  OPTS=`getopt -o e:hjsda -l env:,help,hard,status,disable,enable -n 'parse-options' -- "${OPTIONS}"`
+  OPTS=`getopt -o e:hjsdar -l env:,help,hard,status,disable,enable,root -n 'parse-options' -- "${OPTIONS}"`
 
   eval set -- "$OPTS"
 
@@ -96,6 +96,11 @@ then
       ;;
       -h | --help )
         POSITIONAL_PARAMS+=( "--help" )
+        shift
+        break
+      ;;
+      -r | --root )
+        POSITIONAL_PARAMS+=( "--root" )
         shift
         break
       ;;
