@@ -68,13 +68,24 @@ function elasticsearch_indexes()
 
     warp_check_is_running_error
 
-    watch=""
-    if [ "$1" = "-w" ] || [ "$1" = "--watch" ] || [ "$2" = "-w" ] || [ "$2" = "--watch" ]
-    then
-        watch="watch "
-    fi;
+    if [[ ! -z $* ]];then
+        if [ "$1" = "-w" ] || [ "$1" = "--watch" ]
+        then
+            watch="watch "
+            indexes_prefix=""
+        else
+            indexes_prefix="$1*"
+            if [[ "$2" = "-w" ]] || [[ "$2" = "--watch" ]];
+            then
+                watch="watch "
+            fi
+        fi;
+    else
+        watch=""
+        indexes_prefix=""
+    fi
 
-    docker-compose -f $DOCKERCOMPOSEFILE exec elasticsearch bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`;${watch}curl -XGET elasticsearch:9200/_cat/indices/$1*?v"
+    docker-compose -f $DOCKERCOMPOSEFILE exec elasticsearch bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`;${watch}curl -XGET elasticsearch:9200/_cat/indices/${indexes_prefix}?v"
 }
 
 function elasticsearch_command()
@@ -91,11 +102,6 @@ function elasticsearch_command()
 function elasticsearch_main()
 {
     case "$1" in
-        elasticsearch)
-		      shift 1
-          elasticsearch_command $*  
-        ;;
-
         info)
             elasticsearch_info
         ;;

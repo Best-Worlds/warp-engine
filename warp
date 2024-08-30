@@ -63,7 +63,7 @@ then
   fi
 
   # Setting option arguments (-* or --* parameter)
-  OPTS=`getopt -o e:hjsdar -l env:,help,hard,status,disable,enable,root -n 'parse-options' -- "${OPTIONS}"`
+  OPTS=`getopt -o e:hjsdarw -l env:,help,hard,status,disable,enable,root,watch -n 'parse-options' -- "${OPTIONS}"`
 
   eval set -- "$OPTS"
 
@@ -106,6 +106,11 @@ then
       ;;
       -s | --status)
         POSITIONAL_PARAMS+=( "--status" )
+        shift
+        break
+      ;;
+      -w | --watch)
+        POSITIONAL_PARAMS+=( "--watch" )
         shift
         break
       ;;
@@ -498,7 +503,7 @@ case "${SERVICE_PARAM}" in
     ;;
 
     elasticsearch)
-      elasticsearch_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
+      elasticsearch_main ${POSITIONAL_PARAMS[@]}
     ;;
 
     fix)
