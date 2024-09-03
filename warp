@@ -382,35 +382,6 @@ function warp_setup()
     exit 0
 }
 
-function warp_check_binary_was_updated()
-{
-    if [ -f "$ENVIRONMENTVARIABLESFILE" ] && [ -f "$ENVIRONMENTVARIABLESFILESAMPLE" ] && [ -d $PROJECTPATH/.warp/lib ]
-    then
-        WARP_ENV_VERSION=$(grep "^WARP_VERSION" $ENVIRONMENTVARIABLESFILESAMPLE | cut -d '=' -f2)
-        _WARP_ENV_VERSION=$(echo $WARP_ENV_VERSION | tr -d ".")
-
-        . $PROJECTPATH/.warp/lib/version.sh
-        _WARP_VERSION=$(echo $WARP_VERSION | tr -d ".")
-
-        if [ ! -z "$WARP_ENV_VERSION" ]
-        then
-            # .env.sample > version.sh and not equal
-            if [ $_WARP_ENV_VERSION -gt $_WARP_VERSION ] && [ ! $_WARP_ENV_VERSION -eq $_WARP_VERSION ]
-            then
-                # different version binary and current, force update
-                warp_message_warn "binary and current version different, force update"
-                warp_setup update --force
-
-                # save new version to ENVIRONMENTVARIABLESFILESAMPLE
-                # warp_env_change_version_sample_file
-            fi
-        fi
-    fi
-}
-
-# check if binary was updated
-warp_check_binary_was_updated
-
 ## Generate file to check self-update
 # check if the variables are not empty
 if [[ ! -z "$CHECK_UPDATE_FILE" ]] && [[ ! -z "$CHECK_FREQUENCY_DAYS" ]]
