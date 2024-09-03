@@ -23,15 +23,6 @@ function start() {
     exit 1;
   fi
 
-  MODE_SANDBOX=$(warp_env_read_var MODE_SANDBOX)
-  if [ ! -z "$MODE_SANDBOX" ]
-  then
-      if [ "$MODE_SANDBOX" = "Y" ] || [ "$MODE_SANDBOX" = "y" ] ; then
-        warp_message_warn "warp mode sandbox must be started run: $(warp_message_info2 'warp sandbox start')";
-        exit 1;
-      fi;
-  fi
-
   if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
         
       start_help_usage

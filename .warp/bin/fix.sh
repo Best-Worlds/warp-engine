@@ -171,20 +171,6 @@ function fix_owner()
     warp_message "* Filesystem permissions corrected."
 }
 
-function fix_sandbox()
-{
-    warp_message "* Correcting filesystem ownerships..."
-    docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "chgrp -R 33 /var/www/html/"
-
-    warp_message "* Correcting filesystem permissions..."
-    docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "chmod -R ug+rw /var/www/html/"
-
-    docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -f /var/www/html/2.2.9-ce/bin/magento ] && chown www-data:www-data /var/www/html/2.2.9-ce/bin/magento"
-    docker-compose -f $DOCKERCOMPOSEFILE exec -uroot php bash -c "[ -f /var/www/html/2.3.1-ce/bin/magento ] && chown www-data:www-data /var/www/html/2.3.1-ce/bin/magento"
-
-    warp_message "* Filesystem permissions corrected."
-}
-
 function fix_default()
 {
     # fix user and groups to current project
@@ -301,10 +287,6 @@ function fix_permissions()
       ;;
       "--fast"|"-f")
             fix_fast $@
-            exit 1
-      ;;
-      "--sandbox")
-            fix_sandbox $@
             exit 1
       ;;
       "--all")

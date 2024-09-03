@@ -27,8 +27,6 @@ function redis_info()
         warp_message_info "* Redis Cache"
         warp_message "Redis Version:              $(warp_message_info $REDIS_CACHE_VERSION)"
         warp_message "Host:                       $(warp_message_info 'redis-cache')"
-#       warp_message "Configuration file:         $(warp_message_info $REDIS_CACHE_CONF)"
-#       warp_message "REDIS_DATA:                 $(warp_message_info $PROJECTPATH/.warp/docker/volumes/redis-cache)"
         warp_message "Port (container):           $(warp_message_info '6379')"
         warp_message ""
     fi
@@ -39,8 +37,6 @@ function redis_info()
         warp_message_info "* Redis Session"
         warp_message "Redis version:              $(warp_message_info $REDIS_SESSION_VERSION)"
         warp_message "Host:                       $(warp_message_info 'redis-session')"
-#       warp_message "REDIS_SESSION_CONF:         $(warp_message_info $REDIS_SESSION_CONF)"
-#       warp_message "REDIS_DATA:                 $(warp_message_info $PROJECTPATH/.warp/docker/volumes/redis-session)"
         warp_message "Port (container):           $(warp_message_info '6379')"
         warp_message ""
     fi
@@ -51,79 +47,50 @@ function redis_info()
         warp_message_info "* Redis Fpc"
         warp_message "Redis version:              $(warp_message_info $REDIS_FPC_VERSION)"
         warp_message "Host:                       $(warp_message_info 'redis-fpc')"
-#       warp_message "REDIS_FPC_CONF:             $(warp_message_info $REDIS_FPC_CONF)"
-#       warp_message "REDIS_DATA:                 $(warp_message_info $PROJECTPATH/.warp/docker/volumes/redis-fpc)"
         warp_message "Port (container):           $(warp_message_info '6379')"
         warp_message ""
     fi
 
 }
 
-function redis_cli() 
+function redis_cli()
 {
-
     if [ "$1" = "-h" ] || [ "$1" = "--help" ]
     then
-        redis_cli_help_usage 
+        redis_cli_help_usage
         exit 1
     fi;
 
     warp_check_is_running_error
-
-    COMMAND=$2
-    case "$1" in
-        "fpc")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-fpc redis-cli $COMMAND
-            ;;
-
-        "session")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-session redis-cli $COMMAND
-            ;;
-
-        "cache")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-cache redis-cli $COMMAND
-            ;;
-
-        *)            
-            warp_message_error "Please, choose a valid option:"
-            warp_message_error "fpc, session, cache"
-            warp_message_error "for more information please run: warp redis cli --help"
-        ;;
-    esac
-
+    redis_validate_type "$1"
+    warp_container_exec redis-$1 "redis-cli $2" --root $3
 }
 
-function redis_monitor() 
+function redis_monitor()
 {
 
     if [ "$1" = "-h" ] || [ "$1" = "--help" ]
     then
-        redis_monitor_help_usage 
+        redis_monitor_help_usage
         exit 1
     fi;
 
     warp_check_is_running_error
+    redis_validate_type "$1"
+    warp_container_exec redis-$1 "redis-cli -c 'monitor'" --root
+}
 
-    case "$1" in 
-        "fpc")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-fpc redis-cli -c "monitor"
-            ;;
+function redis_validate_type()
+{
+    REDIS_TYPES=( "fpc" "session" "cache" )
 
-        "session")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-session redis-cli -c "monitor"
-            ;;
-
-        "cache")
-            docker-compose -f $DOCKERCOMPOSEFILE exec -uroot redis-cache redis-cli -c "monitor"
-            ;;
-
-        *)            
-            warp_message_error "Please, choose a valid option:"
-            warp_message_error "fpc, session, cache"
-            warp_message_error "for more information please run: warp redis monitor --help"
-        ;;
-    esac
-
+    if [[ ! $(array_includes "$1" "${REDIS_TYPES[@]}") = true ]];
+    then
+        warp_message_error "Please, choose a valid option:"
+        warp_message_error "fpc, session, cache"
+        warp_message_error "for more information please run: warp redis cli --help"
+        exit 1
+    fi
 }
 
 function redis_main()
@@ -131,27 +98,22 @@ function redis_main()
     case "$1" in
         cli)
             shift 1
-            redis_cli $*
+            redis_cli $* "" "--no-output"
         ;;
-
         monitor)
             shift 1
             redis_monitor $*
         ;;
-
         info)
             redis_info
         ;;
-
         flush)
             shift 1
             redis_cli $* 'FLUSHALL'
         ;;
-
         -h | --help)
             redis_help_usage
         ;;
-
         *)            
             redis_help_usage
         ;;

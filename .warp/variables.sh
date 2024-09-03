@@ -88,10 +88,6 @@ DOCKER_COMPOSE_HTTP_TIMEOUT=300
 # Set minimum version for Docker
 DOCKER_MINIMUM_VERSION=17.05
 
-## SANDBOX MODE
-VHOST_M22_CE="local.m229-ce.com"
-VHOST_M23_CE="local.m231-ce.com"
-
 DB_M22_CE="m229_ce"
 DB_M23_CE="m231_ce"
 

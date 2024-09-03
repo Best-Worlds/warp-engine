@@ -4,14 +4,14 @@ function update_help_usage()
 {
     warp_message ""
     warp_message_info "Usage:"
-    warp_message      " warp self-update [options]"
+    warp_message      " warp update [options]"
     warp_message ""
 
     warp_message ""
     warp_message_info "Options:"
     warp_message_info   " -h, --help         $(warp_message 'display this help message')"
     warp_message_info   " -f, --force        $(warp_message 'force update without confirmation')"
-    warp_message_info   " --images           $(warp_message 'update images from hub registry docker')"
+    warp_message_info   " -i, --images       $(warp_message 'update images from hub registry docker')"
     warp_message ""
 
     warp_message ""

@@ -16,15 +16,6 @@
 ##-c ####################-c #################
 function stop() {
 
-  MODE_SANDBOX=$(warp_env_read_var MODE_SANDBOX)
-  if [ ! -z "$MODE_SANDBOX" ]
-  then
-      if [ "$MODE_SANDBOX" = "Y" ] || [ "$MODE_SANDBOX" = "y" ] ; then
-        warp_message_warn "warp mode sandbox must be stopped run: $(warp_message_info2 'warp sandbox stop')";
-        exit 1;
-      fi;
-  fi
-
   if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
         
       stop_help_usage

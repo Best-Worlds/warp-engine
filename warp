@@ -63,7 +63,7 @@ then
   fi
 
   # Setting option arguments (-* or --* parameter)
-  OPTS=`getopt -o e:hjsdarw -l env:,help,hard,status,disable,enable,root,watch -n 'parse-options' -- "${OPTIONS}"`
+  OPTS=`getopt -o e:hHsdErwfSi -l env:,help,hard,status,disable,enable,root,watch,force,static,images -n 'parse-options' -- "${OPTIONS}"`
 
   eval set -- "$OPTS"
 
@@ -84,12 +84,17 @@ then
         shift
         break
       ;;
-      -a | --enable)
+      -E | --enable)
         POSITIONAL_PARAMS+=( "--enable" )
         shift
         break
       ;;
-      -j | --hard)
+      -f | --force)
+        POSITIONAL_PARAMS+=( "--force" )
+        shift
+        break
+      ;;
+      -H | --hard)
         POSITIONAL_PARAMS+=( "--hard" )
         shift
         break
@@ -99,8 +104,18 @@ then
         shift
         break
       ;;
+      -i | --images )
+        POSITIONAL_PARAMS+=( "--images" )
+        shift
+        break
+      ;;
       -r | --root )
         POSITIONAL_PARAMS+=( "--root" )
+        shift
+        break
+      ;;
+      -S | --static)
+        POSITIONAL_PARAMS+=( "--static" )
         shift
         break
       ;;
@@ -130,14 +145,6 @@ setup_main() {
     if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
         setup_help_usage
         exit 0;
-    elif [ "$1" = "-n" ] || [ "$1" = "--no-interaction" ] ; then
-        if [ ! -d $PROJECTPATH/.warp/setup ]; then
-            warp_setup --no-interaction
-            exit 0;
-        fi;
-
-        init_main init --no-interaction
-        exit 1
     else
         if [ ! -d $PROJECTPATH/.warp/setup ]; then
             warp_setup install
@@ -145,21 +152,6 @@ setup_main() {
         fi;
 
         init_main init
-    fi
-}
-
-setup_sandbox_main() {
-
-    if [ "$1" = "-h" ] || [ "$1" = "--help" ] && [ ! -d $PROJECTPATH/.warp/setup ] ; then
-        setup_help_usage
-        exit 0;
-    else
-        if [ ! -d $PROJECTPATH/.warp/setup ]; then
-            warp_setup sandbox
-            exit 0;
-        fi;
-
-        sandbox_main $*
     fi
 }
 
@@ -216,7 +208,7 @@ help() {
 
 warp_check_latest_version()
 {
-    WARP_VERSION_LATEST=$(curl --silent "https://api.github.com/repos/Best-Worlds/warp-engine/tags" | grep -i "name" | sed -E 's/.*"([^"]+)".*/\1/' | head -n 1)
+    WARP_VERSION_LATEST="$(curl --silent "https://api.github.com/repos/Best-Worlds/warp-engine/tags" | grep -i "name" | sed -E 's/.*"([^"]+)".*/\1/' | head -n 1)"
 
     if [ -f $PROJECTPATH/.warp/lib/version.sh ] && [ ! -z "$WARP_VERSION_LATEST" ]
     then
@@ -244,7 +236,7 @@ warp_check_latest_version()
             if [ "$respuesta_update_warp_online" = "Y" ] || [ "$respuesta_update_warp_online" = "y" ]
             then
                 curl --silent -u "$HTTP_AUTH_CREDENTIALS_USER:$HTTP_AUTH_CREDENTIALS_PASS" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
-                warp_setup --self-update
+                warp_setup update
             fi
         else
             warp_message_info "Warp framework is at its latest version. Nothing to update."
@@ -260,34 +252,35 @@ warp_message_not_install_yet()
 
 warp_update()
 {
-    if [ "$1" = "-f" ] || [ "$1" = "--force" ] ; then
-        warp_setup --force
-        exit 0;
-    fi;
-
     if [ ! -d $PROJECTPATH/.warp/lib ]; then
         warp_message_not_install_yet
         exit 0;
     fi;
 
-    if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
-        . "$PROJECTPATH/.warp/bin/update_help.sh"
-        update_help_usage
-        exit 0;
-    fi
+    case "$1" in
 
-    if [ "$1" = "--images" ] ; then
-        echo "checking if there are images available to update"
-        docker-compose -f $DOCKERCOMPOSEFILE pull
-        exit 0;
-    fi
-
-    if [ "$1" = "--self-update" ] ; then
-        warp_check_latest_version
-        exit 0
-    fi
-
-    warp_setup update
+    -h | --help)
+      . "$PROJECTPATH/.warp/bin/update_help.sh"
+      update_help_usage
+      exit 0;
+      break
+    ;;
+    -f | --force)
+      warp_setup --force
+      exit 0;
+    break
+    ;;
+    -i | --images)
+      echo "checking if there are images available to update"
+      sleep 1
+      docker-compose -f $DOCKERCOMPOSEFILE pull
+      exit 0;
+    ;;
+    *)
+      warp_check_latest_version
+      exit 0
+    ;;
+  esac
 }
 
 #######################################
@@ -355,63 +348,43 @@ function warp_setup()
 
     tail -n+${ARCHIVE} "${0}" | tar xpJ -C ${DESTINATION}
 
-    if [ "$OPTION" = "sandbox" ]
-    then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
-            echo "Installing Warp mode Sandbox, wait a few moments"
-            sleep 1
-            echo "Successful installation!, starting configurations.."
-            sleep 1
-            include_warp_framework
-            sandbox_main init
-        fi
-    fi
-
-    if [ "$OPTION" = "--no-interaction" ]
-    then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
-            echo "Installing Warp mode --no-interaction, wait a few moments"
-            sleep 1
-            echo "Successful installation!, starting without wizard.."
-            sleep 1
-            include_warp_framework
-            init_main init --no-interaction
-        fi
-    fi
-
-    if [ "$OPTION" = "--force" ]
-    then
-        echo "Force updating Warp, wait a few moments"
-        sleep 1
-        echo "Successful update!"
-        sleep 1
-        include_warp_framework
-        warp_env_change_version_sample_file
-    fi
-
-    if [ "$OPTION" = "--self-update" ]
-    then
-        echo "Self update Warp, wait a few moments"
-        sleep 1
-        echo "Successful update!"
-        sleep 1
-        include_warp_framework
-        warp_env_change_version_sample_file
-        warp_banner
-        exit 0;
-    fi
-
-    if [ "$OPTION" = "install" ]
-    then
-        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ] ; then
+    case "${OPTION}" in
+    install)
+        if [ -d $PROJECTPATH/.warp/lib ] && [ -d $PROJECTPATH/.warp/bin ];
+        then
             echo "Installing Warp, wait a few moments"
             sleep 1
             echo "Successful installation!, starting configurations.."
             sleep 1
             include_warp_framework
             init_main init
+            break
         fi
-    fi
+    ;;
+    update)
+        if [[ "$2" = "--force" ]];
+        then
+            echo "Force updating Warp, wait a few moments"
+            sleep 1
+            echo "Successful update!"
+            sleep 1
+            include_warp_framework
+            warp_env_change_version_sample_file
+            warp_banner
+        else
+            echo "Updating Warp, wait a few moments"
+            sleep 1
+            echo "Successful update!"
+            sleep 1
+            include_warp_framework
+            warp_env_change_version_sample_file
+            warp_banner
+        fi
+        break
+    ;;
+    esac
+
+    exit 0
 }
 
 function warp_check_binary_was_updated()
@@ -431,7 +404,7 @@ function warp_check_binary_was_updated()
             then
                 # different version binary and current, force update
                 warp_message_warn "binary and current version different, force update"
-                warp_setup --force
+                warp_setup update --force
 
                 # save new version to ENVIRONMENTVARIABLESFILESAMPLE
                 # warp_env_change_version_sample_file
@@ -530,12 +503,16 @@ case "${SERVICE_PARAM}" in
       ioncube_main ${POSITIONAL_PARAMS[@]}
     ;;
 
+    layout)
+      layout_main ${POSITIONAL_PARAMS[@]}
+    ;;
+
     logs)
       logs_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
     magento)
-      magento_main ${POSITIONAL_PARAMS[@]}
+      magento_main ${SERVICE_PARAM} ${POSITIONAL_PARAMS[@]}
     ;;
 
     mailhog)
@@ -584,10 +561,6 @@ case "${SERVICE_PARAM}" in
 
     rsync)
       rsync_main ${POSITIONAL_PARAMS[@]}
-    ;;
-
-    sandbox | sb)
-      setup_sandbox_main ${POSITIONAL_PARAMS[@]}
     ;;
 
     selenium)

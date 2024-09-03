@@ -62,6 +62,57 @@ function remote_env_ssh()
 }
 
 ##
+# Access to remote server and execute download/upload action
+#
+# Globals:
+#
+# Arguments:
+#
+# Returns:
+#   string
+##
+function remote_env_scp()
+{
+    ACTION="$1"
+    shift 1
+
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]
+    then
+        remote_env_"${ACTION}"_help
+        exit 1
+    fi;
+
+    if [[ -z "$*" ]];
+    then
+        FROM_ARGUMENT_NAME=$(if [[ "${ACTION}" = "download" ]]; then echo "remote source file"; else echo "local source file"; fi)
+        while : ; do
+            FROM_ARGUMENT_RESPONSE=$(warp_question_ask "Set the ${FROM_ARGUMENT_NAME}: ")
+            if [[ -z ${FROM_ARGUMENT_RESPONSE} ]];
+            then
+                warp_message_error "The value cannot be empty"
+            else
+                break
+            fi
+        done
+
+        TARGET_ARGUMENT_NAME=$(if [[ "${ACTION}" = "download" ]]; then echo "local target directory $(warp_message_info "[.]")"; else echo "remote target directory $(warp_message_info "[~]")"; fi)
+        while : ; do
+            TARGET_ARGUMENT_RESPONSE=$(warp_question_ask_default "Set the ${TARGET_ARGUMENT_NAME}: " ".")
+            if [[ -z ${TARGET_ARGUMENT_RESPONSE} ]];
+            then
+                warp_message_error "The value cannot be empty"
+            else
+                break
+            fi
+        done
+
+        warp_remote_env_file_transfer "${ACTION}" "${FROM_ARGUMENT_RESPONSE}" "${TARGET_ARGUMENT_RESPONSE}"
+    else
+        warp_remote_env_file_transfer "${ACTION}" $*
+    fi
+}
+
+##
 # Test remote connection status
 #
 # Globals:
@@ -137,25 +188,24 @@ function remote_env_main()
     fi
 
     case "$1" in
+        download | upload)
+            remote_env_scp $*
+        ;;
         info)
             shift 1
             remote_env_info $*
         ;;
-
         ssh)
             shift 1
             remote_env_ssh $*
         ;;
-
         test)
             shift 1
             remote_env_test $*
         ;;
-
         -h | --help)
             remote_env_help_usage
         ;;
-
         *)
             remote_env_help_usage
         ;;

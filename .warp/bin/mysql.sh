@@ -19,12 +19,6 @@ function mysql_info()
     DATABASE_BINDED_PORT=$(warp_env_read_var DATABASE_BINDED_PORT)
     MYSQL_CONFIG_FILE=$(warp_env_read_var MYSQL_CONFIG_FILE)
     MYSQL_VERSION=$(warp_env_read_var MYSQL_VERSION)
-    MODE_SANDBOX=$(warp_env_read_var MODE_SANDBOX)
-
-    if [ "$MODE_SANDBOX" = "Y" ] || [ "$MODE_SANDBOX" = "y" ] ; then 
-        DATABASE_USER=null
-        DATABASE_PASSWORD=null
-    fi
 
     if [ ! -z "$DATABASE_ROOT_PASSWORD" ]
     then

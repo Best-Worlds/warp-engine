@@ -54,12 +54,12 @@ function composer_main()
 {
     case "$1" in
         composer)
-		      shift 1
+		  shift 1
           composer $*  
         ;;
 
         *)
-		      composer_help_usage
+		  composer_help_usage
         ;;
     esac
 }
