@@ -235,7 +235,7 @@ warp_check_latest_version()
 
             if [ "$respuesta_update_warp_online" = "Y" ] || [ "$respuesta_update_warp_online" = "y" ]
             then
-                curl --silent -u "$HTTP_AUTH_CREDENTIALS_USER:$HTTP_AUTH_CREDENTIALS_PASS" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp.latest
+                curl --silent -u "$HTTP_AUTH_CREDENTIALS_USER:$HTTP_AUTH_CREDENTIALS_PASS" -L -o warp.latest https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp.latest
                 ./warp.latest update
             fi
         else
@@ -430,7 +430,7 @@ then
         _NEXT_CHECK=$(cat "$CHECK_UPDATE_FILE")
         _TODAY=$(date +%Y%m%d)
 
-        if [[ $_TODAY -ge $_NEXT_CHECK ]] && [[ "$1" != "start" ]]
+        if [[ $_TODAY -ge $_NEXT_CHECK ]] && [[ "$1" != "start" ]] && [[ "$1" != "update" ]]
         then
             warp_check_latest_version
             # update next check
