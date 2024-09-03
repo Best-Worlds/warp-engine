@@ -235,8 +235,8 @@ warp_check_latest_version()
 
             if [ "$respuesta_update_warp_online" = "Y" ] || [ "$respuesta_update_warp_online" = "y" ]
             then
-                curl --silent -u "$HTTP_AUTH_CREDENTIALS_USER:$HTTP_AUTH_CREDENTIALS_PASS" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp
-                warp_setup update
+                curl --silent -u "$HTTP_AUTH_CREDENTIALS_USER:$HTTP_AUTH_CREDENTIALS_PASS" -L -o warp https://packages.bestworlds.com/warp-engine/release/latest && chmod 755 warp.latest
+                ./warp.latest update
             fi
         else
             warp_message_info "Warp framework is at its latest version. Nothing to update."
@@ -266,7 +266,7 @@ warp_update()
       break
     ;;
     -f | --force)
-      warp_setup --force
+      warp_setup update --force
       exit 0;
     break
     ;;
@@ -277,7 +277,7 @@ warp_update()
       exit 0;
     ;;
     *)
-      warp_check_latest_version
+      warp_setup update
       exit 0
     ;;
   esac
@@ -362,23 +362,18 @@ function warp_setup()
         fi
     ;;
     update)
-        if [[ "$2" = "--force" ]];
+        echo "Updating Warp, wait a few moments"
+        sleep 1
+        echo "Successful update!"
+        sleep 1
+        include_warp_framework
+        warp_env_change_version_sample_file
+        warp_banner
+        # Replace old release for latest downloaded release
+        if [[ -d "${PROJECTPATH}/warp.latest" ]];
         then
-            echo "Force updating Warp, wait a few moments"
-            sleep 1
-            echo "Successful update!"
-            sleep 1
-            include_warp_framework
-            warp_env_change_version_sample_file
-            warp_banner
-        else
-            echo "Updating Warp, wait a few moments"
-            sleep 1
-            echo "Successful update!"
-            sleep 1
-            include_warp_framework
-            warp_env_change_version_sample_file
-            warp_banner
+            rm "${PROJECTPATH}/warp"
+            mv "${PROJECTPATH}/warp.latest" warp
         fi
         break
     ;;

@@ -129,6 +129,32 @@ function warp_remote_env_connect()
             warp_message_ok "Successfully connected!"
         fi
     fi
+}
 
+##
+# File transfer through SCP Protocol to remote server
+#
+# Arguments:
+#   COMMAND
+# Returns:
+#   string
+##
+function warp_remote_env_file_transfer()
+{
+    HOST=$(warp_remote_env_read_var host)
+    IDENTITY_KEY=$(warp_remote_env_read_var identity_key)
 
+    warp_file_exists_error "${IDENTITY_KEY}" "Missing identity key file under: ${IDENTITY_KEY}. Please review your .env file and change it for the correct one or verify file permissions."
+
+    USER=$(warp_remote_env_read_var user)
+
+    ACTION=$1
+    shift 1
+
+    if [[ "${ACTION}" = "download" ]];
+    then
+        scp -i "${IDENTITY_KEY}" "${USER}@${HOST}:$1" "$2"
+    else
+        scp -i "${IDENTITY_KEY}" "$1" "${USER}@${HOST}:$2"
+    fi
 }
