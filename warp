@@ -430,7 +430,7 @@ then
         _NEXT_CHECK=$(cat "$CHECK_UPDATE_FILE")
         _TODAY=$(date +%Y%m%d)
 
-        if [[ $_TODAY -ge $_NEXT_CHECK ]] && [[ "$1" != "start" ]] && [[ "$1" != "update" ]]
+        if [[ $_TODAY -ge $_NEXT_CHECK ]] && [[ "$1" != "start" ]] && [[ ! "${0}" =~ "latest" ]]
         then
             warp_check_latest_version
             # update next check
