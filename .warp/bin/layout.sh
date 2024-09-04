@@ -8,6 +8,12 @@
 
 layout_flush()
 {
+    if [[ "$1" = '--help' ]] || [[ "$1" = '-h' ]];
+    then
+        layout_flush_help
+        exit 1
+    fi
+
     if [[ "$1" = '--static' ]] || [[ "$1" = '-S' ]];
     then
         warp_container_exec "php" "rm -rf pub/static/frontend/* var/view_preprocessed && bin/magento ca:fl"
@@ -25,11 +31,12 @@ layout_main()
         layout_flush $*
     ;;
     -h | --help)
-        layout_help
+        layout_help_usage
         exit 1
     ;;
     *)
-
+        layout_help_usage
+        exit 1
     ;;
 
     esac

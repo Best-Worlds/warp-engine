@@ -11,7 +11,7 @@
 #   None
 warp_container_exec()
 {
-    #warp_check_is_running_error
+    warp_check_is_running_error
 
     CONTAINER=$1
     COMMAND=$2
@@ -22,11 +22,6 @@ warp_container_exec()
     then
         warp_message_error "Missing container name"
         exit 1
-    else
-        if [[ "${CONTAINER}" = 'php' ]];
-        then
-            COMMAND="/bin/bash -c '${COMMAND}'"
-        fi
     fi
 
     if [[ ! -z "${ROOT_FLAG}" ]] && [[ "${ROOT_FLAG}" = '--root' ]];
@@ -40,7 +35,14 @@ warp_container_exec()
     then
         docker-compose -f $DOCKERCOMPOSEFILE exec${ROOT} "${CONTAINER}" ${COMMAND}
     else
-        RESULT=$(docker-compose -f $DOCKERCOMPOSEFILE exec${ROOT} "${CONTAINER}" ${COMMAND})
+        if [[ "${CONTAINER}" = "php" ]];
+        then
+            RESULT=$(docker-compose -f $DOCKERCOMPOSEFILE exec${ROOT} "${CONTAINER}" /bin/bash -c "${COMMAND}")
+        else
+            RESULT=$(docker-compose -f $DOCKERCOMPOSEFILE exec${ROOT} "${CONTAINER}" ${COMMAND})
+        fi
+
+        # Render output
         if [[ "${RESULT}" =~ "err" ]] || [[ "${RESULT}" =~ "error" ]] || [[ "${RESULT}" =~ "ERROR" ]] || [[ "${RESULT}" =~ "fail" ]];
         then
             warp_message_error "${RESULT}"

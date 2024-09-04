@@ -358,7 +358,6 @@ function warp_setup()
             sleep 1
             include_warp_framework
             init_main init
-            break
         fi
     ;;
     update)
@@ -375,7 +374,6 @@ function warp_setup()
             rm "${PROJECTPATH}/warp"
             mv "${PROJECTPATH}/warp.latest" warp
         fi
-        break
     ;;
     esac
 
