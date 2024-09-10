@@ -21,14 +21,14 @@ function reset_project()
 
     if [ "$1" = "--hard" ] ; then
         # reset files TL
-        reset_warninig_confirm_hard
+        reset_warning_confirm_hard
     else
         # reset files DEV
-        reset_warninig_confirm
+        reset_warning_confirm
     fi;
 }
 
-function reset_warninig_confirm_hard()
+function reset_warning_confirm_hard()
 {
     reset_msj_delete_all=$( warp_question_ask_default "Do you want to delete all project settings? $(warp_message_info [y/N]) " "N" )
     if [ "$reset_msj_delete_all" = "Y" ] || [ "$reset_msj_delete_all" = "y" ]
@@ -108,7 +108,7 @@ function reset_warninig_confirm_hard()
     fi
 }
 
-function reset_warninig_confirm()
+function reset_warning_confirm()
 {
     reset_msj_delete=$( warp_question_ask_default "Do you want to delete the settings? $(warp_message_info [y/N]) " "N" )
     if [ "$reset_msj_delete" = "Y" ] || [ "$reset_msj_delete" = "y" ]

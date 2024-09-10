@@ -57,6 +57,18 @@ then
             fi
         done
 
+
+        while : ; do
+            REMOTE_ENV_PORT=$( warp_question_ask_default " Set a port for your environment $(warp_message_info "[22]"): " 22)
+            if [[ -z "${REMOTE_ENV_PORT}" ]] || [[ ! ${REMOTE_ENV_PORT} =~ ^[1-9]+$ ]]; then
+                warp_message_warn " The port must be a number."
+                warp_message ""
+            else
+                REMOTE_ENV_INFO+=( $(echo "${REMOTE_ENV_NAME^^}_REMOTE_ENVIRONMENT_PORT=${REMOTE_ENV_PORT}") )
+                break
+            fi
+        done
+
         while : ; do
             REMOTE_ENV_USER=$( warp_question_ask " Set a user for your environment: ")
             if [[ -z "${REMOTE_ENV_USER}" ]]; then

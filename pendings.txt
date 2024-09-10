@@ -1,0 +1,7 @@
+- Setup configuration wizard for remote environments
+- Mysql:
+    . Query execution
+    . Full import with all the steps
+- Stored information on docker/config instead of .env so it's versioned (sure???)
+- Add remote configurations to Warp info command
+

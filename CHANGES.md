@@ -1,6 +1,26 @@
 Warp Releases
 =============
 
+BW Releases
+=============
+
+### [2024.09.10](https://github.com/Best-Worlds/warp-engine/releases/tag/2024.09.10)
+
+* Adding port remote environment variable for connections outside 22
+* New validation message when no remote environments were configured
+
+### [2024.09.04](https://github.com/Best-Worlds/warp-engine/releases/tag/2024.09.04)
+
+* Dynamic retrieval of Docker images tags on installation (versions) for different services
+* Introducing remote environments feature (warp remote [command])
+* Adding "-e" parameter for every command so it's expansible
+* Warp update refactor
+* General refactor by creating isolated classes under lib directory (rocket, dockerhub, etc.)
+* Removing Gandalf & Sandbox features
+
+Summa Releases
+=============
+
 ### [2020.11.02](https://github.com/SummaSolutions/warp-engine/releases/tag/2020.11.02)
 
 * increased character validation to 12 in namespaces and projects

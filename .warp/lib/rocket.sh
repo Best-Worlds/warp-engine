@@ -33,6 +33,12 @@ function warp_get_current_remote_env()
 ##
 function warp_set_current_remote_env()
 {
+    if [[ -z "${REMOTE_ENVIRONMENTS}" ]];
+    then
+        warp_message_error "No remote environments configured"
+        exit 1
+    fi
+
     declare -g CURRENT_REMOTE_ENV
 
     if [[ -z "$1" ]]
@@ -107,6 +113,7 @@ function warp_validate_remote_env()
 function warp_remote_env_connect()
 {
     HOST=$(warp_remote_env_read_var host)
+    PORT=$(warp_remote_env_read_var port)
     IDENTITY_KEY=$(warp_remote_env_read_var identity_key)
 
     warp_file_exists_error "${IDENTITY_KEY}" "Missing identity key file under: ${IDENTITY_KEY}. Please review your .env file and change it for the correct one or verify file permissions."
@@ -118,10 +125,9 @@ function warp_remote_env_connect()
 
     if [[ ! "$1" = "test" ]];
     then
-        #echo ssh -o "LogLevel=QUIET" -o "SendEnv=TERM" -o "IdentityFile=${IDENTITY_KEY}" "${USER}@${HOST}" ${COMMAND}
-        ssh -o "LogLevel=QUIET" -o "SendEnv=TERM" -o "IdentityFile=${IDENTITY_KEY}" "${USER}@${HOST}" ${COMMAND}
+        ssh -p "${PORT}" -o "LogLevel=QUIET" -o "SendEnv=TERM" -o "IdentityFile=${IDENTITY_KEY}" "${USER}@${HOST}" ${COMMAND}
     else
-        ssh -q -o BatchMode=yes -o "ConnectTimeout=5" -o "SendEnv=TERM" -o "IdentityFile=${IDENTITY_KEY}" "${USER}@${HOST}" 'exit 0'
+        ssh -p "${PORT}" -q -o BatchMode=yes -o "ConnectTimeout=5" -o "SendEnv=TERM" -o "IdentityFile=${IDENTITY_KEY}" "${USER}@${HOST}" 'exit 0'
         RESULT=$?
         if [ ${RESULT} -ne 0 ]; then
             warp_message_error "Unable to connect! Make sure the environment information is correct"
