@@ -4,10 +4,11 @@ Warp Releases
 BW Releases
 =============
 
-### [2024.09.10](https://github.com/Best-Worlds/warp-engine/releases/tag/2024.09.10)
+### [2024.09.11](https://github.com/Best-Worlds/warp-engine/releases/tag/2024.09.11)
 
 * Adding port remote environment variable for connections outside 22
 * New validation message when no remote environments were configured
+* New update command to verify changes at env configuration level (warp update --config)
 
 ### [2024.09.04](https://github.com/Best-Worlds/warp-engine/releases/tag/2024.09.04)
 

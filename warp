@@ -63,7 +63,7 @@ then
   fi
 
   # Setting option arguments (-* or --* parameter)
-  OPTS=`getopt -o e:hHsdErwfSi -l env:,help,hard,status,disable,enable,root,watch,force,static,images -n 'parse-options' -- "${OPTIONS}"`
+  OPTS=`getopt -o e:chHsdErwfSi -l env:,config,help,hard,status,disable,enable,root,watch,force,static,images -n 'parse-options' -- "${OPTIONS}"`
 
   eval set -- "$OPTS"
 
@@ -76,6 +76,11 @@ then
         else
           warp_set_current_remote_env $2
         fi
+        shift
+        break
+      ;;
+      -c | --config)
+        POSITIONAL_PARAMS+=( "--config" )
         shift
         break
       ;;
@@ -206,6 +211,12 @@ help() {
     fi;
 }
 
+warp_message_not_install_yet()
+{
+    echo "WARP-ENGINE has not been installed yet."
+    echo "Please run ./warp init or ./warp init --help"
+}
+
 warp_check_latest_version()
 {
     WARP_VERSION_LATEST="$(curl --silent "https://api.github.com/repos/Best-Worlds/warp-engine/tags" | grep -i "name" | sed -E 's/.*"([^"]+)".*/\1/' | head -n 1)"
@@ -244,12 +255,6 @@ warp_check_latest_version()
     fi
 }
 
-warp_message_not_install_yet()
-{
-    echo "WARP-ENGINE has not been installed yet."
-    echo "Please run ./warp init or ./warp init --help"
-}
-
 warp_update()
 {
     if [ ! -d $PROJECTPATH/.warp/lib ]; then
@@ -260,25 +265,29 @@ warp_update()
     case "$1" in
 
     -h | --help)
-      . "$PROJECTPATH/.warp/bin/update_help.sh"
-      update_help_usage
-      exit 0;
-      break
+        . "$PROJECTPATH/.warp/bin/update_help.sh"
+        update_help_usage
+        exit 0;
+        break
     ;;
     -f | --force)
-      warp_setup update --force
-      exit 0;
-    break
+        warp_setup update --force
+        exit 0;
+        break
     ;;
     -i | --images)
-      echo "checking if there are images available to update"
-      sleep 1
-      docker-compose -f $DOCKERCOMPOSEFILE pull
-      exit 0;
+        echo "checking if there are images available to update"
+        sleep 1
+        docker-compose -f $DOCKERCOMPOSEFILE pull
+        exit 0;
     ;;
+    -c | --config)
+        warp_check_env_config_has_changed
+        exit 0
+        ;;
     *)
-      warp_setup update
-      exit 0
+        warp_setup update
+        exit 0
     ;;
   esac
 }
@@ -299,7 +308,16 @@ usage() {
   echo ""
 }
 
-
+#######################################
+# Print the usage information for the
+# server control script
+# Globals:
+#   SCRIPTNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 function warp_info()
 {
 
@@ -335,6 +353,16 @@ function warp_info()
     fi;
 }
 
+#######################################
+# Download latest warp binary and
+# executes an action
+# Globals:
+#   $PROJECTPATH
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 function warp_setup()
 {
     # Create destination folder
@@ -380,6 +408,20 @@ function warp_setup()
     exit 0
 }
 
+#######################################
+# Check if warp binary was updated in
+# order to force and an update command
+# (useful for devs that pulls framework
+# upgraded)
+# server control script
+# Globals:
+#   ENVIRONMENTVARIABLESFILE
+#   ENVIRONMENTVARIABLESFILESAMPLE
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 function warp_check_binary_was_updated()
 {
     if [ -f "$ENVIRONMENTVARIABLESFILE" ] && [ -f "$ENVIRONMENTVARIABLESFILESAMPLE" ] && [ -d $PROJECTPATH/.warp/lib ]
@@ -397,12 +439,65 @@ function warp_check_binary_was_updated()
             then
                 # different version binary and current, force update
                 warp_message_warn "binary and current version different, force update"
-                warp_setup update --force
+                warp_setup update
 
                 # save new version to ENVIRONMENTVARIABLESFILESAMPLE
-                # warp_env_change_version_sample_file
+                warp_env_change_version_sample_file
             fi
         fi
+    fi
+}
+
+#######################################
+# Checks whether env configuration
+# has changed and offers to apply
+# them
+# Globals:
+#   ENVIRONMENTVARIABLESFILESAMPLE
+#   ENVIRONMENTVARIABLESFILE
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+function warp_check_env_config_has_changed()
+{
+    ENVFILE=$(basename ${ENVIRONMENTVARIABLESFILE})
+    ENVFILESAMPLE=$(basename ${ENVIRONMENTVARIABLESFILESAMPLE})
+
+    warp_message_info "Checking differences between environment files..."
+    sleep 1
+    warp_message_info ""
+    # Checking whether there are changes
+    DIFF_STAT=$(git diff --stat --no-index ${ENVFILE} ${ENVFILESAMPLE})
+    if [[ -z "${DIFF_STAT}" ]];
+    then
+        warp_message_info2 "No changes detected. Nothing to do"
+    else
+        warp_message_info2 "Changes has been detected:"
+        warp_message_info ""
+        warp_message "${DIFF_STAT}"
+        sleep 2
+        warp_message_info ""
+        warp_message_info "Showing them in a few seconds..."
+        sleep 2
+        git diff --no-index ${ENVFILE} ${ENVFILESAMPLE}
+        while : ; do
+            warp_message_info ""
+            CONFIG_RESPONSE=$(warp_question_ask_default "Do you want to apply them automatically? $(warp_message_info [y/N]) " N)
+            if [[ ! "${CONFIG_RESPONSE}" = "n" ]] && [[ ! "${CONFIG_RESPONSE}" = "N" ]] && [[ ! "${CONFIG_RESPONSE}" = "y" ]] && [[ ! "${CONFIG_RESPONSE}" = "Y" ]];
+            then
+                warp_message_warn "Incorrect answer."
+            else
+                if [[ "${CONFIG_RESPONSE}" = "y" ]] || [[ "${CONFIG_RESPONSE}" = "Y" ]];
+                then
+                    # Create patch to apply changes
+                    warp_message ""
+                    git diff --no-index ${ENVFILE} ${ENVFILESAMPLE} | sed -e "s/${ENVFILESAMPLE}/${ENVFILE}/g" | warp_message_info2 $(git apply -v)
+                fi
+                break
+            fi
+        done
     fi
 }
 
